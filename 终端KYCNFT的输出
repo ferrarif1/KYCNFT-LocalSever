@@ -1,0 +1,79 @@
+/******************** 创建并初始化项目   ***********/
+Last login: Thu Aug 26 10:33:50 on ttys000
+zhangyuanyi@zhangyuanyideMacBook-Pro ~ % mkdir /Users/zhangyuanyi/Downloads/KYCNFTDev/KYCNFT
+mkdir: /Users/zhangyuanyi/Downloads/KYCNFTDev/KYCNFT: File exists
+zhangyuanyi@zhangyuanyideMacBook-Pro ~ % cd /Users/zhangyuanyi/Downloads/KYCNFTDev/KYCNFT
+zhangyuanyi@zhangyuanyideMacBook-Pro KYCNFT % truffle init
+
+Starting init...
+================
+
+> Copying project files to /Users/zhangyuanyi/Downloads/KYCNFTDev/KYCNFT
+
+Init successful, sweet!
+
+Try our scaffold commands to get started:
+  $ truffle create contract YourContractName # scaffold a contract
+  $ truffle create test YourTestName         # scaffold a test
+
+http://trufflesuite.com/docs
+
+zhangyuanyi@zhangyuanyideMacBook-Pro KYCNFT % 
+
+
+
+
+
+/*****************  使用网页remix连接本地文件夹  ***************************/
+
+Last login: Fri Sep 17 15:46:40 on ttys000
+zhangyuanyi@MacBook-Pro ~ % sudo apachectl start        
+Password:
+zhangyuanyi@MacBook-Pro ~ % remixd -s  /Library/WebServer/Documents/KYCNFT-LocalSever  -u https://remix.ethereum.org
+[INFO] you are using the latest version 0.5.1
+[WARN] You may now only use IDE at https://remix.ethereum.org to connect to that instance
+[WARN] Any application that runs on your computer can potentially read from and write to all files in the directory.
+[WARN] Symbolic links are not forwarded to Remix IDE
+
+[INFO] Fri Sep 17 2021 18:41:08 GMT+0800 (中国标准时间) remixd is listening on 127.0.0.1:65520
+[INFO] Fri Sep 17 2021 18:41:08 GMT+0800 (中国标准时间) slither is listening on 127.0.0.1:65523
+
+/************ 测试部署到Goerli ***************/
+https://goerli.etherscan.io/tx/0x95fe78fda9aef42c677f12f5374fef6b027bbb965ca6c7aa19bc5685ac076c9f
+https://goerli.etherscan.io/tx/0xbad9a607bb62d021f75769ac9b290cf7f5299663e9d8da341a56c0512105fec5
+
+//KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
+//KYCManager：0x53bD16e7136454cf57f7A2aA6bedC76eC1109c6A
+
+
+
+
+/************ 分别调用”KYCNFT“与“KYCManager”的合约函数 创建一个KYCNFT到合约KYCManager **********/
+（1）调用”KYCNFT“：
+awardItem(0x53bD16e7136454cf57f7A2aA6bedC76eC1109c6A, https://ipfs.io/ipfs/QM)
+查看KYCManager地址，发现有了一个KYCNFT
+https://goerli.etherscan.io/address/0x53bD16e7136454cf57f7A2aA6bedC76eC1109c6A
+查看KYCNFT合约：
+https://goerli.etherscan.io/token/0xfae53841d623a35851c00f66742768cf28b01268?a=0x53bD16e7136454cf57f7A2aA6bedC76eC1109c6A
+
+（2）调用“KYCManager”：
+1）NFT的所有者应该合约，而代码中实现成了合约所有者，应该改为“this“（已修改）
+createKYCNFT（ipfs.io/ipfs/QMtest2, 0xE338401152596583EeC184061F504D7600B59Ea6）
+
+2）测试其他地址应当不允许调用，成功：
+提示错误：Fail with error 'Ownable: caller is not the owner'
+https://goerli.etherscan.io/tx/0xb8ef7255f5dc4583dba7d292f09ec279d7934d4fdec5660c462abe10874788d9
+
+
+
+
+
+/****************** 修复NFT所有者为合约，重新部署了KYCManager **********************/
+//KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
+//新的KYCManager：0x5d39f07686c6782121ffc5cda4f65de45220aba9
+
+此时调用createKYCNFT，KYCNFT铸造给了合约KYCManager的地址：
+https://goerli.etherscan.io/tx/0x64eb03879c6f4431bbe09260ed883310d5b455d9c4015464f2e966f549f5e8ac
+
+累加器相关的绑定，查询都测试通过
+Todo：存在一个问题，是否应该限制一个用户只有一个NFTid所有权？

@@ -1,0 +1,23 @@
+/******************** 启动本地服务   ***********/
+（1）
+zhangyuanyi@MacBook-Pro ~ % sudo apachectl start        
+
+/********************    浏览器访问      ********************/
+
+http://localhost/KYCNFT/src/index.html
+
+
+/**********
+
+启动 Mac 自带的 Apache 服务器
+运行 Apache $ sudo apachectl start
+退出 Apache $ sudo apachectl stop
+把工程文件夹放到以下位置中 /Library/WebServer/Documents
+在浏览器中访问：在地址栏中输入地址 http://localhost/工程文件夹名称/，回车。
+注意： 不再需要使用后一定要记得退出，否则会消耗电脑性能。
+
+Q：如何修改 Apache 的默认端口？
+A：首先，找到 Apache 的配置文件，位于 /etc/apache2 下的 httpd.conf。
+然后，找到 Listen 80 那一行，修改成你想要的端口即可。
+
+***********/
