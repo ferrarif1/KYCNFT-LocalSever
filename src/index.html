@@ -59,6 +59,12 @@
       }
       
       
+    
+       /********************************************************    Call contract by web3js      **************************************************************************************/
+      
+      /*
+      getBalance
+      */
       function getBalance(address){
          web3js.eth.getBalance(address,function(error,result){
          if(error){
@@ -75,11 +81,9 @@
       
     /*
        (1) 创建NFT（ owner权限）
-       (2) 设置NFT有效性
     */
       
        function createKYCNFT(tokenUrl, manager) {
-        
         $("#txStatus").text("Creating KYCNFT on the blockchain. This may take a while...");
        
         return KYCManager.methods.createKYCNFT(tokenUrl, manager)
@@ -91,13 +95,81 @@
           $("#txStatus").text(error);
         });
       }
-
+      
+      
+    /*
+       (2) 设置NFT有效性
+    */
+       function setKYCNFTAvailable(NFTid, available) {
+        $("#txStatus").text("Set KYCNFT Available This may take a while...");
+        
+        return KYCManager.methods.setNFTAvailable(NFTid, available)
+        .send({ from: web3.eth.accounts[0]})
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully set " + NFTid + "to Available" + available + "!");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
       
       
       
      /*
-     （5）查询某NFT id对应的管理地址与累加器地址
+      （3）Map1:绑定NFTid与管理地址
      */
+ 
+     //create是owner权限
+       function createNFTidToManagerAddr(NFTid, manager) {
+        $("#txStatus").text("Set create NFTid to ManagerAddr This may take a while...");
+        
+        return KYCManager.methods.createNFTidToManagerAddr(NFTid, manager)
+        .send({ from: web3.eth.accounts[0]})
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully create NFTid " + NFTid + "to ManagerAddr" + manager + "!");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }  
+    //modify是Manager addr权限
+      function modifyNFTidToManagerAddr(NFTid, newManager) {
+        $("#txStatus").text("Set modify NFTid to ManagerAddr. This may take a while...");
+        
+        return KYCManager.methods.modifyNFTidToManagerAddr(NFTid, newManager)
+        .send({ from: web3.eth.accounts[0]})
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully modify NFTid " + NFTid + "to ManagerAddr" + newManager + "!");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+
+
+
+    /*
+      （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
+    */
+      function bindMangerToAccumulator(addrOfAccumulator) {
+        $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
+        
+        return KYCManager.methods.bindMangerToAccumulator(addrOfAccumulator)
+        .send({ from: web3.eth.accounts[0]})
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully bind Manger " + web3.eth.accounts[0] + "to addrOfAccumulator" + addrOfAccumulator + "!");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+  
+  
+      
+      
+    /*
+       （5）查询某NFT id对应的管理地址与累加器地址
+    */
       //由NFTid 找Owner地址
       function getOwnerOfNFTid(id) {
         return KYCManager.methods.ownerOfNFTid(id).call()
