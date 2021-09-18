@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>KYCManager front-end</title>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <script language="javascript" type="text/javascript" src="./js/web3.min.js"></script>
     <script language="javascript" type="text/javascript" src="./js/KYCManager_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./js/KYCNFT_ABI.js"></script>
@@ -11,30 +12,29 @@
   </head>
   <body>
     <div id="txStatus"></div>
-    <input id = "address" placeholder="address">
-    <button @click="getBalance()">getBalance</button><br>
-    
+    <input id = "owner" placeholder="CreateKYCNFT for owner address">
+    <button class="createKYCNFTButton btn">CreateKYCNFT</button><br>
+    <button class="enableEthereumButton btn">Enable Ethereum</button>
+    <button class="sendEthButton btn">Send Eth</button>
     <script>
-    
-
+     
      
       var KYCManager;
       var KYCManagerAddress = "0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9";
       var KYCNFT;
       var KYCNFTAddress = "0xfAe53841d623a35851C00F66742768Cf28B01268";
-     
-      var web3js = window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));
-     // var web3js = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+      var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
+    
     
       
       function startApp() {
-       
+        
         console.log("CurrentProvider: " + web3js.currentProvider.host);
         
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
         
         KYCNFT = new web3js.eth.Contract(kycNFTABI, KYCNFTAddress);
-        
+        //test
         getOwnerOfNFTid(4).then(function(error, result) {
           if(error){
            console.log(error)
@@ -44,7 +44,7 @@
          }
         });
        
-        
+        //test
         getAccumulatorAddrOfOwner('0xE338401152596583EeC184061F504D7600B59Ea6').then(function(error, result) {
           if(error){
            console.log(error)
@@ -54,14 +54,7 @@
          }
         });
     
-       createKYCNFT("ipfs://ipfsHash",userAccount).then(function(error, result) {
-         if(error){
-           console.log(error)
-         }
-         else{
-           console.log("Success !: " + JSON.stringify(result));
-         }
-        });
+       
         
       }
       
@@ -80,10 +73,10 @@
       
        
       
-  /*
-   (1) 创建NFT（ owner权限）
-   (2) 设置NFT有效性
-  */
+    /*
+       (1) 创建NFT（ owner权限）
+       (2) 设置NFT有效性
+    */
       
        function createKYCNFT(tokenUrl, manager) {
         // This is going to take a while, so update the UI to let the user know
@@ -91,7 +84,7 @@
         $("#txStatus").text("Creating KYCNFT on the blockchain. This may take a while...");
         // Send the tx to our contract:
         return KYCManager.methods.createKYCNFT(tokenUrl, manager)
-        .send({ from: userAccount })
+        .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
           $("#txStatus").text("Successfully created " + tokenUrl + "for manager" + manager + "!");
         })
@@ -126,73 +119,130 @@
         return KYCManager.methods.availableOfNFTid(id).call()
       }
      
+     /********************************************************    UI      **************************************************************************************/
+
+    const ethereumButton = document.querySelector('.enableEthereumButton');
+    const sendEthButton = document.querySelector('.sendEthButton');
+    const createKYCNFTButton = document.querySelector('.createKYCNFTButton');
+    let accounts = [];
+
+ 
+
+    ethereumButton.addEventListener('click', () => {
+       getAccount();
+    });
+
+    sendEthButton.addEventListener('click', () => {
+       ethereum
+      .request({
+         method: 'eth_sendTransaction',
+         params: [
+         {
+          from: accounts[0],
+          to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970',
+          value: '0x29a2241af62c0000',
+          gasPrice: '0x09184e72a000',
+          gas: '0x2710',
+         },
+       ],
+       })
+      .then((txHash) => console.log(txHash))
+      .catch((error) => console.error);
+    });
+   
+    async function getAccount() {
+       accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    }
+    
+   
+    createKYCNFTButton.addEventListener('click', () => {
+    
+        
+        createKYCNFT("ipfs://ipfsHash",accounts[1]).then(function(error, result) {
+         if(error){
+           console.log(error)
+         }
+         else{
+           console.log("Success !: " + JSON.stringify(result));
+         }
+        });
+        
+    });
 
 
 
      /*
-         Metamask check
+    ***********************************************************     Metamask check      *****************************************************************************************
+    
+    What metamask do is inject javascript into the document when you access it. The browser will execute this javascript, and is that execution that will define de variable web3.
+
+    But when you are accessing a document by accessing the file (your url will start with file://) then metamask will not inject the javascript, so the variable web3 will be undefined.
+
+    Try accessing your file through a web server of some sort and it will work.
+    
      */
+   
+
+    
     window.addEventListener('load', function() {
-     /*   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-        if (typeof window.eth !== 'undefined') {
-          web3js = new Web3(web3.currentProvider);
-        } else {
-          alert('Install Metamask!')
-        }*/
-        _Connect()
- 
-        startApp()
-      }) 
+      
+       _Connect()
+      
+       startApp(); 
+    }) 
      
-  
+     
+     
+   /*
+   mainnet	ETH	1	1	Production
+   ropsten	ETH	3	3	Test
+   rinkeby	ETH	4	4	Test
+   goerli	ETH	5	5	Test
+   */
     
    function _Connect(){
-     //const { web3 } = window
-    // const selectedAddress = web3.eth.defaultAccount
 
-    // window.ethereum
-    // const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-
-/*
-What metamask do is inject javascript into the document when you access it. The browser will execute this javascript, and is that execution that will define de variable web3.
-
-But when you are accessing a document by accessing the file (your url will start with file://) then metamask will not inject the javascript, so the variable web3 will be undefined.
-
-Try accessing your file through a web server of some sort and it will work.*/
-   
+  
     if(typeof window.ethereum !== 'undefined') {
-          web3 = new Web3(window.ethereum.currentProvider);
-          web3.version.getNetwork((err, netId) => {
-              switch (netId) {
-                case "1":
-                    alert('Switch Network');   
-                  break
-                case "2":
-                  console.log('This is the deprecated Morden test network.');
-                  alert('Switch Network');
-                  break
-                case "3":
-                    console.log('Connected to the ropsten test network.');
-                    web3.eth.defaultAccount = web3.eth.accounts[0];
-                    if(!web3.eth.defaultAccount){
-                        console.log('Log into metamask');
-                        _Connect(callback);
-                    }else{ 
-                                                    // Success
-                        console.log(`Web3 ETH Account: ${web3.eth.defaultAccount}`);
-                        alert(false, web3.eth.defaultAccount);
-                    }   
-                  break
-                default:
-                  console.log('This is an unknown network.');
-                  alert('Switch Network');
-              }
-            });
-        } else {
+        if(web3js.currentProvider.isMetaMask){
+          console.log("CurrentProvider is MetaMask");
+        }else {
           console.log(`Failed: Web3 instance required, try using MetaMask.`);
           alert('Install Metamask');
-        }   
+        } 
+       
+        console.log("netId = " + web3js.currentProvider.networkVersion)
+        switch (web3js.currentProvider.networkVersion) {
+          case "1":
+            alert('Ethereum MainNet');   
+            break
+          case "3":
+            alert('Ethereum Ropsten'); 
+            break    
+          case "4":
+            alert('Ethereum Rinkeby'); 
+            break   
+          case "5":
+            alert('Ethereum Goerli'); 
+            break   
+            
+          default:
+            console.log('This is an unknown network.');
+            alert('Switch Network');
+        }
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        if(!web3.eth.defaultAccount){
+            console.log('Log into metamask');
+            _Connect(callback);
+        }else{ 
+            // Success
+            console.log(`Web3 ETH Account: ${web3.eth.defaultAccount}`);
+        } 
+              
     }
+    }
+          
+   
 
      
     
