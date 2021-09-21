@@ -61,10 +61,10 @@ contract KYCManager is Ownable {
   
   
   
-/*
+  /*
   （3）Map1:绑定NFTid与管理地址
   
-*/
+   */
  
    //create是owner权限
   function createNFTidToManagerAddr(uint NFTid, address manager) public onlyOwner {
@@ -77,18 +77,18 @@ contract KYCManager is Ownable {
 
 
 
-/*
+  /*
   （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
-*/
+  */
   function bindMangerToAccumulator(string memory _AddrOfAccumulator) public {
     OwnerToAccumulatorAddr[msg.sender] = _AddrOfAccumulator;
   }
   
   
 
-/*
+   /*
   （5）查询某NFT id对应的管理地址与累加器地址
-*/
+  */
  
   //由NFTid 找Owner地址
   function ownerOfNFTid(uint NFTid) public view returns(address) {

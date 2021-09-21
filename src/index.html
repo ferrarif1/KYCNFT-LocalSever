@@ -28,26 +28,32 @@
     
       
       function startApp() {
-        
-        console.log("CurrentProvider: " + web3js.currentProvider.host);
-        
+        console.log(" ******  start App   ******")
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
-        
         KYCNFT = new web3js.eth.Contract(kycNFTABI, KYCNFTAddress);
+        
         //test
-        getOwnerOfNFTid(4).then(function(error, result) {
-          if(error){
-           console.log(error)
+        getOwnerOfNFTid(4).then(function(result, error) {
+         if(error){
+           console.log(error);
          }
          else{
-           console.log("OwnerOfNFTid 4: " + JSON.stringify(result));
+           var strA = "0x0000000000000000000000000000000000000000";
+           var strB = new String(result);
+
+           if(strA == strB){
+              console.log("NFT not exist!")
+           }else{
+              console.log("OwnerOfNFTid 4: " + JSON.stringify(result))
+           }
+           
          }
         });
        
         //test
-        getAccumulatorAddrOfOwner('0xE338401152596583EeC184061F504D7600B59Ea6').then(function(error, result) {
-          if(error){
-           console.log(error)
+        getAccumulatorAddrOfOwner('0xE338401152596583EeC184061F504D7600B59Ea6').then(function(result, error) {
+         if(error){
+           console.log(error);
          }
          else{
            console.log("AccumulatorAddrOfOwner: " + JSON.stringify(result));
@@ -60,7 +66,7 @@
       
       
     
-       /********************************************************    Call contract by web3js      **************************************************************************************/
+       /********************************************************    Call Contract by web3js      **************************************************************************************/
       
       /*
       getBalance
@@ -190,14 +196,13 @@
         return KYCManager.methods.availableOfNFTid(id).call()
       }
      
+     
      /********************************************************    UI      **************************************************************************************/
+     
     var ownerAddr = document.getElementById("inputOwnerAddr").value;;
     function getOwnerAddr(){
-		// 获取input输入框的值
 	    ownerAddr = document.getElementById("inputOwnerAddr").value;
-		// 输出值
 		console.log("inputOwnerAddr = " + ownerAddr);
-		
 	}
 
 
@@ -281,7 +286,6 @@
     
    function _Connect(){
 
-  
     if(typeof window.ethereum !== 'undefined') {
         if(web3js.currentProvider.isMetaMask){
           console.log("CurrentProvider is MetaMask");
@@ -293,16 +297,20 @@
         console.log("netId = " + web3js.currentProvider.networkVersion)
         switch (web3js.currentProvider.networkVersion) {
           case "1":
-            alert('Ethereum MainNet');   
+           // alert('Ethereum MainNet'); 
+            console.log('Ethereum MainNet');
             break
           case "3":
-            alert('Ethereum Ropsten'); 
+           // alert('Ethereum Ropsten'); 
+            console.log('Ethereum Ropsten');
             break    
           case "4":
-            alert('Ethereum Rinkeby'); 
+            //alert('Ethereum Rinkeby'); 
+            console.log('Ethereum Rinkeby');
             break   
           case "5":
-            alert('Ethereum Goerli'); 
+            //alert('Ethereum Goerli'); 
+            console.log('Ethereum Goerli');
             break   
             
           default:

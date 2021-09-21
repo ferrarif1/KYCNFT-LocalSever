@@ -3,9 +3,8 @@
 zhangyuanyi@MacBook-Pro ~ % sudo apachectl start        
 
 /********************    浏览器访问      ********************/
-
-http://localhost/KYCNFT/src/index.html
-
+（2）
+http://localhost/KYCNFT-LocalSever/src/index.html
 
 /**********
 
