@@ -10,7 +10,7 @@ interface KYCNFTInterface {
 }
 
 contract KYCManager is Ownable {
-  //KYC Provider is owner
+  //KYC Provider is owner ：0xE338401152596583EeC184061F504D7600B59Ea6
   
   //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
   //KYCManager：0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9

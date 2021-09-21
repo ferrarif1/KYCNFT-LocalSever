@@ -17,7 +17,9 @@
     <button class="enableEthereumButton btn">Enable Ethereum</button>
     <button class="sendEthButton btn">Send Eth</button>
     <script>
-    
+      /*
+        KYCManager Owner：0xE338401152596583EeC184061F504D7600B59Ea6
+      */
      
       var KYCManager;
       var KYCManagerAddress = "0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9";
@@ -40,7 +42,6 @@
          else{
            var strA = "0x0000000000000000000000000000000000000000";
            var strB = new String(result);
-
            if(strA == strB){
               console.log("NFT not exist!")
            }else{
@@ -49,8 +50,8 @@
            
          }
         });
-       
-        //test
+        
+        //test 
         getAccumulatorAddrOfOwner('0xE338401152596583EeC184061F504D7600B59Ea6').then(function(result, error) {
          if(error){
            console.log(error);
@@ -59,8 +60,8 @@
            console.log("AccumulatorAddrOfOwner: " + JSON.stringify(result));
          }
         });
-    
-       
+       //获取metamask账户
+       getAccount();
         
       }
       
@@ -68,6 +69,8 @@
     
        /********************************************************    Call Contract by web3js      **************************************************************************************/
       
+
+
       /*
       getBalance
       */
@@ -223,7 +226,7 @@
          params: [
          {
           from: accounts[0],
-          to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970',
+          to: '0xE338401152596583EeC184061F504D7600B59Ea6',
           value: '0x29a2241af62c0000',
           gasPrice: '0x09184e72a000',
           gas: '0x2710',
@@ -242,7 +245,7 @@
     createKYCNFTButton.addEventListener('click', () => {
     
         
-        createKYCNFT("ipfs://ipfsHash",ownerAddr).then(function(error, result) {
+        createKYCNFT("ipfs://ipfsHash",ownerAddr).then(function(result, error) {
          if(error){
            console.log(error)
          }
