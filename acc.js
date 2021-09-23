@@ -1,5 +1,8 @@
-const BigNumber = require('bignumber.js');
+//import BigNumber from './src/js/bignumber.js';
+
 const utils = require('ethereumjs-util');
+
+
 
 /**
  * @description This code is written to show how RSAaccumulator runs.
