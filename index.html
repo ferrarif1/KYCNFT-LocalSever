@@ -541,8 +541,10 @@ class RSAaccumulatorProof{
   
      const generator = new BigNumber(3);
      accumulator = generator;
+     console.log("accumulator before" + accumulator)
      for(i=0; i < coins.length; i++) {
       accumulator = RSAaccumulator.updateAccumulator(accumulator, coins[i]);
+      console.log("accumulator add after" + coins[i] + " is " + accumulator)
      }
      
      const proof = RSAaccumulator.getProof(
@@ -550,10 +552,24 @@ class RSAaccumulatorProof{
         BigNumber(primeNumberList[6]),
         generator,
         accumulator);
-        if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
-          alert("Wrong proof")
-        }
-    
+    //[6] is not in accumulator , should be "Wrong proof"
+    if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
+        alert("Wrong proof")
+    }else{
+        alert("Right proof")
+    }
+     
+     const proof2 = RSAaccumulator.getProof(
+        coins,
+        BigNumber(primeNumberList[7]),
+        generator,
+        accumulator);
+    //[6] is not in accumulator , should be "Right proof"
+    if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof2) == false){
+        alert("Wrong proof")
+    }else{
+        alert("Right proof")
+    }
     
    
     }//end
