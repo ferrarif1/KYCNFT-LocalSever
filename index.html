@@ -544,9 +544,9 @@
         accumulator);
     //[448] is not in accumulator , should be "Wrong proof"
     if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
-        alert("Wrong proof")
+        console.log("Wrong proof")
     }else{
-        alert("Right proof")
+        console.log("Right proof")
     }
      
      const proof2 = RSAaccumulator.getProof(
@@ -557,11 +557,22 @@
         
     //[92817927328...] is  in accumulator , should be "Right proof"
     if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof2) == false){
-        alert("Wrong proof")
+        console.log("Wrong proof")
     }else{
-        alert("Right proof")
+        console.log("Right proof")
     }
     
+    /**** Test web3js utils ****/
+    
+    var BN = web3js.utils.BN;
+    var axxx = new BN('0xea');
+    console.log("a = " + axxx)//wrong！
+    
+    var bxxx =  web3js.utils.sha3('0xea'); // 先转换为一个字节数组再进行哈希运算
+    //should be 0x2f20677459120677484f7104c76deb6846a2c071f9b3152c103bb12cd54d1a4a
+    console.log("b = " + bxxx)
+   
+   
    
     }//end
  
