@@ -565,8 +565,8 @@
     /**** Test web3js utils ****/
     
     var BN = web3js.utils.BN;
-    var axxx = new BN('0xea');
-    console.log("a = " + axxx)//wrong！
+    var axxx = new BN(0xea);
+    console.log("a = " + axxx)
     
     var bxxx =  web3js.utils.sha3('0xea'); // 先转换为一个字节数组再进行哈希运算
     //should be 0x2f20677459120677484f7104c76deb6846a2c071f9b3152c103bb12cd54d1a4a
