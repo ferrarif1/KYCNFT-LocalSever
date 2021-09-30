@@ -21,6 +21,7 @@
     <button class="createKYCNFTButton btn">CreateKYCNFT</button><br>
     <button class="enableEthereumButton btn">Enable Ethereum</button>
     <button class="sendEthButton btn">Send Eth</button>
+    <button class="updateAccumulatorButton btn">update Accumulator For Owner</button>
     <script>
       /*
         KYCManager Owner：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
@@ -64,8 +65,11 @@
            console.log("AccumulatorAddrOfOwner: " + JSON.stringify(result));
          }
         });
-       //获取metamask账户
-       getAccount();
+        //获取metamask账户
+        getAccount();
+        
+
+        
         
       }
       
@@ -98,7 +102,7 @@
       
        function createKYCNFT(tokenUrl, manager) {
         $("#txStatus").text("Creating KYCNFT on the blockchain. This may take a while...");
-       
+
         return KYCManager.methods.createKYCNFT(tokenUrl, manager)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
@@ -107,6 +111,7 @@
         .on("error", function(error) {
           $("#txStatus").text(error);
         });
+    
       }
       
       
@@ -135,7 +140,7 @@
      //create是owner权限
        function createNFTidToManagerAddr(NFTid, manager) {
         $("#txStatus").text("Set create NFTid to ManagerAddr This may take a while...");
-        
+
         return KYCManager.methods.createNFTidToManagerAddr(NFTid, manager)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
@@ -144,6 +149,8 @@
         .on("error", function(error) {
           $("#txStatus").text(error);
         });
+   
+ 
       }  
     //modify是Manager addr权限
       function modifyNFTidToManagerAddr(NFTid, newManager) {
@@ -217,6 +224,7 @@
     const ethereumButton = document.querySelector('.enableEthereumButton');
     const sendEthButton = document.querySelector('.sendEthButton');
     const createKYCNFTButton = document.querySelector('.createKYCNFTButton');
+    const updateAccumulatorButton = document.querySelector('.updateAccumulatorButton');
     let accounts = [];
 
     ethereumButton.addEventListener('click', () => {
@@ -254,7 +262,20 @@
            console.log(error)
          }
          else{
-           console.log("Success !: " + JSON.stringify(result));
+           console.log("create KYCNFT Success !: " + JSON.stringify(result));
+         }
+        });
+        
+    });
+    
+    updateAccumulatorButton.addEventListener('click', () => {
+        
+        updateAccumulator(BigNumber(982451653)).then(function(result, error) {
+         if(error){
+           console.log(error)
+         }
+         else{
+           console.log("update Accumulator Success !: " + JSON.stringify(result));
          }
         });
         

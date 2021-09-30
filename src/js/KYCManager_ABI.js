@@ -29,9 +29,9 @@ var kycManagerABI = [
 		"name": "accumulatorAddrOfNFTID",
 		"outputs": [
 			{
-				"internalType": "string",
+				"internalType": "uint256",
 				"name": "",
-				"type": "string"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -48,9 +48,9 @@ var kycManagerABI = [
 		"name": "accumulatorAddrOfOwner",
 		"outputs": [
 			{
-				"internalType": "string",
+				"internalType": "uint256",
 				"name": "",
-				"type": "string"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -73,19 +73,6 @@ var kycManagerABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_AddrOfAccumulator",
-				"type": "string"
-			}
-		],
-		"name": "bindMangerToAccumulator",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -221,6 +208,19 @@ var kycManagerABI = [
 			}
 		],
 		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_accumulator",
+				"type": "uint256"
+			}
+		],
+		"name": "updateAccumulator",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
