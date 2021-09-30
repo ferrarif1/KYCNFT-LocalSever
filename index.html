@@ -23,13 +23,12 @@
     <button class="sendEthButton btn">Send Eth</button>
     <script>
       /*
-        KYCManager Owner：0xE338401152596583EeC184061F504D7600B59Ea6
+        KYCManager Owner：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
       */
      
       var KYCManager;
-      var KYCManagerAddress = "0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9";
-      var KYCNFT;
-      var KYCNFTAddress = "0xfAe53841d623a35851C00F66742768Cf28B01268";
+      var KYCManagerAddress = "0x6584C3a7681c65d9b39D6561aba5458026D9AC2D";
+      
       var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
      
@@ -38,7 +37,6 @@
         console.log(" ******  start App   ******")
         
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
-        KYCNFT = new web3js.eth.Contract(kycNFTABI, KYCNFTAddress);
         
         //test
         getOwnerOfNFTid(4).then(function(result, error) {
@@ -164,15 +162,15 @@
 
 
     /*
-      （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
+      （4）Map2:绑定管理地址与累加器（查询管理地址已经有了对应的KYCNFT）
     */
-      function bindMangerToAccumulator(addrOfAccumulator) {
+      function updateAccumulator(addrOfAccumulator) {
         $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
         
-        return KYCManager.methods.bindMangerToAccumulator(addrOfAccumulator)
+        return KYCManager.methods.updateAccumulator(addrOfAccumulator)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
-          $("#txStatus").text("Successfully bind Manger " + web3.eth.accounts[0] + "to addrOfAccumulator" + addrOfAccumulator + "!");
+          $("#txStatus").text("Successfully update Manger " + web3.eth.accounts[0] + "to addrOfAccumulator" + addrOfAccumulator + "!");
         })
         .on("error", function(error) {
           $("#txStatus").text(error);
@@ -583,7 +581,9 @@
  //Todo: hashToPrime !!!!!!!!!!!!!!!!!!!
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
-
+    function hashToPrime(){
+       
+    }
 
     </script>
   </body>

@@ -154,11 +154,11 @@
 			]
 		},
 		"contracts/KYCManager.sol": {
-			"keccak256": "0x781c54b589c6d8d23a3e27e46c69fae39f303b612a3baa4ed44aaf86c9717b32",
+			"keccak256": "0xc587f8f8065fd3081154ae77ce676c57402f66598a4fefd5fb25ded64a58173c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ca9b91d3bc538ccf4a3dd6b96c64dfc1d761fa72f908cf32f64e7aa74cd8821e",
-				"dweb:/ipfs/QmadhrQ4cVecX17MinGBKR4YZC7haqeWDyzELM65pMacgc"
+				"bzz-raw://bf66f861f02bd2c217baf087cd17a77f556e3eb9344e23f9566c873a9c044147",
+				"dweb:/ipfs/QmTWnSyUgktWZYCNWFz9BR8pL3xhJqvp99dTRQAVgquPRZ"
 			]
 		},
 		"contracts/KYCNFT.sol": {

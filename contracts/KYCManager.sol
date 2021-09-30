@@ -10,17 +10,18 @@ interface KYCNFTInterface {
 }
 
 contract KYCManager is Ownable {
-  //KYC Provider is owner ：0xE338401152596583EeC184061F504D7600B59Ea6
+  //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
   
   //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
   //KYCManager：0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
-
+ 
+ 
   //NFTid到管理者地址
   mapping(uint => address) private NFTidToOwner;
   //管理者地址到累加器
-  mapping(address => string) private OwnerToAccumulatorAddr;
+  mapping(address => uint256) private OwnerToAccumulatorAddr;
   //NFT有效性
   mapping(uint => bool) private NFTidToAvailable;
   
@@ -80,8 +81,8 @@ contract KYCManager is Ownable {
   /*
   （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
   */
-  function bindMangerToAccumulator(string memory _AddrOfAccumulator) public {
-    OwnerToAccumulatorAddr[msg.sender] = _AddrOfAccumulator;
+  function updateAccumulator(uint256  _accumulator) public {
+    OwnerToAccumulatorAddr[msg.sender] = _accumulator;
   }
   
   
@@ -95,20 +96,21 @@ contract KYCManager is Ownable {
       address addr = NFTidToOwner[NFTid];
       return addr;
   }
-   //由NFTid 找Accumulator地址
-  function accumulatorAddrOfNFTID(uint NFTid) public view returns(string memory){
+   //由NFTid 找Accumulator
+  function accumulatorAddrOfNFTID(uint NFTid) public view returns(uint256){
       address addr = NFTidToOwner[NFTid];
-      string memory accumulatorAddr = OwnerToAccumulatorAddr[addr];
+      uint256 accumulatorAddr = OwnerToAccumulatorAddr[addr];
       return accumulatorAddr;
   }
-   //由Owner 找Accumulator地址
-  function accumulatorAddrOfOwner(address ownerAddr) public view returns(string memory){
-      string memory accumulatorAddr = OwnerToAccumulatorAddr[ownerAddr];
+   //由Owner 找Accumulator
+  function accumulatorAddrOfOwner(address ownerAddr) public view returns(uint256){
+      uint256  accumulatorAddr = OwnerToAccumulatorAddr[ownerAddr];
       return accumulatorAddr;
   }
   //由NFTid查询有效性
   function availableOfNFTid(uint NFTid) public view returns(bool){
       return NFTidToAvailable[NFTid];
   }
- 
+  
+  
 }
