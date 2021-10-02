@@ -26,7 +26,7 @@
       /*
         KYCManager Owner：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
       */
-     
+      
       var KYCManager;
       var KYCManagerAddress = "0x6584C3a7681c65d9b39D6561aba5458026D9AC2D";
       
@@ -270,7 +270,7 @@
     
     updateAccumulatorButton.addEventListener('click', () => {
         
-        updateAccumulator(BigNumber(98245165312321414231131213)).then(function(result, error) {
+        updateAccumulator(BigNumber(162259276829213363391578010288127)).then(function(result, error) {
          if(error){
            console.log(error)
          }
@@ -375,12 +375,29 @@
     }
 
     // should be big. And the prime factors of N should be unknown to anyone.
-    const N = new BigNumber(100001207);
+    const N = new BigNumber(162259276829213363391578010288127);
  
     class RSAaccumulator {
       
       static updateAccumulator(accumulator, value) {
         return powInMod(accumulator, value, N);
+      }
+
+      static deleteItemFromAccumulator(coins,generator,accumulator,y) {
+        //function shamirTrick(p1, p2, x, y, n) 
+        // suppose x = 1, delete y from old accumulator c = c^1 = p2^y modn,
+        // p1 = old accumulator, x = 1
+        // p2 = witness of y , y ->going to be deleted
+        //  returnValue^(xy) =  returnValue^(y) = c modn,
+        //  then returnValue become the new accumulator c‘,c' do not have y
+            let p1 = accumulator
+            let p2 = RSAaccumulator.getProof(
+                 coins,
+                 y,
+                 generator,
+                 accumulator);
+            let x = BigNumber(1);
+            let newAccumulator = shamirTrick(p1, p2, x, y)        
       }
       
       static hash(value) {
@@ -453,7 +470,25 @@
            this.x=x;
          }
     }
-  
+    /*
+
+    Shamir's trick: Given n,p1,p2,x,y  s.t. p1^x = p2^y modn, and x,y are relatively primes, you can efficiently find p2^(1/𝑒)mod𝑁. 
+    The trick is to compute integers 𝑎,𝑏  s.t. 𝑎.x + 𝑏.y = 1.
+    @return returnValue^(xy) = p1^x = p2^y = c modn
+    how to use:
+     suppose x = 1, delete y from old accumulator c = c^1 = p2^y modn,
+     p1 = old accumulator, x = 1
+     p2 = witness of y , y ->going to be deleted
+     returnValue^(xy) =  returnValue^(y) = c modn,
+     then returnValue become the new accumulator c‘,c' do not have y
+    */
+
+    function shamirTrick(p1, p2, x, y, n) {
+      const [a, b, g] = egcd(x, y);
+      return (powInMod(p1, b, n) * powInMod(p2, a, n)) % n
+    }
+
+
 
       
    primeNumberList = [
@@ -536,6 +571,7 @@
    
    
    function Test(){//start
+ 
      const coins=[
         BigNumber(primeNumberList[440]),
         BigNumber(primeNumberList[441]),
@@ -555,13 +591,19 @@
       accumulator = RSAaccumulator.updateAccumulator(accumulator, coins[i]);
       console.log("accumulator add after" + coins[i] + " is " + accumulator)
      }
-     
+
+
+     console.log("accumulator delete before" + coins[1] + " is " + accumulator)
+     accumulator = RSAaccumulator.deleteItemFromAccumulator(coins, generator, accumulator, coins[1]);
+     console.log("accumulator delete after" + coins[1] + " is " + accumulator)
+
+
      const proof = RSAaccumulator.getProof(
         coins,
-        BigNumber(primeNumberList[448]),
+        BigNumber(primeNumberList[440]),
         generator,
         accumulator);
-    //[448] is not in accumulator , should be "Wrong proof"
+    //[440] is  in accumulator , should be "Right proof"
     if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
         console.log("Wrong proof")
     }else{
@@ -580,19 +622,24 @@
     }else{
         console.log("Right proof")
     }
-    
+
     /**** Test web3js utils ****/
     
-    var BN = web3js.utils.BN;
-    var axxx = new BN(0xea);
+    var BN = web3js.utils.BN
+    var axxx = new BN(0xea)
     console.log("a = " + axxx)
     
     var bxxx =  web3js.utils.sha3('0xea'); // 先转换为一个字节数组再进行哈希运算
     //should be 0x2f20677459120677484f7104c76deb6846a2c071f9b3152c103bb12cd54d1a4a
     console.log("b = " + bxxx)
    
+
+    /**** Test hash To Prime  ****/
     hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
    
+
+  
+
     }//end
  
 
@@ -603,10 +650,10 @@
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
     function hashToPrime(address){
-      var BN = web3js.utils.BN;
+      var BN = web3js.utils.BN
       var addrToHash = web3js.utils.sha3(address)
-      console.log("addrToHash = " + addrToHash)
-      var addrBN = new BN(addrToHash)
+      //最大只能支持52bits，取地址sha3后的hash值前13位
+      var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
       var times = 0
       while(1){
         var isprime = probablyPrime(addrBN,10)
@@ -628,7 +675,7 @@
     */
     function probablyPrime(n, k) {
       var BN = web3js.utils.BN;
-     	if (n === BN(2) || n === BN(3))
+     	if (n.eq(BN(2))  || n.eq(BN(3)) )
    		return true;
     	if (n.mod(2) === 0 || n < BN(2))
 	  	return false;
@@ -659,6 +706,31 @@
 	    } while (--k);
  
 	    return true;
+    }
+
+
+    function egcd(m, n) {
+      let a1 = 1n;
+      let b1 = 0n;
+      let a = 0n;
+      let b = 1n;
+      let c = m;
+      let d = n;
+      let q = c / d;
+      let r = c % d;
+      while (r > 0n) {
+          let t = a1;
+          a1 = a;
+          a = t - q * a; // a1 - qa
+          t = b1;
+          b1 = b;
+          b = t - q * b; // b1 - qb
+          c = d;
+          d = r;
+          q = c / d;
+          r = c % d;
+      }
+      return [a, b, d];
     }
 
 
