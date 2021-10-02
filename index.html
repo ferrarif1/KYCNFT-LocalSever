@@ -391,13 +391,13 @@
         // p2 = witness of y , y ->going to be deleted
         //  returnValue^(xy) =  returnValue^(y) = c modn,
         //  then returnValue become the new accumulator c‘,c' do not have y
-            let p1 = accumulator
+            let p1 = BN(accumulator)
             let p2 = RSAaccumulator.getProof(
                  coins,
                  y,
                  generator,
                  accumulator);
-            let x = BigNumber(1);
+            let x = new BN(1);
             let newAccumulator = shamirTrick(p1, p2, x, y)        
       }
       
@@ -486,7 +486,9 @@
 
     function shamirTrick(p1, p2, x, y, n) {
       const [a, b, g] = x.egcd(y);
-      return (powInMod(p1, b, n) * powInMod(p2, a, n)) mod n
+      var w1 = p1.pow(b).mod(n)
+      var w2 = p2.pow(a).mod(n)
+      return w1.mul(w2).mod(n)
     }
 
 
