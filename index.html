@@ -9,6 +9,7 @@
     <script language="javascript" type="text/javascript" src="./src/js/KYCManager_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/KYCNFT_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
+     <script language="javascript" type="text/javascript" src="./src/js/bn.js"></script>
      
     
     
@@ -484,8 +485,8 @@
     */
 
     function shamirTrick(p1, p2, x, y, n) {
-      const [a, b, g] = egcd(x, y);
-      return (powInMod(p1, b, n) * powInMod(p2, a, n)) % n
+      const [a, b, g] = x.egcd(y);
+      return (powInMod(p1, b, n) * powInMod(p2, a, n)) mod n
     }
 
 
@@ -708,30 +709,6 @@
 	    return true;
     }
 
-
-    function egcd(m, n) {
-      let a1 = 1n;
-      let b1 = 0n;
-      let a = 0n;
-      let b = 1n;
-      let c = m;
-      let d = n;
-      let q = c / d;
-      let r = c % d;
-      while (r > 0n) {
-          let t = a1;
-          a1 = a;
-          a = t - q * a; // a1 - qa
-          t = b1;
-          b1 = b;
-          b = t - q * b; // b1 - qb
-          c = d;
-          d = r;
-          q = c / d;
-          r = c % d;
-      }
-      return [a, b, d];
-    }
 
 
 
