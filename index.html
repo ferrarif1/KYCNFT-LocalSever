@@ -270,7 +270,7 @@
     
     updateAccumulatorButton.addEventListener('click', () => {
         
-        updateAccumulator(BigNumber(982451653)).then(function(result, error) {
+        updateAccumulator(BigNumber(98245165312321414231131213)).then(function(result, error) {
          if(error){
            console.log(error)
          }
@@ -375,7 +375,7 @@
     }
 
     // should be big. And the prime factors of N should be unknown to anyone.
-    const N = new BigNumber(131071);
+    const N = new BigNumber(100001207);
  
     class RSAaccumulator {
       
@@ -591,7 +591,7 @@
     //should be 0x2f20677459120677484f7104c76deb6846a2c071f9b3152c103bb12cd54d1a4a
     console.log("b = " + bxxx)
    
-   
+    hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
    
     }//end
  
@@ -603,22 +603,40 @@
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
     function hashToPrime(address){
-       var addrBN = BigNumber(address)
-       
+      var BN = web3js.utils.BN;
+      var addrToHash = web3js.utils.sha3(address)
+      console.log("addrToHash = " + addrToHash)
+      var addrBN = new BN(addrToHash)
+      var times = 0
+      while(1){
+        var isprime = probablyPrime(addrBN,10)
+        if(isprime == true){
+          times++;
+          if(times == 10){
+            console.log("find prime = ", addrBN)
+            break;
+          }
+        }else{
+          times = 0;
+          var addrToHash = web3js.utils.sha3(address)
+          var addrBN = BN(addrToHash)
+        }
+      }
     }
     /*
     Miller–Rabin primality test 
     */
     function probablyPrime(n, k) {
-     	if (n === 2 || n === 3)
+      var BN = web3js.utils.BN;
+     	if (n === BN(2) || n === BN(3))
    		return true;
-    	if (n % 2 === 0 || n < 2)
+    	if (n.mod(2) === 0 || n < BN(2))
 	  	return false;
  
     	//Write (n - 1) as 2^s * d
-    	var s = 0, d = n - 1;
-    	while (d % 2 === 0) {
-	     	d /= 2;
+    	var s = 0, d = BN(n - 1);
+    	while (d.mod(2) === 0) {
+	     	d.div(2);
 		    ++s;
      	}
  
@@ -643,6 +661,9 @@
 	    return true;
     }
 
+
+
+  
     </script>
   </body>
 </html>
