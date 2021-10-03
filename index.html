@@ -9,7 +9,7 @@
     <script language="javascript" type="text/javascript" src="./src/js/KYCManager_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/KYCNFT_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
-     <script language="javascript" type="text/javascript" src="./src/js/bn.js"></script>
+    <script language="javascript" type="text/javascript" src="./src/js/bn.js"></script>
      
     
     
@@ -375,7 +375,7 @@
       return x;
     }
 
-    // should be big. And the prime factors of N should be unknown to anyone.
+    // should be big. And the prime factors of N should be unknown to anyone. may be too small?
     const N = new BigNumber(162259276829213363391578010288127);
  
     class RSAaccumulator {
@@ -385,20 +385,21 @@
       }
 
       static deleteItemFromAccumulator(coins,generator,accumulator,y) {
-        //function shamirTrick(p1, p2, x, y, n) 
+        //shamirTrick(p1, p2, x, y, n) 
         // suppose x = 1, delete y from old accumulator c = c^1 = p2^y modn,
         // p1 = old accumulator, x = 1
         // p2 = witness of y , y ->going to be deleted
         //  returnValue^(xy) =  returnValue^(y) = c modn,
         //  then returnValue become the new accumulator c‘,c' do not have y
-            let p1 = BN(accumulator)
+        // remember accumulator is BigNumber ,should use .toNumber() 
+            let p1 = new BN(accumulator.toNumber())
             let p2 = RSAaccumulator.getProof(
                  coins,
                  y,
                  generator,
                  accumulator);
             let x = new BN(1);
-            let newAccumulator = shamirTrick(p1, p2, x, y)        
+            let newAccumulator = BigNumber(shamirTrick(p1, p2, x, y).toNumber())        
       }
       
       static hash(value) {
@@ -408,6 +409,7 @@
       
      static getProof(setValues, value, generator, accumulator){
        // calcute (q,r,x). it satisfies q**B * g**(vr)* g**x == A
+       // h = generator^value, B = hash(h+accumulator) ,
        let h = powInMod(generator, value, N);
        let B = RSAaccumulator.hash(h.plus(accumulator));
        let q = BigNumber(1);
@@ -584,7 +586,7 @@
         BigNumber(primeNumberList[445]),
         BigNumber(primeNumberList[446]),
         BigNumber(primeNumberList[447]),
-        BigNumber(928179273287392948883974711223242424928179273287392948883974711223242424242454223421172322871928179273287392948883974711223242424242454223421172322871242454223421172322871),
+        BigNumber(primeNumberList[448]),
      ];
   
      const generator = new BigNumber(982451653);
@@ -596,17 +598,18 @@
      }
 
 
-     console.log("accumulator delete before" + coins[1] + " is " + accumulator)
-     accumulator = RSAaccumulator.deleteItemFromAccumulator(coins, generator, accumulator, coins[1]);
-     console.log("accumulator delete after" + coins[1] + " is " + accumulator)
+     console.log("accumulator delete before " + coins[8] + " is " + accumulator)
+     
+     accumulator = RSAaccumulator.deleteItemFromAccumulator(coins, generator, accumulator, coins[8]);
+     console.log("accumulator delete after " + coins[8] + " is " + accumulator)
 
 
      const proof = RSAaccumulator.getProof(
         coins,
-        BigNumber(primeNumberList[440]),
+        BigNumber(primeNumberList[449]),
         generator,
         accumulator);
-    //[440] is  in accumulator , should be "Right proof"
+    //[449] is not in accumulator , should be "Wrong proof"
     if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
         console.log("Wrong proof")
     }else{
@@ -615,11 +618,11 @@
      
      const proof2 = RSAaccumulator.getProof(
         coins,
-        BigNumber(928179273287392948883974711223242424928179273287392948883974711223242424242454223421172322871928179273287392948883974711223242424242454223421172322871242454223421172322871),
+        BigNumber(primeNumberList[447]),
         generator,
         accumulator);
         
-    //[92817927328...] is  in accumulator , should be "Right proof"
+    //[447] is  in accumulator , should be "Right proof"
     if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof2) == false){
         console.log("Wrong proof")
     }else{
@@ -655,7 +658,7 @@
     function hashToPrime(address){
       var BN = web3js.utils.BN
       var addrToHash = web3js.utils.sha3(address)
-      //最大只能支持52bits，取地址sha3后的hash值前13位
+      //最大只能支持52bits，取地址sha3后的hash值前13位, 加上前缀0x 2位
       var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
       var times = 0
       while(1){
