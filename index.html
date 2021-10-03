@@ -393,11 +393,21 @@
         //  then returnValue become the new accumulator c‘,c' do not have y
         // remember accumulator is BigNumber ,should use .toNumber() 
             let p1 = new BN(accumulator.toNumber())
+            let wit = generator
+            console.log("wit before" + wit)
+            for(i=0; i < coins.length; i++) {
+              if(coins[i].toNumber() != y.toNumber()){
+                wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
+                console.log("wit add after" + coins[i] + " is " + wit)
+              } 
+            }
+            let p2 =  new BN(wit.toNumber())
+           /*
             let p2 = RSAaccumulator.getProof(
                  coins,
                  y,
                  generator,
-                 accumulator);
+                 accumulator);*/
             let x = new BN(1);
             let newAccumulator = BigNumber(shamirTrick(p1, p2, x, y).toNumber())        
       }
