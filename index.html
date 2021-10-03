@@ -376,7 +376,7 @@
     }
 
     // should be big. And the prime factors of N should be unknown to anyone. may be too small?
-    const N = new BigNumber(162259276829213363391578010288127);
+    const N = new BigNumber(1073807359);
  
     class RSAaccumulator {
       
@@ -428,7 +428,7 @@
          r = r2;
          q = q2;
        }
-       console.log('get proof', q, r, x);
+       console.log('get proof', q.toNumber(), r.toNumber(), x.toNumber());
        return new RSAaccumulatorProof(value, q, r, x);
      }
    
