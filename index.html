@@ -391,36 +391,21 @@
         // p2 = witness of y , y ->going to be deleted
         //  returnValue^(xy) =  returnValue^(y) = c modn,
         //  then returnValue become the new accumulator c‘,c' do not have y
-        // remember accumulator is BigNumber ,should use .toNumber() 
-        /*      let p1 = new BN(accumulator.toNumber())
-            let wit = generator
-            console.log("wit before" + wit)
-            for(i=0; i < coins.length; i++) {
-              if(coins[i].toNumber() != valueToDelete.toNumber()){
-                wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
-                console.log("wit add after" + coins[i] + " is " + wit)
-              } 
-            }
-            let p2 =  new BN(wit.toNumber())
-         
-            let x = new BN(1);
-            */
-            let p1 = accumulator
-            let wit = generator
-            console.log("wit before" + wit)
-            for(i=0; i < coins.length; i++) {
-              if(coins[i].toNumber() != valueToDelete.toNumber()){
-                wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
-                console.log("wit add after" + coins[i] + " is " + wit)
-              } 
-            }
-            let p2 =  wit
-            let x = BigNumber(1)
-            let y = valueToDelete
-            let newAccumulator = shamirTrick(p1, p2, x, y, N)  
-
-            extendedGcd(BigNumber(10),BigNumber(125))   
-            return  newAccumulator
+        let p1 = accumulator
+        let wit = generator
+        console.log("wit before" + wit)
+        for(i=0; i < coins.length; i++) {
+          if(coins[i].toNumber() != valueToDelete.toNumber()){
+            wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
+            console.log("wit add after" + coins[i] + " is " + wit)
+          } 
+        }
+        let p2 =  wit
+        let x = BigNumber(1)
+        let y = valueToDelete
+        let newAccumulator = shamirTrick(p1, p2, x, y, N)  
+        extendedGcd(BigNumber(10),BigNumber(125))   
+        return  newAccumulator
       }
       
       static hash(value) {
@@ -690,9 +675,6 @@
     /**** Test hash To Prime  ****/
     hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
    
-
-  
-
     } //end
  
 
@@ -702,14 +684,15 @@
  //Todo: hashToPrime !!!!!!!!!!!!!!!!!!!
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
-  /*  function hashToPrime(address){
-      var BN = web3js.utils.BN
+    function hashToPrime(address){
+   
       var addrToHash = web3js.utils.sha3(address)
       //最大只能支持52bits，取地址sha3后的hash值前13位, 加上前缀0x 2位
-      var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
+     // var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
+      var addrBN = BigNumber(addrToHash)
       var times = 0
       while(1){
-        var isprime = probablyPrime(addrBN,10)
+        var isprime = probablyPrime(addrBN,BigNumber(10))
         if(isprime == true){
           times++;
           if(times == 10){
@@ -719,39 +702,41 @@
         }else{
           times = 0;
           var addrToHash = web3js.utils.sha3(address)
-          var addrBN = BN(addrToHash)
+          var addrBN = BigNumber(addrToHash)
         }
       }
-    }*/
+    }
     /*
     Miller–Rabin primality test 
     */
-   /* function probablyPrime(n, k) {
-      var BN = web3js.utils.BN;
-     	if (n.eq(BN(2))  || n.eq(BN(3)) )
+    function probablyPrime(n, k) {
+       
+     	if (n.toNumber() == 2  || n.toNumber() == 3)
    		return true;
-    	if (n.mod(2) === 0 || n < BN(2))
+    	if (n.mod(2).toNumber() === 0 || n.toNumber() < 2)
 	  	return false;
  
     	//Write (n - 1) as 2^s * d
-    	var s = 0, d = BN(n - 1);
-    	while (d.mod(2) === 0) {
+    	var s = 0, d = BigNumber(n - 1);
+    	while (d.mod(2).toNumber() === 0) {
 	     	d.div(2);
 		    ++s;
      	}
  
    	  WitnessLoop: do {
+          console.log("finding... ")
 	    	//A base between 2 and n - 2
-	    	var x = Math.pow(2 + Math.floor(Math.random() * (n - 3)), d) % n;
+        var p = BigNumber(2 + Math.floor(Math.random() * (n - 3)))
+	    	var x = p1.pow(d).mod(n)
  
 	  	  if (x === 1 || x === n - 1)
 		  	  continue;
  
 	   	  for (var i = s - 1; i--;) {
-		    	x = x * x % n;
-		    	if (x === 1)
+		    	x = x.times(x).mod(n);
+		    	if (x.toNumber() === 1)
 			  	 return false;
-			    if (x === n - 1)
+			    if (x.toNumber() === n - 1)
 				   continue WitnessLoop;
 		    }
  
@@ -760,8 +745,6 @@
  
 	    return true;
     }
-
-*/
 
 
   
