@@ -9,7 +9,7 @@
     <script language="javascript" type="text/javascript" src="./src/js/KYCManager_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/KYCNFT_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
-    <script language="javascript" type="text/javascript" src="./src/js/bn.js"></script>
+
      
     
     
@@ -384,7 +384,7 @@
         return powInMod(accumulator, value, N);
       }
 
-      static deleteItemFromAccumulator(coins,generator,accumulator,y) {
+      static deleteItemFromAccumulator(coins,generator,accumulator,valueToDelete) {
         //shamirTrick(p1, p2, x, y, n) 
         // suppose x = 1, delete y from old accumulator c = c^1 = p2^y modn,
         // p1 = old accumulator, x = 1
@@ -396,7 +396,7 @@
             let wit = generator
             console.log("wit before" + wit)
             for(i=0; i < coins.length; i++) {
-              if(coins[i].toNumber() != y.toNumber()){
+              if(coins[i].toNumber() != valueToDelete.toNumber()){
                 wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
                 console.log("wit add after" + coins[i] + " is " + wit)
               } 
@@ -409,14 +409,18 @@
             let wit = generator
             console.log("wit before" + wit)
             for(i=0; i < coins.length; i++) {
-              if(coins[i].toNumber() != y.toNumber()){
+              if(coins[i].toNumber() != valueToDelete.toNumber()){
                 wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
                 console.log("wit add after" + coins[i] + " is " + wit)
               } 
             }
-            let p2 =  new BN(wit.toNumber())
+            let p2 =  wit
+            let x = BigNumber(1)
+            let y = valueToDelete
+            let newAccumulator = shamirTrick(p1, p2, x, y, N)  
 
-            let newAccumulator = BigNumber(shamirTrick(p1, p2, x, y).toNumber())        
+            extendedGcd(BigNumber(10),BigNumber(125))   
+            return  newAccumulator
       }
       
       static hash(value) {
@@ -505,9 +509,11 @@
 
     function shamirTrick(p1, p2, x, y, n) {
       const [a, b, g] = extendedGcd(x, y);
-      var w1 = p1.pow(b).mod(n)
-      var w2 = p2.pow(a).mod(n)
-      return w1.mul(w2).mod(n)
+      var w1 = p1.pow(BigNumber(b).toNumber()).mod(n.toNumber())
+      var w2 = p2.pow(BigNumber(a).toNumber()).mod(n.toNumber())
+      var result = (w1.times(w2.toNumber())).mod(n.toNumber())
+      console.log("w1 = " + w1.toNumber() + " w2 = "+ w2.toNumber() + "w1.times(w2).mod(n) = " + result)
+      return result
     }
 
     /**
@@ -522,13 +528,17 @@
       const a = BigNumber(0);
       const b = BigNumber(1);
       const gcd = y
-      return {a, b, gcd}
+      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
      }
-     const res = extendedGcd(y.mod(x), x)
-     const a = res.b.minus(y.div(x).mul(res.a))
-     const b = res.a
-     const {gcd} = res
-     return {a, b, gcd}
+    // console.log("x = " + x +" y = " +  y)
+     const [a1, b1, g1] =extendedGcd(y.mod(x), x)
+     const ydx = BigNumber(y.div(x))
+     const resb = BigNumber(b1)
+     const a = resb.minus(ydx.times(a1))
+     const b = a1
+     const {gcd} = g1
+   //  console.log("a = " + a1.toNumber() +" b = " +  b1.toNumber() +" gcd = " + g1.toNumber())
+     return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }  
 
 
@@ -683,7 +693,7 @@
 
   
 
-    }//end
+    } //end
  
 
     Test()
@@ -692,7 +702,7 @@
  //Todo: hashToPrime !!!!!!!!!!!!!!!!!!!
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
-    function hashToPrime(address){
+  /*  function hashToPrime(address){
       var BN = web3js.utils.BN
       var addrToHash = web3js.utils.sha3(address)
       //最大只能支持52bits，取地址sha3后的hash值前13位, 加上前缀0x 2位
@@ -712,11 +722,11 @@
           var addrBN = BN(addrToHash)
         }
       }
-    }
+    }*/
     /*
     Miller–Rabin primality test 
     */
-    function probablyPrime(n, k) {
+   /* function probablyPrime(n, k) {
       var BN = web3js.utils.BN;
      	if (n.eq(BN(2))  || n.eq(BN(3)) )
    		return true;
@@ -751,7 +761,7 @@
 	    return true;
     }
 
-
+*/
 
 
   
