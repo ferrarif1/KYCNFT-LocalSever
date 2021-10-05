@@ -605,7 +605,8 @@
 ]
 
 
-   
+   primeNumberList2 = [982451179, 982451191, 982451219, 982451227, 982451231,
+                       2,  3,  10,  15,  882938]
    
    function Test(){//start
  
@@ -671,10 +672,17 @@
     //should be 0x2f20677459120677484f7104c76deb6846a2c071f9b3152c103bb12cd54d1a4a
     console.log("b = " + bxxx)
    
-
+   /**** Test probablyPrime  ****/
+   for(i=0; i < primeNumberList2.length; i++) {
+     var isprime = probablyPrime(BigNumber(primeNumberList2[i]),10)
+     if(isprime)
+        console.log(primeNumberList2[i] + " is prime")
+      else
+        console.log(primeNumberList2[i] + " is not prime")
+   }
     /**** Test hash To Prime  ****/
-    hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
-   
+   // hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
+    
     } //end
  
 
@@ -687,62 +695,70 @@
     function hashToPrime(address){
    
       var addrToHash = web3js.utils.sha3(address)
-      //最大只能支持52bits，取地址sha3后的hash值前13位, 加上前缀0x 2位
-     // var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
-      var addrBN = BigNumber(addrToHash.substring(0,15))
+      //var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
+      var addrBN = BigNumber(addrToHash.substring(0,5))
+      addrBN = BigNumber(982451609)
       var times = 0
+      var probablyPrimeTimes = 0
       while(1){
-        var isprime = probablyPrime(BigNumber(1000),BigNumber(1))
+        console.log("probablyPrime times = " + probablyPrimeTimes++)
+        var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
-          times++;
-          if(times == 10){
-            console.log("find prime = ", addrBN)
-            break;
-          }
+          console.log("!!! find prime = " + addrBN.toNumber() + " times = " + times)
+          break;
         }else{
-          times = 0;
-          var addrToHash = web3js.utils.sha3(address)
+          var addrToHash = web3js.utils.sha3(addrToHash.substring(0,5))
           var addrBN = BigNumber(addrToHash)
         }
       }
     }
+    
     /*
     Miller–Rabin primality test 
+    n -> 被测试数 (BigNumber) k -> 测试次数
+    取k = 10，一个非素数通过10次测试的概率小于10^-6
     */
     function probablyPrime(n, k) {
-       
-     	if (n.toNumber() == 2  || n.toNumber() == 3)
+      
+     	if (n.toNumber() === 2  || n.toNumber() === 3)
    		return true;
     	if (n.mod(2).toNumber() === 0 || n.toNumber() < 2)
 	  	return false;
- 
+
     	//Write (n - 1) as 2^s * d
-    	var s = 0, d = BigNumber(n - 1);
-    	while (d.mod(2).toNumber() === 0) {
-	     	d.div(2);
+      //k = s, q = d
+    	var s = 0, d = BigNumber(n.toNumber() - 1);
+    	while ((d.mod(2)).toNumber() === 0) {
+	      d =	d.div(2);
 		    ++s;
      	}
- 
+
    	  WitnessLoop: do {
-        console.log("finding... ")
-	    	//A base between 2 and n - 2
-        var p = BigNumber(2 + Math.floor(Math.random() * (n - 3)))
-	    	var x = p1.pow(d).mod(n)
- 
-	  	  if (x === 1 || x === n - 1)
-		  	  continue;
- 
-	   	  for (var i = s - 1; i--;) {
-		    	x = x.times(x).mod(n);
-		    	if (x.toNumber() === 1)
-			  	 return false;
-			    if (x.toNumber() === n - 1)
-				   continue WitnessLoop;
+        //console.log("testing... " + n.toNumber())
+	    	//a : A base between 2 and n - 2
+        var nx = n.toNumber() - 3
+        var nxx = 2 + Math.floor(Math.random() * nx)
+        var a = BigNumber(nxx)
+       
+	    	var x = powInMod(a, d ,n)
+       // console.log("a = " + a.toNumber() + " x = " + x.toNumber())
+        //1， if a^q mod n =1, then "not sure"
+	  	  if (x.toNumber() === 1)
+          //console.log("pass con 1")
+		  	  continue ;//pass
+        //2， for(j=0 to k-1) do
+        //       if a^(2^j * q) mod n =1, then "not sure"
+	   	  for (var j = 0;j < s; j++) {
+          var t = Math.pow(2,j)*d
+          var r = powInMod(a,BigNumber(t) ,n)
+		    	if (r.toNumber() === (n.toNumber() - 1))
+            //console.log("pass con 2")
+			  	  continue WitnessLoop;//pass
 		    }
- 
-	  	  return false;
+        if(j == s)
+          return false//2 not satisfied
 	    } while (--k);
- 
+
 	    return true;
     }
 
