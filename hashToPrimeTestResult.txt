@@ -13,9 +13,45 @@ index.html:709 !!! find prime = 31574541904373956
 想碰撞的话每次执行都需要较长时间
 lengthChoose = 18
 probablyPrime times = 10729
-start at: Tue Oct 05 2021 16:57:47 GMT+0800 (中国标准时间)
-end at: Tue Oct 05 2021 16:58:04 GMT+0800 (中国标准时间)
-index.html:709 !!! find prime = 8283306661606213
+index.html:719 start at: Tue Oct 05 2021 17:16:24 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 8283306661606213 for 0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
+index.html:718 probablyPrime times = 343
+index.html:719 start at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 24069515502916560 for 0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74
+index.html:718 probablyPrime times = 1
+index.html:719 start at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 1121200081 for 0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b
+index.html:718 probablyPrime times = 2567
+index.html:719 start at: Tue Oct 05 2021 17:16:42 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:16:46 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 33947002520376852 for 0x277EE5F761ce53af5A6ca8e19D0F824fE7670808
+index.html:718 probablyPrime times = 93907
+index.html:719 start at: Tue Oct 05 2021 17:16:46 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:19:04 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 4971428117609201 for 0x3eEAFD9bE8A019ecbA377d39739380f493549331
+index.html:718 probablyPrime times = 27954
+index.html:719 start at: Tue Oct 05 2021 17:19:04 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:19:44 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 30650244896588532 for 0x06554901F00cFd5A3A8966705953c8A0feb8376c
+index.html:718 probablyPrime times = 61217
+index.html:719 start at: Tue Oct 05 2021 17:19:44 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:21:19 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 85238031428024160 for 0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157
+index.html:718 probablyPrime times = 4718
+index.html:719 start at: Tue Oct 05 2021 17:21:19 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:21:27 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 3293450107929491 for 0x01538DDc43Ada06794554265544652BCA6A2a57d
+index.html:718 probablyPrime times = 2128
+index.html:719 start at: Tue Oct 05 2021 17:21:27 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:21:30 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 10435348302943512 for 0x8F64532A23523330a5cC196f0C0a4600C6b5db5B
+index.html:718 probablyPrime times = 32615
+index.html:719 start at: Tue Oct 05 2021 17:21:30 GMT+0800 (中国标准时间)
+end   at: Tue Oct 05 2021 17:22:21 GMT+0800 (中国标准时间)
+index.html:720 !!! find prime = 17527818722604276 for 0x039171D2424750c0b20281a61716a2C9FCcc2eCD
 
 (3）5分钟
 lengthChoose = 19

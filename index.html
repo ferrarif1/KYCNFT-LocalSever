@@ -683,6 +683,15 @@
    }*/
     /**** Test hash To Prime  ****/
     hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
+    hashToPrime('0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74')
+    hashToPrime('0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b')
+    hashToPrime('0x277EE5F761ce53af5A6ca8e19D0F824fE7670808')
+    hashToPrime('0x3eEAFD9bE8A019ecbA377d39739380f493549331')
+    hashToPrime('0x06554901F00cFd5A3A8966705953c8A0feb8376c')
+    hashToPrime('0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157')
+    hashToPrime('0x01538DDc43Ada06794554265544652BCA6A2a57d')
+    hashToPrime('0x8F64532A23523330a5cC196f0C0a4600C6b5db5B')
+    hashToPrime('0x039171D2424750c0b20281a61716a2C9FCcc2eCD')
     
     } //end
  
@@ -700,18 +709,20 @@
       var probablyPrimeTimes = 0
       var start = getTime()
       while(1){
-        console.log("probablyPrime times = " + ++probablyPrimeTimes )
+        probablyPrimeTimes++;
+       // console.log("probablyPrime times = " + ++probablyPrimeTimes )
         var lengthChoose = 18
         var isprime = probablyPrime(addrBN,lengthChoose)
         if(isprime == true){
           var end = getTime()
-          console.log("start at: " + start + "\nend at: " + end)
-          console.log("!!! find prime = " + addrBN.toNumber())
+          console.log("probablyPrime times = " + probablyPrimeTimes )
+          console.log("start at: " + start + "\nend   at: " + end)
+          console.log("!!! find prime = " + addrBN.toNumber() + " for " + address)
           break;
         }else{
           var addrToHash = web3js.utils.sha3(addrToHash)
           var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
-          console.log("addrToHash = " + addrToHash.substring(0,lengthChoose) + " addrBN = " + addrBN.toNumber())
+          //console.log("addrToHash = " + addrToHash.substring(0,lengthChoose) + " addrBN = " + addrBN.toNumber())
         }
       }
     }
