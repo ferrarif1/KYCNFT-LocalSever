@@ -1,0 +1,27 @@
+Chrome版本 94.0.4606.61（正式版本） (x86_64)
+2.3 GHz 八核Intel Core i9
+16 GB 2667 MHz DDR4
+
+seed = "0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a"
+(1)1秒
+probablyPrime times = 836
+index.html:708 start at: Tue Oct 05 2021 17:07:28 GMT+0800 (中国标准时间)
+end at: Tue Oct 05 2021 17:07:29 GMT+0800 (中国标准时间)
+index.html:709 !!! find prime = 31574541904373956
+
+(2)十几秒 正合适
+想碰撞的话每次执行都需要较长时间
+lengthChoose = 18
+probablyPrime times = 10729
+start at: Tue Oct 05 2021 16:57:47 GMT+0800 (中国标准时间)
+end at: Tue Oct 05 2021 16:58:04 GMT+0800 (中国标准时间)
+index.html:709 !!! find prime = 8283306661606213
+
+(3）5分钟
+lengthChoose = 19
+probablyPrime times = 142198
+start at: Tue Oct 05 2021 17:00:40 GMT+0800 (中国标准时间)
+end at: Tue Oct 05 2021 17:05:55 GMT+0800 (中国标准时间)
+index.html:709 !!! find prime = 8382023071087109
+
+平均每增加一位hex长度，需要测试的次数增加16倍左右

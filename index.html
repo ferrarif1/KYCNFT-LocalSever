@@ -673,15 +673,16 @@
     console.log("b = " + bxxx)
    
    /**** Test probablyPrime  ****/
+   /*
    for(i=0; i < primeNumberList2.length; i++) {
      var isprime = probablyPrime(BigNumber(primeNumberList2[i]),10)
      if(isprime)
         console.log(primeNumberList2[i] + " is prime")
       else
         console.log(primeNumberList2[i] + " is not prime")
-   }
+   }*/
     /**** Test hash To Prime  ****/
-   // hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
+    hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
     
     } //end
  
@@ -692,23 +693,25 @@
  //Todo: hashToPrime !!!!!!!!!!!!!!!!!!!
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
+    //test result see:hashToPrimeTestResult.txt
     function hashToPrime(address){
-   
       var addrToHash = web3js.utils.sha3(address)
-      //var addrBN = web3js.utils.hexToNumber(addrToHash.substring(0,15))
-      var addrBN = BigNumber(addrToHash.substring(0,5))
-      addrBN = BigNumber(982451609)
-      var times = 0
+      var addrBN = BigNumber(addrToHash.substring(0,10))
       var probablyPrimeTimes = 0
+      var start = getTime()
       while(1){
-        console.log("probablyPrime times = " + probablyPrimeTimes++)
-        var isprime = probablyPrime(addrBN,10)
+        console.log("probablyPrime times = " + ++probablyPrimeTimes )
+        var lengthChoose = 18
+        var isprime = probablyPrime(addrBN,lengthChoose)
         if(isprime == true){
-          console.log("!!! find prime = " + addrBN.toNumber() + " times = " + times)
+          var end = getTime()
+          console.log("start at: " + start + "\nend at: " + end)
+          console.log("!!! find prime = " + addrBN.toNumber())
           break;
         }else{
-          var addrToHash = web3js.utils.sha3(addrToHash.substring(0,5))
-          var addrBN = BigNumber(addrToHash)
+          var addrToHash = web3js.utils.sha3(addrToHash)
+          var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
+          console.log("addrToHash = " + addrToHash.substring(0,lengthChoose) + " addrBN = " + addrBN.toNumber())
         }
       }
     }
@@ -762,7 +765,10 @@
 	    return true;
     }
 
-
+    function getTime(){
+      var now = new Date();
+      return now
+    }
   
     </script>
   </body>
