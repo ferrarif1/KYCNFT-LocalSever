@@ -8,6 +8,7 @@
     <script language="javascript" type="text/javascript" src="./src/js/web3.min.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/KYCManager_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/KYCNFT_ABI.js"></script>
+    <script language="javascript" type="text/javascript" src="./src/js/testAddress.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
 
      
@@ -29,7 +30,7 @@
       */
       
       var KYCManager;
-      var KYCManagerAddress = "0x6584C3a7681c65d9b39D6561aba5458026D9AC2D";
+      var KYCManagerAddress = "0x675856aB3B6D36A3b8C2278176AA7642D16d0688";
       
       var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
@@ -375,9 +376,9 @@
       return x;
     }
 
-    // should be big. And the prime factors of N should be unknown to anyone. may be too small?
-    const N = new BigNumber(1073807359);
- 
+    // should be big. And the prime factors of N should be unknown to anyone. 
+    const N = new BigNumber(68720001023);
+   
     class RSAaccumulator {
       
       static updateAccumulator(accumulator, value) {
@@ -506,7 +507,6 @@
     * @param {BigInteger} x
     * @param {BigInteger} y
     * @returns {GcdResult}
-    * @private
      */
     function extendedGcd(x, y) {
      if (x.isZero()) {
@@ -608,6 +608,7 @@
    primeNumberList2 = [982451179, 982451191, 982451219, 982451227, 982451231,
                        2,  3,  10,  15,  882938]
    
+   
    function Test(){//start
  
      const coins=[
@@ -682,27 +683,32 @@
         console.log(primeNumberList2[i] + " is not prime")
    }*/
     /**** Test hash To Prime  ****/
-    hashToPrime('0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a')
-    hashToPrime('0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74')
-    hashToPrime('0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b')
-    hashToPrime('0x277EE5F761ce53af5A6ca8e19D0F824fE7670808')
-    hashToPrime('0x3eEAFD9bE8A019ecbA377d39739380f493549331')
-    hashToPrime('0x06554901F00cFd5A3A8966705953c8A0feb8376c')
-    hashToPrime('0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157')
-    hashToPrime('0x01538DDc43Ada06794554265544652BCA6A2a57d')
-    hashToPrime('0x8F64532A23523330a5cC196f0C0a4600C6b5db5B')
-    hashToPrime('0x039171D2424750c0b20281a61716a2C9FCcc2eCD')
-    
+    for(i=0; i < testAddr.length; i++) {
+       hashToPrime(testAddr[i])
     } //end
+
+    averageFindTime /= testAddr.length
+    averageLoopTimes /= testAddr.length
+    console.log("averageFindTime = " + averageFindTime + " averageLoopTimes = " + averageLoopTimes)
+    console.log("loggestFindTime = " + loggestFindTime + " shortestFindTime = " + shortestFindTime)
  
+   }
+
 
     Test()
  
  
- //Todo: hashToPrime !!!!!!!!!!!!!!!!!!!
+ // hashToPrime 
 //see : https://crypto.stackexchange.com/questions/24514/deterministically-generate-a-rsa-public-private-key-pair-from-a-passphrase-with
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
     //test result see:hashToPrimeTestResult.txt
+    
+    var averageLoopTimes = 0
+    var averageFindTime = 0 
+    var loggestFindTime = 0
+    var shortestFindTime = 0
+
+
     function hashToPrime(address){
       var addrToHash = web3js.utils.sha3(address)
       var addrBN = BigNumber(addrToHash.substring(0,10))
@@ -710,19 +716,23 @@
       var start = getTime()
       while(1){
         probablyPrimeTimes++;
-       // console.log("probablyPrime times = " + ++probablyPrimeTimes )
-        var lengthChoose = 18
+        var lengthChoose = 17
         var isprime = probablyPrime(addrBN,lengthChoose)
         if(isprime == true){
           var end = getTime()
           console.log("probablyPrime times = " + probablyPrimeTimes )
-          console.log("start at: " + start + "\nend   at: " + end)
+          console.log("time used : " + (end-start) + " ms ")
           console.log("!!! find prime = " + addrBN.toNumber() + " for " + address)
+
+          averageFindTime += end - start
+          averageLoopTimes += probablyPrimeTimes
+          loggestFindTime = (end - start)>loggestFindTime?(end - start):loggestFindTime
+          shortestFindTime = (end - start)<shortestFindTime?(end - start):shortestFindTime
+
           break;
         }else{
           var addrToHash = web3js.utils.sha3(addrToHash)
           var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
-          //console.log("addrToHash = " + addrToHash.substring(0,lengthChoose) + " addrBN = " + addrBN.toNumber())
         }
       }
     }
@@ -777,8 +787,8 @@
     }
 
     function getTime(){
-      var now = new Date();
-      return now
+      var now = Date.now();
+      return now 
     }
   
     </script>

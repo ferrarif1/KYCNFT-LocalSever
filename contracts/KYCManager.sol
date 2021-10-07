@@ -13,7 +13,7 @@ contract KYCManager is Ownable {
   //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
   
   //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
-  //KYCManager：0x5D39F07686c6782121Ffc5Cda4f65dE45220Aba9
+  //KYCManager：0x675856aB3B6D36A3b8C2278176AA7642D16d0688
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
  
@@ -21,7 +21,7 @@ contract KYCManager is Ownable {
   //NFTid到管理者地址
   mapping(uint => address) private NFTidToOwner;
   //管理者地址到累加器
-  mapping(address => uint256) private OwnerToAccumulatorAddr;
+  mapping(address => string) private OwnerToAccumulator;
   //NFT有效性
   mapping(uint => bool) private NFTidToAvailable;
   
@@ -81,8 +81,8 @@ contract KYCManager is Ownable {
   /*
   （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
   */
-  function updateAccumulator(uint256  _accumulator) public {
-    OwnerToAccumulatorAddr[msg.sender] = _accumulator;
+  function updateAccumulator(string memory _accumulator) public {
+    OwnerToAccumulator[msg.sender] = _accumulator;
   }
   
   
@@ -97,15 +97,15 @@ contract KYCManager is Ownable {
       return addr;
   }
    //由NFTid 找Accumulator
-  function accumulatorAddrOfNFTID(uint NFTid) public view returns(uint256){
+  function accumulatorAddrOfNFTID(uint NFTid) public view returns(string memory){
       address addr = NFTidToOwner[NFTid];
-      uint256 accumulatorAddr = OwnerToAccumulatorAddr[addr];
-      return accumulatorAddr;
+      string memory accumulator = OwnerToAccumulator[addr];
+      return accumulator;
   }
    //由Owner 找Accumulator
-  function accumulatorAddrOfOwner(address ownerAddr) public view returns(uint256){
-      uint256  accumulatorAddr = OwnerToAccumulatorAddr[ownerAddr];
-      return accumulatorAddr;
+  function accumulatorAddrOfOwner(address ownerAddr) public view returns(string memory){
+      string memory accumulator = OwnerToAccumulator[ownerAddr];
+      return accumulator;
   }
   //由NFTid查询有效性
   function availableOfNFTid(uint NFTid) public view returns(bool){

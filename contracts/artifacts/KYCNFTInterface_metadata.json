@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.1+commit.df193b15"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -45,7 +45,7 @@
 		"compilationTarget": {
 			"contracts/KYCManager.sol": "KYCNFTInterface"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -154,11 +154,11 @@
 			]
 		},
 		"contracts/KYCManager.sol": {
-			"keccak256": "0xc587f8f8065fd3081154ae77ce676c57402f66598a4fefd5fb25ded64a58173c",
+			"keccak256": "0x91e2dd91ef07576c8f6b3269165246923504fa767de4075cb00993b5da3cb1c9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bf66f861f02bd2c217baf087cd17a77f556e3eb9344e23f9566c873a9c044147",
-				"dweb:/ipfs/QmTWnSyUgktWZYCNWFz9BR8pL3xhJqvp99dTRQAVgquPRZ"
+				"bzz-raw://4300e740593d147e0bf8864588554af2a72427963d749879c6c04eebc7caae71",
+				"dweb:/ipfs/QmbVaKhx42yFsk6AKosyz2sz275Dm2xopNo5xUvUNEFLZw"
 			]
 		},
 		"contracts/KYCNFT.sol": {
