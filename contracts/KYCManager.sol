@@ -9,11 +9,16 @@ interface KYCNFTInterface {
   function awardItem(address player, string memory tokenURI) external returns (uint256);
 }
 
+
 contract KYCManager is Ownable {
+    struct UserData{
+    uint NFTid;
+    string accumulator;
+    }
   //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
   
   //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
-  //KYCManager：0x675856aB3B6D36A3b8C2278176AA7642D16d0688
+  //KYCManager：0x6D847221B1cF6c4d2bfDb3956073A430240f2512
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
  
@@ -21,7 +26,7 @@ contract KYCManager is Ownable {
   //NFTid到管理者地址
   mapping(uint => address) private NFTidToOwner;
   //管理者地址到累加器
-  mapping(address => string) private OwnerToAccumulator;
+  mapping(address => UserData) private OwnerToUserData;
   //NFT有效性
   mapping(uint => bool) private NFTidToAvailable;
   
@@ -66,23 +71,27 @@ contract KYCManager is Ownable {
   （3）Map1:绑定NFTid与管理地址
   
    */
- 
    //create是owner权限
   function createNFTidToManagerAddr(uint NFTid, address manager) public onlyOwner {
     NFTidToOwner[NFTid] = manager;
+    OwnerToUserData[manager] = UserData(NFTid, '1');
   }  
    //modify是Manager addr权限
   function modifyNFTidToManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
+    address oldmanager = NFTidToOwner[NFTid];
+    UserData storage userdata = OwnerToUserData[oldmanager];
+    OwnerToUserData[newManager] = userdata;
     NFTidToOwner[NFTid] = newManager;
   }
 
 
 
   /*
-  （4）Map2:绑定管理地址与累加器地址（查询管理地址已经有了对应的KYCNFT）
+  （4）Map2:绑定管理地址与累加器
   */
   function updateAccumulator(string memory _accumulator) public {
-    OwnerToAccumulator[msg.sender] = _accumulator;
+      UserData storage userdata = OwnerToUserData[msg.sender];
+      userdata.accumulator = _accumulator;
   }
   
   
@@ -91,26 +100,29 @@ contract KYCManager is Ownable {
   （5）查询某NFT id对应的管理地址与累加器地址
   */
  
-  //由NFTid 找Owner地址
+  //由NFTid 找managerAddr地址
   function ownerOfNFTid(uint NFTid) public view returns(address) {
       address addr = NFTidToOwner[NFTid];
       return addr;
   }
    //由NFTid 找Accumulator
-  function accumulatorAddrOfNFTID(uint NFTid) public view returns(string memory){
+  function accumulatorOfNFTID(uint NFTid) public view returns(string memory){
       address addr = NFTidToOwner[NFTid];
-      string memory accumulator = OwnerToAccumulator[addr];
-      return accumulator;
+      UserData memory userdata = OwnerToUserData[addr];
+      return userdata.accumulator;
   }
-   //由Owner 找Accumulator
-  function accumulatorAddrOfOwner(address ownerAddr) public view returns(string memory){
-      string memory accumulator = OwnerToAccumulator[ownerAddr];
-      return accumulator;
+   //由Manager addr找Accumulator
+  function accumulatorOfOwner(address managerAddr) public view returns(string memory){
+      UserData memory userdata = OwnerToUserData[managerAddr];
+      return userdata.accumulator;
   }
   //由NFTid查询有效性
   function availableOfNFTid(uint NFTid) public view returns(bool){
       return NFTidToAvailable[NFTid];
   }
-  
-  
+  //由Manager addr找由NFTid
+  function NFTidOfOwner(address managerAddr) public view returns(uint){
+      UserData memory userdata = OwnerToUserData[managerAddr];
+      return userdata.NFTid;
+  }
 }

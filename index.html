@@ -30,7 +30,7 @@
       */
       
       var KYCManager;
-      var KYCManagerAddress = "0x675856aB3B6D36A3b8C2278176AA7642D16d0688";
+      var KYCManagerAddress = "0x6D847221B1cF6c4d2bfDb3956073A430240f2512";
       
       var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
@@ -608,7 +608,11 @@
    primeNumberList2 = [982451179, 982451191, 982451219, 982451227, 982451231,
                        2,  3,  10,  15,  882938]
    
-   
+    var averageLoopTimes = 0
+    var averageFindTime = 0 
+    var loggestFindTime = 0
+    var shortestFindTime = 99999999999999
+
    function Test(){//start
  
      const coins=[
@@ -685,12 +689,12 @@
     /**** Test hash To Prime  ****/
     for(i=0; i < testAddr.length; i++) {
        hashToPrime(testAddr[i])
-    } //end
-
+    }
+   
     averageFindTime /= testAddr.length
     averageLoopTimes /= testAddr.length
-    console.log("averageFindTime = " + averageFindTime + " averageLoopTimes = " + averageLoopTimes)
-    console.log("loggestFindTime = " + loggestFindTime + " shortestFindTime = " + shortestFindTime)
+    console.log("averageFindTime = " + averageFindTime + " ms    averageLoopTimes = " + averageLoopTimes)
+    console.log("loggestFindTime = " + loggestFindTime + " ms    shortestFindTime = " + shortestFindTime + " ms")
  
    }
 
@@ -703,11 +707,7 @@
 //https://crypto.stackexchange.com/questions/63013/hash-to-prime-numbers
     //test result see:hashToPrimeTestResult.txt
     
-    var averageLoopTimes = 0
-    var averageFindTime = 0 
-    var loggestFindTime = 0
-    var shortestFindTime = 0
-
+   
 
     function hashToPrime(address){
       var addrToHash = web3js.utils.sha3(address)
@@ -716,7 +716,7 @@
       var start = getTime()
       while(1){
         probablyPrimeTimes++;
-        var lengthChoose = 17
+        var lengthChoose = 19
         var isprime = probablyPrime(addrBN,lengthChoose)
         if(isprime == true){
           var end = getTime()

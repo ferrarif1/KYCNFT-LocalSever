@@ -6,263 +6,293 @@ Chrome版本 94.0.4606.61（正式版本） (x86_64)
 
 
 seed = "0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a"
-(1)1秒
-probablyPrime times = 836
-index.html:708 start at: Tue Oct 05 2021 17:07:28 GMT+0800 (中国标准时间)
-end at: Tue Oct 05 2021 17:07:29 GMT+0800 (中国标准时间)
-index.html:709 !!! find prime = 31574541904373956
+(1)
+lengthChoose = 17
+averageFindTime = 1326.7625 ms    averageLoopTimes = 1176.375
+loggestFindTime = 5911 ms    shortestFindTime = 5 ms
 
-(2)合适
-想碰撞的话每次执行都需要较长时间
+(2)
 lengthChoose = 18
- 15 ms  - 141653 ms 
- 1次 - 93907次
- probablyPrime times = 343
- time used : 598 ms 
- !!! find prime = 24069515502916560 for 0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74
- probablyPrime times = 1
- time used : 15 ms 
- !!! find prime = 1121200081 for 0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b
- probablyPrime times = 2567
- time used : 4010 ms 
- !!! find prime = 33947002520376852 for 0x277EE5F761ce53af5A6ca8e19D0F824fE7670808
- probablyPrime times = 93907
- time used : 141653 ms 
- !!! find prime = 4971428117609201 for 0x3eEAFD9bE8A019ecbA377d39739380f493549331
- probablyPrime times = 27954
- time used : 38447 ms 
- !!! find prime = 30650244896588532 for 0x06554901F00cFd5A3A8966705953c8A0feb8376c
- probablyPrime times = 61217
- time used : 91392 ms 
- !!! find prime = 85238031428024160 for 0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157
- probablyPrime times = 4718
- time used : 7406 ms 
- !!! find prime = 3293450107929491 for 0x01538DDc43Ada06794554265544652BCA6A2a57d
- probablyPrime times = 2128
- time used : 3247 ms 
- !!! find prime = 10435348302943512 for 0x8F64532A23523330a5cC196f0C0a4600C6b5db5B
- probablyPrime times = 32615
- time used : 49139 ms 
- !!! find prime = 17527818722604276 for 0x039171D2424750c0b20281a61716a2C9FCcc2eCD
- probablyPrime times = 3480
- time used : 5400 ms 
- !!! find prime = 3327363679886361600 for 0x2c568Cc755be62259CCd832ce8cb1a965a595371
- probablyPrime times = 6779
- time used : 10519 ms 
- !!! find prime = 8510533428670620000 for 0xbA06d307F1Fae004e2091c319f1F41e1a7CEAE8b
- probablyPrime times = 12133
- time used : 18265 ms 
- !!! find prime = 1880645108242540000 for 0xA0D5867219DB32A8416Ea570D5957711Adc7F2A4
- probablyPrime times = 1
- time used : 6 ms 
- !!! find prime = 2510998319 for 0xf918AC8F6208928cd3804de2846C510a08Bec13d
- probablyPrime times = 43349
- time used : 66320 ms 
- !!! find prime = 20065118516267596 for 0xD49BB3400A91C8C1DBe8E41ca57b236eE41e50f6
- probablyPrime times = 2294
- time used : 3706 ms 
- !!! find prime = 13873474674076132 for 0xE0290883ed61a578538b48240b916E5F2d4161f2
- probablyPrime times = 4419
- time used : 7511 ms 
- !!! find prime = 69224055302148600 for 0xB72A654EE775b92bd89Af7fF932f55afD2E6Eb99
- probablyPrime times = 17271
- time used : 27337 ms 
- !!! find prime = 241457958122098720 for 0xE79Ff8807Cd0683D64b5Ac6D437Bc090E53CA2fB
- probablyPrime times = 584
- time used : 982 ms 
- !!! find prime = 8239333367781641 for 0x3455Ac863f4766c62Ba65dc2A7b919b6B0B84F2F
- probablyPrime times = 51316
- time used : 78951 ms 
- !!! find prime = 204816454847205280 for 0xB29998F35ECAd5fbDe4F758E7aD1c87A0a404687
- probablyPrime times = 9493
- time used : 14148 ms 
- !!! find prime = 385189386873616000 for 0xaF7F5bb720f097d3B38Ed4cb261c0938EEF0fC7E
- probablyPrime times = 503
- time used : 842 ms 
- !!! find prime = 611082809183761 for 0x04e225C2cADb390E9B925B5A57f1454a80667c88
- probablyPrime times = 22567
- time used : 34768 ms 
- !!! find prime = 1860396174017431 for 0x1c11A7C69ad05000441ec823ff88FFc4a32F3F48
- probablyPrime times = 1365
- time used : 2055 ms 
- !!! find prime = 16724534448059260 for 0x86C57924Dc731a4Aae93DCaF69Cb2e28aF203320
- probablyPrime times = 18902
- time used : 31040 ms 
- !!! find prime = 4924990441305019 for 0x09f9a337e8095acA4665aD7B079c9d70209A6257
- probablyPrime times = 12743
- time used : 19847 ms 
- !!! find prime = 28844478653219500 for 0x489dFc5AB9C469d0D4C7A937e57eeD158eCa9f6F
- probablyPrime times = 33807
- time used : 53721 ms 
- !!! find prime = 9288889811825488 for 0x009132F371B0542527bf2CcB94A26b57dA324F0F
- probablyPrime times = 6724
- time used : 10209 ms 
- !!! find prime = 3445520334008437 for 0x4Df095955060761b8F366aA648845e1cAC2a178c
- probablyPrime times = 72956
- time used : 111479 ms 
- !!! find prime = 7333456020074363 for 0x8ddb722FA10b8b95e44e58752507D0469cB87cef
- probablyPrime times = 33506
- time used : 51770 ms 
- !!! find prime = 6826083832886767 for 0x93B0ED5C9dDa70Da164919925bd95c05468fe895
- probablyPrime times = 72602
- time used : 114069 ms 
- !!! find prime = 184116843762066400 for 0x94bDDf127FEeE464714c0D14A41f91B673C903A4
- probablyPrime times = 30033
- time used : 46153 ms 
- !!! find prime = 66844110734021016 for 0xBEf7C1C03F5366aC69724D79710eF5B540d749a9
- probablyPrime times = 3531
- time used : 5251 ms 
- !!! find prime = 14640960156905712 for 0x25f3980A405b28B1cD1ad0B4463474E715ddFfBA
- probablyPrime times = 28212
- time used : 42643 ms 
- !!! find prime = 2390900590745656000 for 0x7a8a482B9EE3bac2518DaD0c6Fc63a9F3e5295Ec
- probablyPrime times = 14150
- time used : 21627 ms 
- !!! find prime = 49508982944029600 for 0x4C7ecdb13d0D5F708ce3713e38dA1d36A465AC35
- probablyPrime times = 3729
- time used : 5661 ms 
- !!! find prime = 1726070123778667 for 0xEb14C26E41939Ac60b826C9927FF57b2085B21B8
- probablyPrime times = 22932
- time used : 36015 ms 
- !!! find prime = 3013465240632487 for 0xAf54Fee0e4530b2eac8687E209816204EF808a27
- probablyPrime times = 156
- time used : 265 ms 
- !!! find prime = 31463898312517492 for 0xAB2BF45a9c8BBB6baebEc572aEb8DCce7E748a11
- probablyPrime times = 3029
- time used : 4864 ms 
- !!! find prime = 52105347251327080 for 0x7A0CA012dDA765cE46fef4Efaa919e692bdAA5b8
- probablyPrime times = 6253
- time used : 9990 ms 
- !!! find prime = 56934099863152600 for 0xeb8d96a36BCBe10247866127A904B4cA8dc8Eb9E
- probablyPrime times = 16799
- time used : 26625 ms 
- !!! find prime = 25689049138292788 for 0x805d67C5eDf4cF3876Da760e6271cdBe53566628
- probablyPrime times = 16632
- time used : 25991 ms 
- !!! find prime = 122321858795304480 for 0xB854035c2557f8F7ca7C029A24543e676A95952a
- probablyPrime times = 4639
- time used : 7337 ms 
- !!! find prime = 170910700351721400 for 0xDF41c49246E7b911115e55a0AD1c93f16480CEDC
- probablyPrime times = 3873
- time used : 5917 ms 
- !!! find prime = 3528601716805027 for 0x9b4E32bBdBc8fF7cf999D755695082c87eBFc983
- probablyPrime times = 63143
- time used : 98872 ms 
- !!! find prime = 682171166212057 for 0xe2Bb41e08C543E6cb1B4a9d98051b181713701a9
- probablyPrime times = 15281
- time used : 23889 ms 
- !!! find prime = 4345311993134354400 for 0xb529215c7670AB99cF83D8Fa20cF16297E2aC0A2
- probablyPrime times = 72618
- time used : 111017 ms 
- !!! find prime = 11353738755216720000 for 0x74b24faae9BBA841446AF298F10DCE1c4746af85
- probablyPrime times = 14495
- time used : 21938 ms 
- !!! find prime = 7148782758535001 for 0x688A9F366F016cc8E020adDEFEe86764D541D657
- probablyPrime times = 2738
- time used : 4164 ms 
- !!! find prime = 353279186306162560 for 0x40008239765ea48078F387e55023DC3914ECBB4a
- probablyPrime times = 42711
- time used : 65164 ms 
- !!! find prime = 2924887800751919 for 0xE44c04d2f9FaeD2Cf6df189164D54EF73282A39A
- probablyPrime times = 11083
- time used : 16625 ms 
- !!! find prime = 527526772395101440 for 0x8d9d836c70aDeC9054Fa5B12Eb92c865CfB0046b
- probablyPrime times = 12895
- time used : 19286 ms 
- !!! find prime = 16154161650130068 for 0xd871B72cbca644eE9E41Fba8a85D7D96D4CAeeC6
- probablyPrime times = 3141
- time used : 4681 ms 
- !!! find prime = 410212507162967 for 0x99D09100ddBc11a261A058907342965c132D91B7
- probablyPrime times = 34484
- time used : 53197 ms 
- !!! find prime = 29296779975912828 for 0xE0845F1035880C7A859b2E94a30cADF199AaBadF
- probablyPrime times = 2349
- time used : 3660 ms 
- !!! find prime = 7419545894461529 for 0x74Fb8c09De06085CDA0A25BDe9E6085b025676FA
- probablyPrime times = 51032
- time used : 79282 ms 
- !!! find prime = 14803803571597120000 for 0x6d4b3973b304cf53b6863804598A381ad9920579
- probablyPrime times = 16827
- time used : 25837 ms 
- !!! find prime = 25959946050476236 for 0x626f9c1774a8c343ceD3E93c360e71CD7092d5AF
- probablyPrime times = 4988
- time used : 7669 ms 
- !!! find prime = 1024670037239311 for 0x8Fc7508c1Ad55eE81ceC3DF55Eb70B27E933A245
- probablyPrime times = 27093
- time used : 42480 ms 
- !!! find prime = 8464509478281203 for 0xd518ECb370EB35769290dae8bbF3A5c4C8dc5d56
- probablyPrime times = 9458
- time used : 15117 ms 
- !!! find prime = 25787417465597140 for 0x6E1b602Cbd93465Fb790D080d903910dCc3fcc23
- probablyPrime times = 8916
- time used : 15583 ms 
- !!! find prime = 29024597610431196 for 0x27F7e1017D0d2600a0eaFDD92e9F19b00CaDa285
- probablyPrime times = 690
- time used : 1217 ms 
- !!! find prime = 193147900380783040 for 0x57E2dCfe118c5F34401de8E689559344D0bAB875
- probablyPrime times = 36161
- time used : 55832 ms 
- !!! find prime = 6689050123994453 for 0xA5Bbe4fcbe7636f0bA6306Aa542fBc4E17F96385
- probablyPrime times = 2187
- time used : 3249 ms 
- !!! find prime = 2829255541593473 for 0xB91FDEB98aaa2b870406d3Fdc049E366Eb9F83D3
- probablyPrime times = 14501
- time used : 22473 ms 
- !!! find prime = 1372365783951419 for 0x1649559febcB079f463DdCb55cE64c16e55d3Ec7
- probablyPrime times = 6728
- time used : 10274 ms 
- !!! find prime = 4495848035330322400 for 0x72FB62DE462DD4F4F4A39127F05e84335f14b031
- probablyPrime times = 1
- time used : 8 ms 
- !!! find prime = 2742742279 for 0xe18d114f2999c415e545eEC067a3bB78298a4853
- probablyPrime times = 1
- time used : 10 ms 
- !!! find prime = 1378679893 for 0x54cA902d95e9D5CfC912F3980b3B855b31488055
- probablyPrime times = 1
- time used : 8 ms 
- !!! find prime = 2581145843 for 0xbaa8A7938b5d3b5da38C6b0490b00CAFD7fAb293
- probablyPrime times = 7684
- time used : 12092 ms 
- !!! find prime = 5719654261867927 for 0x46fCB332fc1c5E4379F13933Bbb85061Bd4ead00
- probablyPrime times = 9384
- time used : 14733 ms 
- !!! find prime = 55936319480788360 for 0x718B3AB8F6441e9211cD4D35515196B2b0795214
- probablyPrime times = 30649
- time used : 47774 ms 
- !!! find prime = 56371747555390296 for 0x1f2E9A4B3bEC6fc418DEEBe68Fdeef06CB2E615E
- probablyPrime times = 55498
- time used : 87110 ms 
- !!! find prime = 3981701572257137 for 0xb27ce88a798656A3298E6fb8fa09Ed5D35Fe456C
- probablyPrime times = 3342
- time used : 5157 ms 
- !!! find prime = 914500889307451 for 0x23EEd0DEAEDa3ED77024Cd9b598e74D36f3724A6
- probablyPrime times = 845
- time used : 1314 ms 
- !!! find prime = 20973749438931576 for 0xb10E9BED9392E884EDb2017a99AD301f1310018E
- probablyPrime times = 16003
- time used : 25105 ms 
- !!! find prime = 123660482600616720 for 0xC270004D5202f1826B00Cb495d7e7872aB758b69
- probablyPrime times = 48908
- time used : 76514 ms 
- !!! find prime = 1690641314157287 for 0x64D234a173fA923214E5b24D2A8d4352e27BBA77
- probablyPrime times = 12903
- time used : 20109 ms 
- !!! find prime = 265503136341593280 for 0x08029385559c04259Fd4830607c64a1D9080d672
- probablyPrime times = 18078
- time used : 28319 ms 
- !!! find prime = 41319149679072240 for 0x132822e93fA60BAA9e4aa96DB18edE2fE78Eb5Cb
- probablyPrime times = 1
- time used : 7 ms 
- !!! find prime = 638369423 for 0xc5bDe54675cb5D3208461b0ce72bc7A03F93c04d
- probablyPrime times = 17475
- time used : 26721 ms 
- !!! find prime = 32951589183955932 for 0x0ae52Bd9821652c9b11EbD2b679ADa3598555fF0
+averageFindTime = 24727.275 ms    averageLoopTimes = 16244.925
+index.html:697 loggestFindTime = 134326 ms    shortestFindTime = 6 ms
 
-(3）一次测试长达5分钟
+probablyPrime times = 343
+time used : 569 ms 
+!!! find prime = 24069515502916560 for 0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74
+probablyPrime times = 1
+time used : 17 ms 
+!!! find prime = 1121200081 for 0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b
+probablyPrime times = 2567
+time used : 3676 ms 
+!!! find prime = 33947002520376852 for 0x277EE5F761ce53af5A6ca8e19D0F824fE7670808
+probablyPrime times = 93907
+time used : 127847 ms 
+!!! find prime = 4971428117609201 for 0x3eEAFD9bE8A019ecbA377d39739380f493549331
+probablyPrime times = 27954
+time used : 38043 ms 
+!!! find prime = 30650244896588532 for 0x06554901F00cFd5A3A8966705953c8A0feb8376c
+probablyPrime times = 23942
+time used : 34987 ms 
+!!! find prime = 3549319116544017000 for 0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157
+probablyPrime times = 4718
+time used : 7256 ms 
+!!! find prime = 3293450107929491 for 0x01538DDc43Ada06794554265544652BCA6A2a57d
+probablyPrime times = 2128
+time used : 3151 ms 
+!!! find prime = 10435348302943512 for 0x8F64532A23523330a5cC196f0C0a4600C6b5db5B
+probablyPrime times = 16026
+time used : 24314 ms 
+!!! find prime = 8027671118064933000 for 0x039171D2424750c0b20281a61716a2C9FCcc2eCD
+probablyPrime times = 3480
+time used : 5346 ms 
+!!! find prime = 3327363679886361600 for 0x2c568Cc755be62259CCd832ce8cb1a965a595371
+probablyPrime times = 7301
+time used : 11282 ms 
+!!! find prime = 116317314526665840 for 0xbA06d307F1Fae004e2091c319f1F41e1a7CEAE8b
+probablyPrime times = 12133
+time used : 18289 ms 
+!!! find prime = 1880645108242540000 for 0xA0D5867219DB32A8416Ea570D5957711Adc7F2A4
+probablyPrime times = 1
+time used : 6 ms 
+!!! find prime = 2510998319 for 0xf918AC8F6208928cd3804de2846C510a08Bec13d
+probablyPrime times = 43349
+time used : 66401 ms 
+!!! find prime = 20065118516267596 for 0xD49BB3400A91C8C1DBe8E41ca57b236eE41e50f6
+probablyPrime times = 2294
+time used : 3533 ms 
+!!! find prime = 13873474674076132 for 0xE0290883ed61a578538b48240b916E5F2d4161f2
+probablyPrime times = 4419
+time used : 6687 ms 
+!!! find prime = 69224055302148600 for 0xB72A654EE775b92bd89Af7fF932f55afD2E6Eb99
+probablyPrime times = 17271
+time used : 25997 ms 
+!!! find prime = 241457958122098720 for 0xE79Ff8807Cd0683D64b5Ac6D437Bc090E53CA2fB
+probablyPrime times = 584
+time used : 913 ms 
+!!! find prime = 8239333367781641 for 0x3455Ac863f4766c62Ba65dc2A7b919b6B0B84F2F
+probablyPrime times = 51316
+time used : 77902 ms 
+!!! find prime = 204816454847205280 for 0xB29998F35ECAd5fbDe4F758E7aD1c87A0a404687
+probablyPrime times = 9493
+time used : 14274 ms 
+!!! find prime = 385189386873616000 for 0xaF7F5bb720f097d3B38Ed4cb261c0938EEF0fC7E
+probablyPrime times = 503
+time used : 867 ms 
+!!! find prime = 611082809183761 for 0x04e225C2cADb390E9B925B5A57f1454a80667c88
+probablyPrime times = 22567
+time used : 34225 ms 
+!!! find prime = 1860396174017431 for 0x1c11A7C69ad05000441ec823ff88FFc4a32F3F48
+probablyPrime times = 1365
+time used : 2075 ms 
+!!! find prime = 16724534448059260 for 0x86C57924Dc731a4Aae93DCaF69Cb2e28aF203320
+probablyPrime times = 13937
+time used : 20965 ms 
+!!! find prime = 981626270325656800 for 0x09f9a337e8095acA4665aD7B079c9d70209A6257
+probablyPrime times = 12743
+time used : 19472 ms 
+!!! find prime = 28844478653219500 for 0x489dFc5AB9C469d0D4C7A937e57eeD158eCa9f6F
+probablyPrime times = 33807
+time used : 51170 ms 
+!!! find prime = 9288889811825488 for 0x009132F371B0542527bf2CcB94A26b57dA324F0F
+probablyPrime times = 6724
+time used : 10137 ms 
+!!! find prime = 3445520334008437 for 0x4Df095955060761b8F366aA648845e1cAC2a178c
+probablyPrime times = 72956
+time used : 111982 ms 
+!!! find prime = 7333456020074363 for 0x8ddb722FA10b8b95e44e58752507D0469cB87cef
+probablyPrime times = 33506
+time used : 51742 ms 
+!!! find prime = 6826083832886767 for 0x93B0ED5C9dDa70Da164919925bd95c05468fe895
+probablyPrime times = 29856
+time used : 46430 ms 
+!!! find prime = 376699456728013200 for 0x94bDDf127FEeE464714c0D14A41f91B673C903A4
+probablyPrime times = 19796
+time used : 31133 ms 
+!!! find prime = 393414383533287600 for 0xBEf7C1C03F5366aC69724D79710eF5B540d749a9
+probablyPrime times = 3531
+time used : 5449 ms 
+!!! find prime = 14640960156905712 for 0x25f3980A405b28B1cD1ad0B4463474E715ddFfBA
+probablyPrime times = 87280
+time used : 134326 ms 
+!!! find prime = 5262937027657663 for 0x7a8a482B9EE3bac2518DaD0c6Fc63a9F3e5295Ec
+probablyPrime times = 14150
+time used : 21832 ms 
+!!! find prime = 49508982944029600 for 0x4C7ecdb13d0D5F708ce3713e38dA1d36A465AC35
+probablyPrime times = 3729
+time used : 5789 ms 
+!!! find prime = 1726070123778667 for 0xEb14C26E41939Ac60b826C9927FF57b2085B21B8
+probablyPrime times = 22932
+time used : 35355 ms 
+!!! find prime = 3013465240632487 for 0xAf54Fee0e4530b2eac8687E209816204EF808a27
+probablyPrime times = 156
+time used : 264 ms 
+!!! find prime = 31463898312517492 for 0xAB2BF45a9c8BBB6baebEc572aEb8DCce7E748a11
+probablyPrime times = 3029
+time used : 4846 ms 
+!!! find prime = 52105347251327080 for 0x7A0CA012dDA765cE46fef4Efaa919e692bdAA5b8
+probablyPrime times = 6253
+time used : 9843 ms 
+!!! find prime = 56934099863152600 for 0xeb8d96a36BCBe10247866127A904B4cA8dc8Eb9E
+probablyPrime times = 16799
+time used : 26221 ms 
+!!! find prime = 25689049138292788 for 0x805d67C5eDf4cF3876Da760e6271cdBe53566628
+probablyPrime times = 16632
+time used : 26086 ms 
+!!! find prime = 122321858795304480 for 0xB854035c2557f8F7ca7C029A24543e676A95952a
+probablyPrime times = 4639
+time used : 7412 ms 
+!!! find prime = 170910700351721400 for 0xDF41c49246E7b911115e55a0AD1c93f16480CEDC
+probablyPrime times = 3873
+time used : 6043 ms 
+!!! find prime = 3528601716805027 for 0x9b4E32bBdBc8fF7cf999D755695082c87eBFc983
+probablyPrime times = 63143
+time used : 97700 ms 
+!!! find prime = 682171166212057 for 0xe2Bb41e08C543E6cb1B4a9d98051b181713701a9
+probablyPrime times = 18327
+time used : 28755 ms 
+!!! find prime = 1571966788704044800 for 0xb529215c7670AB99cF83D8Fa20cF16297E2aC0A2
+probablyPrime times = 10722
+time used : 16785 ms 
+!!! find prime = 2616521614689388000 for 0x74b24faae9BBA841446AF298F10DCE1c4746af85
+probablyPrime times = 14495
+time used : 22109 ms 
+!!! find prime = 7148782758535001 for 0x688A9F366F016cc8E020adDEFEe86764D541D657
+probablyPrime times = 2738
+time used : 4157 ms 
+!!! find prime = 353279186306162560 for 0x40008239765ea48078F387e55023DC3914ECBB4a
+probablyPrime times = 42711
+time used : 66105 ms 
+!!! find prime = 2924887800751919 for 0xE44c04d2f9FaeD2Cf6df189164D54EF73282A39A
+probablyPrime times = 11083
+time used : 17089 ms 
+!!! find prime = 527526772395101440 for 0x8d9d836c70aDeC9054Fa5B12Eb92c865CfB0046b
+probablyPrime times = 12895
+time used : 19988 ms 
+!!! find prime = 16154161650130068 for 0xd871B72cbca644eE9E41Fba8a85D7D96D4CAeeC6
+probablyPrime times = 3141
+time used : 4953 ms 
+!!! find prime = 410212507162967 for 0x99D09100ddBc11a261A058907342965c132D91B7
+probablyPrime times = 34484
+time used : 54202 ms 
+!!! find prime = 29296779975912828 for 0xE0845F1035880C7A859b2E94a30cADF199AaBadF
+probablyPrime times = 2349
+time used : 3626 ms 
+!!! find prime = 7419545894461529 for 0x74Fb8c09De06085CDA0A25BDe9E6085b025676FA
+probablyPrime times = 7417
+time used : 11682 ms 
+!!! find prime = 5029086848902240000 for 0x6d4b3973b304cf53b6863804598A381ad9920579
+probablyPrime times = 16827
+time used : 25598 ms 
+!!! find prime = 25959946050476236 for 0x626f9c1774a8c343ceD3E93c360e71CD7092d5AF
+probablyPrime times = 4988
+time used : 7711 ms 
+!!! find prime = 1024670037239311 for 0x8Fc7508c1Ad55eE81ceC3DF55Eb70B27E933A245
+probablyPrime times = 27093
+time used : 42141 ms 
+!!! find prime = 8464509478281203 for 0xd518ECb370EB35769290dae8bbF3A5c4C8dc5d56
+probablyPrime times = 9458
+time used : 14977 ms 
+!!! find prime = 25787417465597140 for 0x6E1b602Cbd93465Fb790D080d903910dCc3fcc23
+probablyPrime times = 8916
+time used : 13815 ms 
+!!! find prime = 29024597610431196 for 0x27F7e1017D0d2600a0eaFDD92e9F19b00CaDa285
+probablyPrime times = 690
+time used : 1188 ms 
+!!! find prime = 193147900380783040 for 0x57E2dCfe118c5F34401de8E689559344D0bAB875
+probablyPrime times = 23174
+time used : 35217 ms 
+!!! find prime = 3986230961947130400 for 0xA5Bbe4fcbe7636f0bA6306Aa542fBc4E17F96385
+probablyPrime times = 2187
+time used : 3195 ms 
+!!! find prime = 2829255541593473 for 0xB91FDEB98aaa2b870406d3Fdc049E366Eb9F83D3
+probablyPrime times = 14501
+time used : 22265 ms 
+!!! find prime = 1372365783951419 for 0x1649559febcB079f463DdCb55cE64c16e55d3Ec7
+probablyPrime times = 6728
+time used : 10314 ms 
+!!! find prime = 4495848035330322400 for 0x72FB62DE462DD4F4F4A39127F05e84335f14b031
+probablyPrime times = 1
+time used : 6 ms 
+!!! find prime = 2742742279 for 0xe18d114f2999c415e545eEC067a3bB78298a4853
+probablyPrime times = 1
+time used : 11 ms 
+!!! find prime = 1378679893 for 0x54cA902d95e9D5CfC912F3980b3B855b31488055
+probablyPrime times = 1
+time used : 8 ms 
+!!! find prime = 2581145843 for 0xbaa8A7938b5d3b5da38C6b0490b00CAFD7fAb293
+probablyPrime times = 7684
+time used : 11913 ms 
+!!! find prime = 5719654261867927 for 0x46fCB332fc1c5E4379F13933Bbb85061Bd4ead00
+probablyPrime times = 9384
+time used : 14642 ms 
+!!! find prime = 55936319480788360 for 0x718B3AB8F6441e9211cD4D35515196B2b0795214
+probablyPrime times = 17413
+time used : 26491 ms 
+!!! find prime = 1722156986252209200 for 0x1f2E9A4B3bEC6fc418DEEBe68Fdeef06CB2E615E
+probablyPrime times = 55498
+time used : 85778 ms 
+!!! find prime = 3981701572257137 for 0xb27ce88a798656A3298E6fb8fa09Ed5D35Fe456C
+probablyPrime times = 3342
+time used : 5233 ms 
+!!! find prime = 914500889307451 for 0x23EEd0DEAEDa3ED77024Cd9b598e74D36f3724A6
+probablyPrime times = 845
+time used : 1328 ms 
+!!! find prime = 20973749438931576 for 0xb10E9BED9392E884EDb2017a99AD301f1310018E
+probablyPrime times = 16003
+time used : 24747 ms 
+!!! find prime = 123660482600616720 for 0xC270004D5202f1826B00Cb495d7e7872aB758b69
+probablyPrime times = 48908
+time used : 75717 ms 
+!!! find prime = 1690641314157287 for 0x64D234a173fA923214E5b24D2A8d4352e27BBA77
+probablyPrime times = 12903
+time used : 19871 ms 
+!!! find prime = 265503136341593280 for 0x08029385559c04259Fd4830607c64a1D9080d672
+probablyPrime times = 18078
+time used : 28147 ms 
+!!! find prime = 41319149679072240 for 0x132822e93fA60BAA9e4aa96DB18edE2fE78Eb5Cb
+probablyPrime times = 1
+time used : 6 ms 
+!!! find prime = 638369423 for 0xc5bDe54675cb5D3208461b0ce72bc7A03F93c04d
+probablyPrime times = 17475
+time used : 26558 ms 
+!!! find prime = 32951589183955932 for 0x0ae52Bd9821652c9b11EbD2b679ADa3598555fF0
+
+
+(3）
 lengthChoose = 19
-probablyPrime times = 142198
-start at: Tue Oct 05 2021 17:00:40 GMT+0800 (中国标准时间)
-end at: Tue Oct 05 2021 17:05:55 GMT+0800 (中国标准时间)
-index.html:709 !!! find prime = 8382023071087109
+
+probablyPrime times = 19125
+index.html:724 time used : 35794 ms 
+index.html:725 !!! find prime = 31056190408546716 for 0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 21 ms 
+index.html:725 !!! find prime = 1121200081 for 0xdcb55A0ea5A7F6CB418B05AbCAdbf06961F3160b
+index.html:723 probablyPrime times = 81053
+index.html:724 time used : 144385 ms 
+index.html:725 !!! find prime = 2284005774347900400 for 0x277EE5F761ce53af5A6ca8e19D0F824fE7670808
+index.html:723 probablyPrime times = 474658
+index.html:724 time used : 892656 ms 
+index.html:725 !!! find prime = 6358106789918753 for 0x3eEAFD9bE8A019ecbA377d39739380f493549331
+index.html:723 probablyPrime times = 102164
+index.html:724 time used : 182835 ms 
+index.html:725 !!! find prime = 8036627847198991 for 0x06554901F00cFd5A3A8966705953c8A0feb8376c
+index.html:723 probablyPrime times = 39867
+index.html:724 time used : 71515 ms 
+index.html:725 !!! find prime = 3224418790026517 for 0xDaf2d7602b9E2e0BdEe5b5c17239214B45e8C157
+index.html:723 probablyPrime times = 96406
+index.html:724 time used : 171695 ms 
+index.html:725 !!! find prime = 122596892832073600 for 0x01538DDc43Ada06794554265544652BCA6A2a57d
+index.html:723 probablyPrime times = 223890
+index.html:724 time used : 402416 ms 
+index.html:725 !!! find prime = 2645451915664348000 for 0x8F64532A23523330a5cC196f0C0a4600C6b5db5B
+index.html:723 probablyPrime times = 542151
+index.html:724 time used : 967265 ms 
+index.html:725 !!! find prime = 31209535497694776 for 0x039171D2424750c0b20281a61716a2C9FCcc2eCD
+index.html:723 probablyPrime times = 411423
+index.html:724 time used : 748670 ms 
+index.html:725 !!! find prime = 8963248963871261 for 0x2c568Cc755be62259CCd832ce8cb1a965a595371
+index.html:723 probablyPrime times = 23613
+index.html:724 time used : 42476 ms 
+index.html:725 !!! find prime = 29596413799768840000 for 0xbA06d307F1Fae004e2091c319f1F41e1a7CEAE8b
 
 平均每增加一位hex长度，需要测试的次数增加16倍左右

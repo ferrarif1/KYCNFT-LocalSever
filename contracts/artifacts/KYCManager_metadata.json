@@ -27,12 +27,31 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "managerAddr",
+						"type": "address"
+					}
+				],
+				"name": "NFTidOfOwner",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "NFTid",
 						"type": "uint256"
 					}
 				],
-				"name": "accumulatorAddrOfNFTID",
+				"name": "accumulatorOfNFTID",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -47,11 +66,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "ownerAddr",
+						"name": "managerAddr",
 						"type": "address"
 					}
 				],
-				"name": "accumulatorAddrOfOwner",
+				"name": "accumulatorOfOwner",
 				"outputs": [
 					{
 						"internalType": "string",
@@ -366,11 +385,11 @@
 			]
 		},
 		"contracts/KYCManager.sol": {
-			"keccak256": "0x91e2dd91ef07576c8f6b3269165246923504fa767de4075cb00993b5da3cb1c9",
+			"keccak256": "0x5bd2e4dad8eb22f3cb922ae8e34982224e99e129f822cf1f902776d7c53a6633",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4300e740593d147e0bf8864588554af2a72427963d749879c6c04eebc7caae71",
-				"dweb:/ipfs/QmbVaKhx42yFsk6AKosyz2sz275Dm2xopNo5xUvUNEFLZw"
+				"bzz-raw://8159230bd1c8a49f14d957f78007242f22b900e84112da3593f49a6cdbed5806",
+				"dweb:/ipfs/QmZDMPWssFDvp1A2wvp8irPbhMa9fKEUAo78R8s2S4iNVE"
 			]
 		},
 		"contracts/KYCNFT.sol": {
