@@ -424,6 +424,7 @@
        let q = BigNumber(1);
        let r = BigNumber(0);
        let x = BigNumber(1);
+       console.log("@@@@@@ h = " + h )
        for(let i = 0; i < setValues.length; i++){
          let x2 = (x.times(setValues[i])).mod(value);
          let temp = ((x.times(setValues[i])).div(value))
@@ -436,25 +437,10 @@
          x = x2;
          r = r2;
          q = q2;
+         console.log('**** x2 = '+ x.toNumber() + " temp = " +  temp.toNumber() + " r2 = " + r.toNumber() + " q2 = " +  q.toNumber() );
        }
-       console.log('get proof', q.toNumber(), r.toNumber(), x.toNumber());
+       console.log('get proof x = '+ x.toNumber() + " r = " + r.toNumber() + " q = " +  q.toNumber());
        return new RSAaccumulatorProof(value, q, r, x);
-     }
-   
-     static checkNonInclusionProof(generator, accumulator, proof) {
-       let h = powInMod(generator, proof.value, N);
-       let B = RSAaccumulator.hash(h.plus(accumulator));
-       if(proof.x.comparedTo(0) <= 0 || proof.value.comparedTo(proof.x) <= 0){
-         return false;
-       }
-       if(proof.r.comparedTo(0) <= 0 || B.comparedTo(proof.r) <= 0){
-         return false;
-       }
-       if(powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).eq(accumulator)) {
-         return true;
-       }else{
-         return false;
-       }
      }
 
      static checkInclusionProof(generator, accumulator, proof){
@@ -527,12 +513,17 @@
 
     var coins = new Array();
     /*  目前加入数量>7会出错  */
-    for(i=0; i < 7; i++) {//第0-4地址hash加入数组
+   /* for(i=0; i < 7; i++) {//第0-4地址hash加入数组
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
-    }
+    }*/
+    var coins = [
+      BigNumber(2),
+      BigNumber(3),
+      BigNumber(5),
+    ]
     var addrNotIn = hashToPrime(testAddr[15])
-    const generator = new BigNumber(982451653);
+    const generator = new BigNumber(2);//982451653
     accumulator = generator;
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//加入累加器
