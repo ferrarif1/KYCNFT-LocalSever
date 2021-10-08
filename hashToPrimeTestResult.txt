@@ -260,6 +260,8 @@ time used : 26558 ms
 
 (3）
 lengthChoose = 19
+averageFindTime = 886979.325 ms    averageLoopTimes = 
+index.html:697 loggestFindTime =  ms    shortestFindTime =  ms
 
 probablyPrime times = 19125
 index.html:724 time used : 35794 ms 
@@ -294,5 +296,212 @@ index.html:725 !!! find prime = 8963248963871261 for 0x2c568Cc755be62259CCd832ce
 index.html:723 probablyPrime times = 23613
 index.html:724 time used : 42476 ms 
 index.html:725 !!! find prime = 29596413799768840000 for 0xbA06d307F1Fae004e2091c319f1F41e1a7CEAE8b
-
-平均每增加一位hex长度，需要测试的次数增加16倍左右
+probablyPrime times = 123836
+index.html:724 time used : 576994 ms 
+probablyPrime times = 123836
+index.html:724 time used : 576994 ms 
+index.html:725 !!! find prime = 19788319662494548 for 0xA0D5867219DB32A8416Ea570D5957711Adc7F2A4
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 6 ms 
+index.html:725 !!! find prime = 2510998319 for 0xf918AC8F6208928cd3804de2846C510a08Bec13d
+index.html:723 probablyPrime times = 192734
+index.html:724 time used : 341331 ms 
+index.html:725 !!! find prime = 17608792253921836 for 0xD49BB3400A91C8C1DBe8E41ca57b236eE41e50f6
+index.html:723 probablyPrime times = 28811
+index.html:724 time used : 50112 ms 
+index.html:725 !!! find prime = 664040439790138100 for 0xE0290883ed61a578538b48240b916E5F2d4161f2
+index.html:723 probablyPrime times = 267129
+index.html:724 time used : 465571 ms 
+index.html:725 !!! find prime = 34859120152920756 for 0xB72A654EE775b92bd89Af7fF932f55afD2E6Eb99
+index.html:723 probablyPrime times = 89154
+index.html:724 time used : 155206 ms 
+index.html:725 !!! find prime = 19500928642160572 for 0xE79Ff8807Cd0683D64b5Ac6D437Bc090E53CA2fB
+index.html:723 probablyPrime times = 1865086
+index.html:724 time used : 3500829 ms 
+index.html:725 !!! find prime = 77184044583013600 for 0x3455Ac863f4766c62Ba65dc2A7b919b6B0B84F2F
+index.html:723 probablyPrime times = 390837
+index.html:724 time used : 702967 ms 
+index.html:725 !!! find prime = 444983946806501760 for 0xB29998F35ECAd5fbDe4F758E7aD1c87A0a404687
+index.html:723 probablyPrime times = 186340
+index.html:724 time used : 335113 ms 
+index.html:725 !!! find prime = 7651172795663027 for 0xaF7F5bb720f097d3B38Ed4cb261c0938EEF0fC7E
+index.html:723 probablyPrime times = 334598
+index.html:724 time used : 607594 ms 
+index.html:725 !!! find prime = 22837738588442796000 for 0x04e225C2cADb390E9B925B5A57f1454a80667c88
+index.html:723 probablyPrime times = 391026
+index.html:724 time used : 711529 ms 
+index.html:725 !!! find prime = 23003430376550100 for 0x1c11A7C69ad05000441ec823ff88FFc4a32F3F48
+index.html:723 probablyPrime times = 616260
+index.html:724 time used : 1144486 ms 
+index.html:725 !!! find prime = 4174227846270929 for 0x86C57924Dc731a4Aae93DCaF69Cb2e28aF203320
+index.html:723 probablyPrime times = 410984
+index.html:724 time used : 767542 ms 
+index.html:725 !!! find prime = 16891877298248668 for 0x09f9a337e8095acA4665aD7B079c9d70209A6257
+index.html:723 probablyPrime times = 64965
+index.html:724 time used : 121109 ms 
+index.html:725 !!! find prime = 52518644161561970000 for 0x489dFc5AB9C469d0D4C7A937e57eeD158eCa9f6F
+index.html:723 probablyPrime times = 7564
+index.html:724 time used : 14154 ms 
+index.html:725 !!! find prime = 26453866481606496 for 0x009132F371B0542527bf2CcB94A26b57dA324F0F
+index.html:723 probablyPrime times = 539383
+index.html:724 time used : 1004151 ms 
+index.html:725 !!! find prime = 1237883826691973 for 0x4Df095955060761b8F366aA648845e1cAC2a178c
+index.html:723 probablyPrime times = 685298
+index.html:724 time used : 1274982 ms 
+index.html:725 !!! find prime = 6144882955256359 for 0x8ddb722FA10b8b95e44e58752507D0469cB87cef
+index.html:723 probablyPrime times = 94781
+index.html:724 time used : 174344 ms 
+index.html:725 !!! find prime = 65851655933282280000 for 0x93B0ED5C9dDa70Da164919925bd95c05468fe895
+index.html:723 probablyPrime times = 56354
+index.html:724 time used : 105580 ms 
+index.html:725 !!! find prime = 21685345276309576 for 0x94bDDf127FEeE464714c0D14A41f91B673C903A4
+index.html:723 probablyPrime times = 104632
+index.html:724 time used : 194742 ms 
+index.html:725 !!! find prime = 6063107994574331 for 0xBEf7C1C03F5366aC69724D79710eF5B540d749a9
+index.html:723 probablyPrime times = 153765
+index.html:724 time used : 288356 ms 
+index.html:725 !!! find prime = 2758595754771511 for 0x25f3980A405b28B1cD1ad0B4463474E715ddFfBA
+index.html:723 probablyPrime times = 137937
+index.html:724 time used : 258282 ms 
+index.html:725 !!! find prime = 19451281834729140000 for 0x7a8a482B9EE3bac2518DaD0c6Fc63a9F3e5295Ec
+index.html:723 probablyPrime times = 118292
+index.html:724 time used : 220813 ms 
+index.html:725 !!! find prime = 35886389857309972 for 0x4C7ecdb13d0D5F708ce3713e38dA1d36A465AC35
+index.html:723 probablyPrime times = 98477
+index.html:724 time used : 183754 ms 
+index.html:725 !!! find prime = 9643146892002600 for 0xEb14C26E41939Ac60b826C9927FF57b2085B21B8
+index.html:723 probablyPrime times = 573112
+index.html:724 time used : 1065106 ms 
+index.html:725 !!! find prime = 23988488026927788 for 0xAf54Fee0e4530b2eac8687E209816204EF808a27
+index.html:723 probablyPrime times = 85023
+index.html:724 time used : 159141 ms 
+index.html:725 !!! find prime = 13605653593067112 for 0xAB2BF45a9c8BBB6baebEc572aEb8DCce7E748a11
+index.html:723 probablyPrime times = 156909
+index.html:724 time used : 293709 ms 
+index.html:725 !!! find prime = 223664382578692800000 for 0x7A0CA012dDA765cE46fef4Efaa919e692bdAA5b8
+index.html:723 probablyPrime times = 607158
+index.html:724 time used : 1138133 ms 
+index.html:725 !!! find prime = 1601019753027329 for 0xeb8d96a36BCBe10247866127A904B4cA8dc8Eb9E
+index.html:723 probablyPrime times = 182772
+index.html:724 time used : 343085 ms 
+index.html:725 !!! find prime = 156998579282730720 for 0x805d67C5eDf4cF3876Da760e6271cdBe53566628
+index.html:723 probablyPrime times = 226092
+index.html:724 time used : 425220 ms 
+index.html:725 !!! find prime = 23902487584968436 for 0xB854035c2557f8F7ca7C029A24543e676A95952a
+index.html:723 probablyPrime times = 256627
+index.html:724 time used : 494865 ms 
+index.html:725 !!! find prime = 548693269542013440 for 0xDF41c49246E7b911115e55a0AD1c93f16480CEDC
+index.html:723 probablyPrime times = 491127
+index.html:724 time used : 935731 ms 
+index.html:725 !!! find prime = 28358877605887840000 for 0x9b4E32bBdBc8fF7cf999D755695082c87eBFc983
+index.html:723 probablyPrime times = 186151
+index.html:724 time used : 358931 ms 
+index.html:725 !!! find prime = 3698621496425489 for 0xe2Bb41e08C543E6cb1B4a9d98051b181713701a9
+index.html:723 probablyPrime times = 72507
+index.html:724 time used : 135872 ms 
+index.html:725 !!! find prime = 13093804829213196 for 0xb529215c7670AB99cF83D8Fa20cF16297E2aC0A2
+index.html:723 probablyPrime times = 195993
+index.html:724 time used : 379735 ms 
+index.html:725 !!! find prime = 30772035742813440 for 0x74b24faae9BBA841446AF298F10DCE1c4746af85
+index.html:723 probablyPrime times = 63351
+index.html:724 time used : 117376 ms 
+index.html:725 !!! find prime = 218647157148166080 for 0x688A9F366F016cc8E020adDEFEe86764D541D657
+index.html:723 probablyPrime times = 113172
+index.html:724 time used : 203573 ms 
+index.html:725 !!! find prime = 277254303059705040000 for 0x40008239765ea48078F387e55023DC3914ECBB4a
+index.html:723 probablyPrime times = 83159
+index.html:724 time used : 150575 ms 
+index.html:725 !!! find prime = 61674303609249280 for 0xE44c04d2f9FaeD2Cf6df189164D54EF73282A39A
+index.html:723 probablyPrime times = 547218
+index.html:724 time used : 9952585 ms 
+index.html:725 !!! find prime = 13197848563535160 for 0x8d9d836c70aDeC9054Fa5B12Eb92c865CfB0046b
+index.html:723 probablyPrime times = 58019
+index.html:724 time used : 6501693 ms 
+index.html:725 !!! find prime = 273797238976556040000 for 0xd871B72cbca644eE9E41Fba8a85D7D96D4CAeeC6
+index.html:723 probablyPrime times = 47676
+index.html:724 time used : 5432335 ms 
+index.html:725 !!! find prime = 1316183798452174600 for 0x99D09100ddBc11a261A058907342965c132D91B7
+index.html:723 probablyPrime times = 489155
+index.html:724 time used : 15726263 ms 
+index.html:725 !!! find prime = 274617236972811840 for 0xE0845F1035880C7A859b2E94a30cADF199AaBadF
+index.html:723 probablyPrime times = 380492
+index.html:724 time used : 1721588 ms 
+index.html:725 !!! find prime = 146471600247849600000 for 0x74Fb8c09De06085CDA0A25BDe9E6085b025676FA
+index.html:723 probablyPrime times = 5152
+index.html:724 time used : 10098 ms 
+index.html:725 !!! find prime = 4877693836050107 for 0x6d4b3973b304cf53b6863804598A381ad9920579
+index.html:723 probablyPrime times = 31235
+index.html:724 time used : 61444 ms 
+index.html:725 !!! find prime = 862112876158112800 for 0x626f9c1774a8c343ceD3E93c360e71CD7092d5AF
+index.html:723 probablyPrime times = 161133
+index.html:724 time used : 295083 ms 
+index.html:725 !!! find prime = 62132826357010480 for 0x8Fc7508c1Ad55eE81ceC3DF55Eb70B27E933A245
+index.html:723 probablyPrime times = 152106
+index.html:724 time used : 290738 ms 
+index.html:725 !!! find prime = 584561496687629 for 0xd518ECb370EB35769290dae8bbF3A5c4C8dc5d56
+index.html:723 probablyPrime times = 295985
+index.html:724 time used : 545240 ms 
+index.html:725 !!! find prime = 17084382658880512 for 0x6E1b602Cbd93465Fb790D080d903910dCc3fcc23
+index.html:723 probablyPrime times = 14742
+index.html:724 time used : 28429 ms 
+index.html:725 !!! find prime = 16938488677721268 for 0x27F7e1017D0d2600a0eaFDD92e9F19b00CaDa285
+index.html:723 probablyPrime times = 882378
+index.html:724 time used : 1702410 ms 
+index.html:725 !!! find prime = 15430809966828624000 for 0x57E2dCfe118c5F34401de8E689559344D0bAB875
+index.html:723 probablyPrime times = 28670
+index.html:724 time used : 50603 ms 
+index.html:725 !!! find prime = 4145308440439081 for 0xA5Bbe4fcbe7636f0bA6306Aa542fBc4E17F96385
+index.html:723 probablyPrime times = 58695
+index.html:724 time used : 103257 ms 
+index.html:725 !!! find prime = 17696789052520152 for 0xB91FDEB98aaa2b870406d3Fdc049E366Eb9F83D3
+index.html:723 probablyPrime times = 80674
+index.html:724 time used : 148480 ms 
+index.html:725 !!! find prime = 8307583831130473 for 0x1649559febcB079f463DdCb55cE64c16e55d3Ec7
+index.html:723 probablyPrime times = 181708
+index.html:724 time used : 353208 ms 
+index.html:725 !!! find prime = 693866839205303200 for 0x72FB62DE462DD4F4F4A39127F05e84335f14b031
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 7 ms 
+index.html:725 !!! find prime = 2742742279 for 0xe18d114f2999c415e545eEC067a3bB78298a4853
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 11 ms 
+index.html:725 !!! find prime = 1378679893 for 0x54cA902d95e9D5CfC912F3980b3B855b31488055
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 8 ms 
+index.html:725 !!! find prime = 2581145843 for 0xbaa8A7938b5d3b5da38C6b0490b00CAFD7fAb293
+index.html:723 probablyPrime times = 116380
+index.html:724 time used : 212891 ms 
+index.html:725 !!! find prime = 10567699247887948 for 0x46fCB332fc1c5E4379F13933Bbb85061Bd4ead00
+index.html:723 probablyPrime times = 173239
+index.html:724 time used : 318820 ms 
+index.html:725 !!! find prime = 34655646873680140 for 0x718B3AB8F6441e9211cD4D35515196B2b0795214
+index.html:723 probablyPrime times = 291628
+index.html:724 time used : 532522 ms 
+index.html:725 !!! find prime = 29506546347267148 for 0x1f2E9A4B3bEC6fc418DEEBe68Fdeef06CB2E615E
+index.html:723 probablyPrime times = 285712
+index.html:724 time used : 534860 ms 
+index.html:725 !!! find prime = 19609021491566692 for 0xb27ce88a798656A3298E6fb8fa09Ed5D35Fe456C
+index.html:723 probablyPrime times = 232522
+index.html:724 time used : 434590 ms 
+index.html:725 !!! find prime = 18584835725909052 for 0x23EEd0DEAEDa3ED77024Cd9b598e74D36f3724A6
+index.html:723 probablyPrime times = 464473
+index.html:724 time used : 871018 ms 
+index.html:725 !!! find prime = 13773350567090580 for 0xb10E9BED9392E884EDb2017a99AD301f1310018E
+index.html:723 probablyPrime times = 206417
+index.html:724 time used : 377974 ms 
+index.html:725 !!! find prime = 120755366149139200000 for 0xC270004D5202f1826B00Cb495d7e7872aB758b69
+index.html:723 probablyPrime times = 57773
+index.html:724 time used : 103550 ms 
+index.html:725 !!! find prime = 4104871788575533600 for 0x64D234a173fA923214E5b24D2A8d4352e27BBA77
+index.html:723 probablyPrime times = 801516
+index.html:724 time used : 1460064 ms 
+index.html:725 !!! find prime = 4402171897329448000 for 0x08029385559c04259Fd4830607c64a1D9080d672
+index.html:723 probablyPrime times = 70480
+index.html:724 time used : 128243 ms 
+index.html:725 !!! find prime = 11838513046137088000 for 0x132822e93fA60BAA9e4aa96DB18edE2fE78Eb5Cb
+index.html:723 probablyPrime times = 1
+index.html:724 time used : 6 ms 
+index.html:725 !!! find prime = 638369423 for 0xc5bDe54675cb5D3208461b0ce72bc7A03F93c04d
+probablyPrime times = 290904
+index.html:725 time used : 525218 ms 
+index.html:726 !!! find prime = 279253837486807360 for 0x0ae52Bd9821652c9b11EbD2b679ADa3598555fF0
