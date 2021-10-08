@@ -298,8 +298,6 @@ index.html:724 time used : 42476 ms
 index.html:725 !!! find prime = 29596413799768840000 for 0xbA06d307F1Fae004e2091c319f1F41e1a7CEAE8b
 probablyPrime times = 123836
 index.html:724 time used : 576994 ms 
-probablyPrime times = 123836
-index.html:724 time used : 576994 ms 
 index.html:725 !!! find prime = 19788319662494548 for 0xA0D5867219DB32A8416Ea570D5957711Adc7F2A4
 index.html:723 probablyPrime times = 1
 index.html:724 time used : 6 ms 
