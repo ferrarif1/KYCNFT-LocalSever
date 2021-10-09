@@ -30,7 +30,7 @@
       */
       
       var KYCManager;
-      var KYCManagerAddress = "0x6D847221B1cF6c4d2bfDb3956073A430240f2512";
+      var KYCManagerAddress = "0x9A6E6d30Eb9aEef4e613FDC94Dc561b728915eC7";
       
       var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
@@ -547,8 +547,7 @@
    function Test(){//start
 
     var coins = new Array();
-    /*  目前加入数量>7会出错  */
-     for(i=0; i < 10; i++) {//第0-4地址hash加入数组
+     for(i=0; i < 10; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
     }
@@ -558,7 +557,7 @@
       BigNumber(5),
     ]*/
     var addrNotIn = hashToPrime(testAddr[15])
-    const generator = new BigNumber(2);//982451653
+    const generator = new BigNumber(982451653);//982451653
     accumulator = generator;
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//加入累加器

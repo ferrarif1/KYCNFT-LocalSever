@@ -18,7 +18,7 @@ contract KYCManager is Ownable {
   //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
   
   //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
-  //KYCManager：0x6D847221B1cF6c4d2bfDb3956073A430240f2512
+  
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
  
@@ -74,7 +74,8 @@ contract KYCManager is Ownable {
    //create是owner权限
   function createNFTidToManagerAddr(uint NFTid, address manager) public onlyOwner {
     NFTidToOwner[NFTid] = manager;
-    OwnerToUserData[manager] = UserData(NFTid, '1');
+    OwnerToUserData[manager].NFTid = NFTid;
+    OwnerToUserData[manager].accumulator = "1";
   }  
    //modify是Manager addr权限
   function modifyNFTidToManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
