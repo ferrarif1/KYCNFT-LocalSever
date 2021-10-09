@@ -442,7 +442,7 @@
          console.log('**** x2 = '+ x.toNumber() + " temp = " +  temp.toNumber() + " r2 = " + r.toNumber() + " q2 = " +  q.toNumber() );
        }
        console.log('get proof x = '+ x.toNumber() + " r = " + r.toNumber() + " q = " +  q.toNumber());
-       return new RSAaccumulatorProof(value, q, r, x);
+       return new RSAaccumulatorProof2(value, q, r, x);
      }
 
      static checkInclusionProof2(generator, accumulator, proof){
@@ -482,15 +482,15 @@
    
    
 
-   /*
-    class RSAaccumulatorProof{
+   
+    class RSAaccumulatorProof2{
          constructor(value,q,r,x){
            this.value=value;
            this.q=q;
            this.r=r;
            this.x=x;
          }
-    }*/
+    }
      /*
      简洁版
      */
@@ -538,26 +538,29 @@
      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }
 
-   
+   /******************************* Test Accumulator  **********************************************/
     var averageLoopTimes = 0
     var averageFindTime = 0 
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
-
+   
    function Test(){//start
 
-    var coins = new Array();
-     for(i=0; i < 10; i++) {
-      var addrToPrime = hashToPrime(testAddr[i])
-      coins[i] = addrToPrime
-    }
-   /* var coins = [
+    
+    var coins = [
       BigNumber(2),
       BigNumber(3),
       BigNumber(5),
-    ]*/
+      BigNumber(7),
+    ]
+   /* var coins = new Array();
+     for(i=0; i < 7; i++) {
+      var addrToPrime = hashToPrime(testAddr[i])
+      coins[i] = addrToPrime
+    }
+    */
     var addrNotIn = hashToPrime(testAddr[15])
-    const generator = new BigNumber(982451653);//982451653
+    const generator = new BigNumber(11);//982451653
     accumulator = generator;
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//加入累加器
@@ -570,12 +573,12 @@
     // accumulator = RSAaccumulator.deleteItemFromAccumulator(coins, generator, accumulator, coins[1]);
     // console.log("accumulator delete after " + coins[1] + " is " + accumulator)
  
-    const proof = RSAaccumulator.getProof(
+    const proof1 = RSAaccumulator.getProof(
         coins,
         coins[2],
         generator
     )
-    if(RSAaccumulator.checkInclusionProof(accumulator, proof) == false){
+    if(RSAaccumulator.checkInclusionProof(accumulator, proof1) == false){
         console.log("Wrong proof1")
     }else{
         console.log("Right proof1")
@@ -591,7 +594,46 @@
     }else{
         console.log("Right proof2")
     }
+     
 
+    //test rn
+   console.log("test rn 1 ################################")
+
+
+   let q2 = powInMod(BigNumber(1), BigNumber(2), N)
+                   .times(BigNumber(5))
+                   .mod(N)
+   console.log("q2 = " + q2)
+
+
+   const proof = RSAaccumulator.getProof2(
+        coins,
+        coins[2],
+        generator,
+        accumulator);
+    if(RSAaccumulator.checkInclusionProof2(generator, accumulator, proof) == false){
+        console.log("Wrong proof")
+    }else{
+        console.log("Right proof")
+    }
+   let h = powInMod(generator, proof.value, N)
+   let B = RSAaccumulator.hash(h.plus(accumulator))
+   let resultx =  powInMod(proof.q, B, N)
+   console.log("q^B = " + resultx.toNumber())
+   console.log("g^vr = " + powInMod(generator, proof.r.times(proof.value), N).toNumber())
+   console.log("q^B * g^vr = " + powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value), N)).mod(N).toNumber())
+   console.log("g^x = " + powInMod(generator, proof.x, N).mod(N).toNumber())
+   console.log("q^B * g^(vr+x) = " + powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).toNumber())
+   console.log("accumulator = " + accumulator.toNumber())
+
+   if(powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).eq(accumulator)){
+           return true;
+       }else{
+           return false;
+       }
+
+   console.log("test rn 2 ################################")
+    //test rn
  /*
      //coin[2] 成员证明 Right proof
     const proof = RSAaccumulator.getProof(
