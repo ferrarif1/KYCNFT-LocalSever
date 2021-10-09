@@ -384,7 +384,7 @@
    
     class RSAaccumulator {
       
-      static updateAccumulator(accumulator, value) {
+      static addItemToAccumulator(accumulator, value) {
         return powInMod(accumulator, value, N);
       }
 
@@ -397,11 +397,11 @@
         //  then returnValue become the new accumulator c‘,c' do not have y
         let p1 = accumulator
         let wit = generator
-        console.log("wit before" + wit)
+        //console.log("wit before" + wit)
         for(i=0; i < coins.length; i++) {
           if(coins[i].toNumber() != valueToDelete.toNumber()){
-            wit = RSAaccumulator.updateAccumulator(wit, coins[i]);
-            console.log("wit add after" + coins[i] + " is " + wit)
+            wit = RSAaccumulator.addItemToAccumulator(wit, coins[i]);
+           // console.log("wit add after" + coins[i] + " is " + wit)
           } 
         }
         let p2 =  wit
@@ -416,53 +416,6 @@
         return new BigNumber(hash);
       }
      
-
-     static getProof2(setValues, value, generator, accumulator){
-      
-       // calcute (q,r,x). it satisfies q**B * g**(vr)* g**x == A
-       // h = generator^value, B = hash(h+accumulator) ,
-       let h = powInMod(generator, value, N);
-       let B = RSAaccumulator.hash(h.plus(accumulator));
-       let q = BigNumber(1);
-       let r = BigNumber(0);
-       let x = BigNumber(1);
-       console.log("@@@@@@ h = " + h )
-       for(let i = 0; i < setValues.length; i++){
-         let x2 = (x.times(setValues[i])).mod(value);
-         let temp = ((x.times(setValues[i])).div(value))
-                     .plus(r.times(setValues[i]))
-                     .integerValue(BigNumber.ROUND_FLOOR);
-         let r2 = temp.mod(B);
-         let q2 = powInMod(BigNumber(1), setValues[i], N)
-                   .times(powInMod(h, (temp.div(B)).integerValue(BigNumber.ROUND_FLOOR), N))
-                   .mod(N);
-         x = x2;
-         r = r2;
-         q = q2;
-         console.log('**** x2 = '+ x.toNumber() + " temp = " +  temp.toNumber() + " r2 = " + r.toNumber() + " q2 = " +  q.toNumber() );
-       }
-       console.log('get proof x = '+ x.toNumber() + " r = " + r.toNumber() + " q = " +  q.toNumber());
-       return new RSAaccumulatorProof2(value, q, r, x);
-     }
-
-     static checkInclusionProof2(generator, accumulator, proof){
-       let h = powInMod(generator, proof.value, N);
-       let B = RSAaccumulator.hash(h.plus(accumulator));
-       if(!proof.x.eq(0)){
-         return false;
-       }
-       if(proof.r.comparedTo(0) <= 0 || B.comparedTo(proof.r) <= 0){
-         return false;
-       }
-       if(powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).eq(accumulator)){
-           return true;
-       }else{
-           return false;
-       }
-     }
-      /*
-     简洁版
-     */
       static getProof(setValues, value, generator){
        let proofvalue = generator;
        for(let i = 0; i < setValues.length; i++){
@@ -470,30 +423,16 @@
             proofvalue = powInMod(proofvalue, setValues[i], N);
          }
        }
-       console.log("proofvalue = " + proofvalue + " value = " + value)
+       //console.log("proofvalue = " + proofvalue + " value = " + value)
        return new RSAaccumulatorProof(value, proofvalue);
      }
 
      static checkInclusionProof(accumulator, proof){
-       console.log("proofvalue = " + proof.proof + " value = " + proof.value)
+       //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
        return accumulator.eq(powInMod(proof.proof,proof.value,N))
      }
    }
    
-   
-
-   
-    class RSAaccumulatorProof2{
-         constructor(value,q,r,x){
-           this.value=value;
-           this.q=q;
-           this.r=r;
-           this.x=x;
-         }
-    }
-     /*
-     简洁版
-     */
     class RSAaccumulatorProof{
          constructor(value,proofvalue){
            this.value=value;
@@ -515,7 +454,7 @@
       var w1 = p1.pow(BigNumber(b).toNumber()).mod(n.toNumber())
       var w2 = p2.pow(BigNumber(a).toNumber()).mod(n.toNumber())
       var result = (w1.times(w2.toNumber())).mod(n.toNumber())
-      console.log("w1 = " + w1.toNumber() + " w2 = "+ w2.toNumber() + "w1.times(w2).mod(n) = " + result)
+      //console.log("w1 = " + w1.toNumber() + " w2 = "+ w2.toNumber() + "w1.times(w2).mod(n) = " + result)
       return result
     }
 
@@ -546,42 +485,37 @@
    
    function Test(){//start
 
-    
+    /*
     var coins = [
       BigNumber(2),
       BigNumber(3),
       BigNumber(5),
       BigNumber(7),
-    ]
-   /* var coins = new Array();
+    ]*/
+    var coins = new Array();
      for(i=0; i < 7; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
     }
-    */
+    //构造累加器
     var addrNotIn = hashToPrime(testAddr[15])
-    const generator = new BigNumber(11);//982451653
+    const generator = new BigNumber(982451653);//982451653
     accumulator = generator;
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//加入累加器
-      accumulator = RSAaccumulator.updateAccumulator(accumulator, coins[i]);
+      accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
       console.log("accumulator add after" + coins[i] + " is " + accumulator)
     }
-
-    //删除coin[8]
-    // console.log("accumulator delete before " + coins[1] + " is " + accumulator)
-    // accumulator = RSAaccumulator.deleteItemFromAccumulator(coins, generator, accumulator, coins[1]);
-    // console.log("accumulator delete after " + coins[1] + " is " + accumulator)
- 
+    //成员证明及验证
     const proof1 = RSAaccumulator.getProof(
         coins,
         coins[2],
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof1) == false){
-        console.log("Wrong proof1")
+        console.log("Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
     }else{
-        console.log("Right proof1")
+        console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
     }
 
     const proof2 = RSAaccumulator.getProof(
@@ -590,76 +524,10 @@
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof2) == false){
-        console.log("Wrong proof2")
+        console.log("Wrong proof2 addrNotIn = " + addrNotIn + " is not in accumulator")
     }else{
-        console.log("Right proof2")
+        console.log("Right proof2 addrNotIn = " + addrNotIn + " is in accumulator")
     }
-     
-
-    //test rn
-   console.log("test rn 1 ################################")
-
-
-   let q2 = powInMod(BigNumber(1), BigNumber(2), N)
-                   .times(BigNumber(5))
-                   .mod(N)
-   console.log("q2 = " + q2)
-
-
-   const proof = RSAaccumulator.getProof2(
-        coins,
-        coins[2],
-        generator,
-        accumulator);
-    if(RSAaccumulator.checkInclusionProof2(generator, accumulator, proof) == false){
-        console.log("Wrong proof")
-    }else{
-        console.log("Right proof")
-    }
-   let h = powInMod(generator, proof.value, N)
-   let B = RSAaccumulator.hash(h.plus(accumulator))
-   let resultx =  powInMod(proof.q, B, N)
-   console.log("q^B = " + resultx.toNumber())
-   console.log("g^vr = " + powInMod(generator, proof.r.times(proof.value), N).toNumber())
-   console.log("q^B * g^vr = " + powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value), N)).mod(N).toNumber())
-   console.log("g^x = " + powInMod(generator, proof.x, N).mod(N).toNumber())
-   console.log("q^B * g^(vr+x) = " + powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).toNumber())
-   console.log("accumulator = " + accumulator.toNumber())
-
-   if(powInMod(proof.q, B, N).times(powInMod(generator, proof.r.times(proof.value).plus(proof.x), N)).mod(N).eq(accumulator)){
-           return true;
-       }else{
-           return false;
-       }
-
-   console.log("test rn 2 ################################")
-    //test rn
- /*
-     //coin[2] 成员证明 Right proof
-    const proof = RSAaccumulator.getProof(
-        coins,
-        coins[2],
-        generator,
-        accumulator);
-    if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof) == false){
-        console.log("Wrong proof1")
-    }else{
-        console.log("Right proof1")
-    }
-     //addrNotIn 成员证明 Wrong proof
-    const proof2 = RSAaccumulator.getProof(
-        coins,
-        addrNotIn,
-        generator,
-        accumulator);
-    if(RSAaccumulator.checkInclusionProof(generator, accumulator, proof2) == false){
-        console.log("Wrong proof2")
-    }else{
-        console.log("Right proof2")
-    }
-*/
-
-   
   
    }
 
