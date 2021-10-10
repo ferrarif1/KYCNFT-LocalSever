@@ -370,27 +370,22 @@
     外人在仅知道N的值的时候，是无法计算出p和q的值的。
     另外，这里为了加强安全性，还特别要求在随机生成p和q的时候，需要保证(p-1)/2和(q-1)/2也是质数。
     这样，n的欧拉函数 f(n) = (p-1)(q-1)只有三个因子2，（p-1）/2，（q-1）/2, 减少了累加器元素与N不互素的概率。
+    由于保证(p-1)/2和(q-1)/2也是质数需要的时间较长，且事实上非必要，因此只寻找满足p，q为素数
     */
     //param 1: N -> public p,q -> private
     //
-    const modNum = generateN();
-    const N = modNum.N;
-    console.log("modNum = ", N)
+    
     function generateN(){
       var p
       var q
       var N1
       var times = 0
       while(1){
-         var ran = 1000 + Math.floor(Math.random() * 10000)
+         var ran = 10000000000 + Math.floor(Math.random() * 1000000000000)
          var ranBN = BigNumber(ran)
          var ranIsprime = probablyPrime(ranBN,10)
          if(ranIsprime == true){
-           var randiv = (ranBN.minus(1)).div(2)
-           var randivIsPrime = probablyPrime(randiv)
-           //both ranBN , (ranBN-1)/2 are primes
-           if(randivIsPrime == true && times == 0){
-             if(times == 0){
+              if(times == 0){
                 p = ranBN
                 times++
              }else{
@@ -398,10 +393,9 @@
                 N1 = p.times(q)
                 break;
              }
-           }
          }
       }
-      return ModNumber(N1,p,q)
+      return new ModNumber(N1,p,q)
     }
     
     class ModNumber{
@@ -412,7 +406,9 @@
          }
     }
 
-
+    const modNum = generateN();
+    const N = (modNum.N).toNumber();
+    console.log("modNum = ", N)
 
 
     function powInMod(a, y, z) {
