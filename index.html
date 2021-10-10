@@ -19,7 +19,7 @@
   </head>
   <body>
     <div id="txStatus"></div>
-    <input type="text" id="inputOwnerAddr" oninput="getOwnerAddr();" onporpertychange="getOwnerAddr();" placeholder="CreateKYCNFT for owner address">
+    <input type="text" id="inputOwnerAddr" oninput="getOwnerAddr();" onporpertychange="getOwnerAddr();" placeholder="inout owner address">
     <button class="createKYCNFTButton btn">CreateKYCNFT</button><br>
     <button class="enableEthereumButton btn">Enable Ethereum</button>
     <button class="sendEthButton btn">Send Eth</button>
@@ -100,7 +100,6 @@
       }
       
        
-      
     /*
        (1) 创建NFT（ owner权限）
     */
@@ -285,7 +284,7 @@
          }
         });
     });
-    
+
     getAccumulatorButton.addEventListener('click', () => {
         getAccumulatorOfOwner(ownerAddr).then(function(result, error) {
          if(error){
@@ -604,7 +603,7 @@
       var start = getTime()
       while(1){
         probablyPrimeTimes++;
-        var lengthChoose = 17
+        var lengthChoose = 18
         var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
           var end = getTime()
