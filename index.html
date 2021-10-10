@@ -364,7 +364,56 @@
           
    
     /********************************************************    Accumulator      **************************************************************************************/
-   
+   /*
+    累加器中的系统参数包括生成元g，两个大质数p和q，模数N = pq 。
+    其中，g和N属于公钥部分，可以公开；N的因式分解，即p和q属于私钥，不能公开。
+    外人在仅知道N的值的时候，是无法计算出p和q的值的。
+    另外，这里为了加强安全性，还特别要求在随机生成p和q的时候，需要保证(p-1)/2和(q-1)/2也是质数。
+    这样，n的欧拉函数 f(n) = (p-1)(q-1)只有三个因子2，（p-1）/2，（q-1）/2, 减少了累加器元素与N不互素的概率。
+    */
+    //param 1: N -> public p,q -> private
+    //
+    const modNum = generateN();
+    const N = modNum.N;
+    console.log("modNum = ", N)
+    function generateN(){
+      var p
+      var q
+      var N1
+      var times = 0
+      while(1){
+         var ran = 1000 + Math.floor(Math.random() * 10000)
+         var ranBN = BigNumber(ran)
+         var ranIsprime = probablyPrime(ranBN,10)
+         if(ranIsprime == true){
+           var randiv = (ranBN.minus(1)).div(2)
+           var randivIsPrime = probablyPrime(randiv)
+           //both ranBN , (ranBN-1)/2 are primes
+           if(randivIsPrime == true && times == 0){
+             if(times == 0){
+                p = ranBN
+                times++
+             }else{
+                q = ranBN
+                N1 = p.times(q)
+                break;
+             }
+           }
+         }
+      }
+      return ModNumber(N1,p,q)
+    }
+    
+    class ModNumber{
+         constructor(N,p,q){
+           this.N=N;
+           this.p=p;
+           this.q=q;
+         }
+    }
+
+
+
 
     function powInMod(a, y, z) {
       let x = BigNumber(1);
@@ -379,9 +428,7 @@
       return x;
     }
 
-    // should be big. And the prime factors of N should be unknown to anyone. 
-    const N = new BigNumber(70368760954879);
-   
+    
     class RSAaccumulator {
       
       static addItemToAccumulator(accumulator, value) {
@@ -499,6 +546,10 @@
     }
     //构造累加器
     var addrNotIn = hashToPrime(testAddr[15])
+    /*
+    
+    */
+    //param 2: generator -> public
     const generator = new BigNumber(982451653);//982451653
     accumulator = generator;
     console.log("accumulator before" + accumulator)
@@ -547,7 +598,7 @@
       while(1){
         probablyPrimeTimes++;
         var lengthChoose = 17
-        var isprime = probablyPrime(addrBN,lengthChoose)
+        var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
           var end = getTime()
           console.log("probablyPrime times = " + probablyPrimeTimes )
