@@ -227,6 +227,29 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "_accumulator",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_modN",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_generator",
+						"type": "string"
+					}
+				],
+				"name": "setUpAccumulator",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "newOwner",
 						"type": "address"
@@ -385,11 +408,11 @@
 			]
 		},
 		"contracts/KYCManager.sol": {
-			"keccak256": "0x2fd4591232ccea86b7cf93354767abf0998e9df6a5e65f2894676daa7f1d7444",
+			"keccak256": "0x6493357ca24e50c6fa3f313595b1212b94a31104731833a1e55ba892662e7c3d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1c9a72d588d41756b52af50b1ef6937dd01cc96ac61afef1ffdf4af1437f8ec1",
-				"dweb:/ipfs/QmSKwvU1rKvVnL1UtGqbmayfmmUZLwenoDR75eoqUNJNiD"
+				"bzz-raw://7fa25cc67aacb1f5fbc7477cbd9cef0f045e82e9c1132f35da65f5ab62ebbbf9",
+				"dweb:/ipfs/QmdGiS65R2jyjYG1KwCmftpRanBWVnDNrCF7TkshcEC5xR"
 			]
 		},
 		"contracts/KYCNFT.sol": {

@@ -14,10 +14,10 @@ contract KYCManager is Ownable {
     struct UserData{
     uint NFTid;
     string accumulator;
+    string modN;
+    string generator;
     }
   //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
-  
-  //KYCNFT：0xfAe53841d623a35851C00F66742768Cf28B01268
   
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
@@ -90,10 +90,18 @@ contract KYCManager is Ownable {
   /*
   （4）Map2:绑定管理地址与累加器
   */
+  function setUpAccumulator(string memory _accumulator,string memory _modN,string memory _generator) public {
+      UserData storage userdata = OwnerToUserData[msg.sender];
+      userdata.accumulator = _accumulator;
+      userdata.modN = _modN;
+      userdata.generator = _generator;
+  }
+  
   function updateAccumulator(string memory _accumulator) public {
       UserData storage userdata = OwnerToUserData[msg.sender];
       userdata.accumulator = _accumulator;
   }
+  
   
   
 

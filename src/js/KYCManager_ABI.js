@@ -221,6 +221,29 @@ var kycManagerABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_accumulator",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_modN",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_generator",
+				"type": "string"
+			}
+		],
+		"name": "setUpAccumulator",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "newOwner",
 				"type": "address"

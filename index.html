@@ -31,7 +31,7 @@
       */
       
       var KYCManager;
-      var KYCManagerAddress = "0x9A6E6d30Eb9aEef4e613FDC94Dc561b728915eC7";
+      var KYCManagerAddress = "0xe0ABBFeD0C089FE32750e342b82B1e95948c8cca";
       
       var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
@@ -100,9 +100,9 @@
       }
       
        
-    /*
+      /*
        (1) 创建NFT（ owner权限）
-    */
+      */
       
        function createKYCNFT(tokenUrl, manager) {
         $("#txStatus").text("Creating KYCNFT on the blockchain. This may take a while...");
@@ -175,6 +175,20 @@
     /*
       （4）Map2:绑定管理地址与累加器（查询管理地址已经有了对应的KYCNFT）
     */
+
+      function setUpAccumulator(Accumulator, modN, generator) {
+        $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
+        
+        return KYCManager.methods.updateAccumulator(Accumulator, modN, generator)
+        .send({ from: web3.eth.accounts[0]})
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully update Manger " + web3.eth.accounts[0] + "to addrOfAccumulator" + addrOfAccumulator + "!");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+
       function updateAccumulator(Accumulator) {
         $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
         
@@ -225,7 +239,6 @@
 	    ownerAddr = document.getElementById("inputOwnerAddr").value;
 		console.log("inputOwnerAddr = " + ownerAddr);
 	}
-
 
 
     const ethereumButton = document.querySelector('.enableEthereumButton');
@@ -382,8 +395,8 @@
     这样，n的欧拉函数 f(n) = (p-1)(q-1)只有三个因子2，（p-1）/2，（q-1）/2, 减少了累加器元素与N不互素的概率。
     由于保证(p-1)/2和(q-1)/2也是质数需要的时间较长，且事实上非必要，因此只寻找满足p，q为素数
     */
-    //param 1: N -> public p,q -> private
-    //
+    //param 1: N -> public 
+    //         p,q -> private
     
     function generateN(){
       var p
