@@ -436,9 +436,9 @@
     const p = (modNum.p);
     const q = (modNum.q);
     const fn = (modNum.fn);
-    console.log("modNum = "+ N + " p = " + p.toNumber()  
-    + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
-    + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
+   // console.log("modNum = "+ N + " p = " + p.toNumber()  
+   // + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
+   // + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
 
 
     function powInMod(a, y, z) {
@@ -461,26 +461,16 @@
         return powInMod(accumulator, value, N);
       }
 
-      static deleteItemFromAccumulator(coins,generator,accumulator,valueToDelete) {
-        //shamirTrick(p1, p2, x, y, n) 
-        // suppose x = 1, delete y from old accumulator c = c^1 = p2^y modn,
-        // p1 = old accumulator, x = 1
-        // p2 = witness of y , y ->going to be deleted
-        //  returnValue^(xy) =  returnValue^(y) = c modn,
-        //  then returnValue become the new accumulator c‘,c' do not have y
-        let p1 = accumulator
-        let wit = generator
-        //console.log("wit before" + wit)
-        for(i=0; i < coins.length; i++) {
-          if(coins[i].toNumber() != valueToDelete.toNumber()){
-            wit = RSAaccumulator.addItemToAccumulator(wit, coins[i]);
-           // console.log("wit add after" + coins[i] + " is " + wit)
-          } 
+      static deleteItemFromAccumulator(accumulator, value ,inclusionProofOfValue) {
+
+        if(RSAaccumulator.checkInclusionProof(accumulator, inclusionProofOfValue) == false){
+           console.log(value.toNumber() + "is not a member of accumulator !" )
+           return accumulator
         }
-        let p2 =  wit
-        let x = BigNumber(1)
-        let y = valueToDelete
-        let newAccumulator = shamirTrick(p1, p2, x, y, N)     
+        //inverse Of value mod fn
+        var inverseOfvalue = modInverse(value,modNum.fn)
+        var newAccumulator = powInMod(accumulator,inverseOfvalue,N)
+        console.log("delete successed !")
         return  newAccumulator
       }
       
@@ -521,9 +511,9 @@
     */
     function modInverse(y, fn){
        const [a, b, g] = extendedGcd(BigNumber(fn), y);
-       console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
-       console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
-       console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
+      // console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
+      // console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
+      // console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
        return result = b.mod(fn);
     }
    
@@ -556,8 +546,8 @@
       const a = BigNumber(0);
       const b = BigNumber(1);
       const gcd = y
-      console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
-      console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
+      //console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+      //console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
       return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
      }
      const [a1, b1, g1] =extendedGcd(y.mod(x), x)
@@ -565,8 +555,8 @@
      const a = b1.minus(BigNumber(ydx).times(a1))
      const b = a1
      const gcd = g1
-     console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
-     console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
+     //console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+     //console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }
 
@@ -638,6 +628,26 @@
     var vn = inverseOfy.times(y).mod(modNum.fn)
     console.log("vn should be 1 ,vn = " + vn)
     console.log("end test modInverse *****************************")
+
+    console.log("start test delete Item *****************************")
+    console.log("delete before = " + accumulator)
+    var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
+    var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
+    console.log("delete after = " + newAccmulatorRight)
+    //same as proof 
+    const proof11 = RSAaccumulator.getProof(
+        coins,
+        coins[2],
+        generator
+    )
+    //should be Wrong
+    if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
+        console.log("Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
+    }else{
+        console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
+    }
+
+    console.log("end test delete Item  *****************************")
   
    }
 
@@ -647,8 +657,6 @@
  
  // hashToPrime 
  //test result see:hashToPrimeTestResult.txt
-    
-
     function hashToPrime(address){
       var addrToHash = web3js.utils.sha3(address)
       var addrBN = BigNumber(addrToHash.substring(0,10))
