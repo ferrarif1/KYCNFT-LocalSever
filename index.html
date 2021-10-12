@@ -418,20 +418,27 @@
              }
          }
       }
-      return new ModNumber(N1,p,q)
+      return new ModNumber(p,q)
     }
     
     class ModNumber{
-         constructor(N,p,q){
-           this.N=N;
+         constructor(p,q){
+           this.N=p.times(q);
            this.p=p;
            this.q=q;
+           this.fn=(q.minus(1)).times(p.minus(1));
          }
     }
 
     const modNum = generateN();
+    //const modNum =  new ModNumber(BigNumber(11),BigNumber(17))
     const N = (modNum.N).toNumber();
-    console.log("modNum = ", N)
+    const p = (modNum.p);
+    const q = (modNum.q);
+    const fn = (modNum.fn);
+    console.log("modNum = "+ N + " p = " + p.toNumber()  
+    + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
+    + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
 
 
     function powInMod(a, y, z) {
@@ -506,13 +513,29 @@
          }
     }
 
+
+
+    /*
+    find y^-1 mod (fn), fn =(p-1)(q-1)
+    a*fn + by = 1   ----->    a*fn + by mod(fn) = by mod(fn) = 1 mod(fn)
+    */
+    function modInverse(y, fn){
+       const [a, b, g] = extendedGcd(BigNumber(fn), y);
+       console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
+       console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
+       console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
+       return result = b.mod(fn);
+    }
    
    
     /*
-
+    
     Shamir's trick: Given n,p1,p2,x,y  s.t. p1^x = p2^y modn, and x,y are relatively primes, you can efficiently find p2^(1/𝑒)mod𝑁. 
     The trick is to compute integers 𝑎,𝑏  s.t. 𝑎.x + 𝑏.y = 1.
     @return returnValue^(xy) = p1^x = p2^y = c modn
+    Detail:
+    returnValue = w1*w2 = p1^b * p2^a modn
+    returnValue^(xy) modn= p1^bxy * p2^axy modn= (p1^x)^by * (p2^y)^ax modn = c^(ax + by)modn = c modn
     */
 
     function shamirTrick(p1, p2, x, y, n) {
@@ -526,23 +549,28 @@
 
     /*
       Extended GCD algorithm.
+      @return a,b,gcd(x,y)
      */
     function extendedGcd(x, y) {
      if (x.isZero()) {
       const a = BigNumber(0);
       const b = BigNumber(1);
       const gcd = y
+      console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+      console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
       return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
      }
      const [a1, b1, g1] =extendedGcd(y.mod(x), x)
-     const ydx = BigNumber(y.div(x))
-     const resb = BigNumber(b1)
-     const a = resb.minus(ydx.times(a1))
+     const ydx = Math.floor(BigNumber(y.div(x)))
+     const a = b1.minus(BigNumber(ydx).times(a1))
      const b = a1
-     const {gcd} = g1
+     const gcd = g1
+     console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+     console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }
 
+   
    /******************************* Test Accumulator  **********************************************/
     var averageLoopTimes = 0
     var averageFindTime = 0 
@@ -552,17 +580,21 @@
    function Test(){//start
 
     /*
+   
     var coins = [
       BigNumber(2),
       BigNumber(3),
       BigNumber(5),
       BigNumber(7),
-    ]*/
-    var coins = new Array();
+    ]
+    */
+     var coins = new Array();
      for(i=0; i < 7; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
     }
+    
+
     //构造累加器
     var addrNotIn = hashToPrime(testAddr[15])
     /*
@@ -598,6 +630,14 @@
     }else{
         console.log("Right proof2 addrNotIn = " + addrNotIn + " is in accumulator")
     }
+    //test modInverse
+    console.log("start test modInverse *****************************")
+    var y = coins[3]
+    console.log("fn = " + modNum.fn.toNumber() + " y = " + y.toNumber())
+    var inverseOfy = modInverse(y,modNum.fn)
+    var vn = inverseOfy.times(y).mod(modNum.fn)
+    console.log("vn should be 1 ,vn = " + vn)
+    console.log("end test modInverse *****************************")
   
    }
 
@@ -616,7 +656,7 @@
       var start = getTime()
       while(1){
         probablyPrimeTimes++;
-        var lengthChoose = 18
+        var lengthChoose = 17
         var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
           var end = getTime()
