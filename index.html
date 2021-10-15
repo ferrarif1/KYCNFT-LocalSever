@@ -12,10 +12,6 @@
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
 
      
-    
-    
-   
-    
   </head>
   <body>
     <div id="txStatus"></div>
@@ -484,6 +480,8 @@
        //console.log("proofvalue = " + proofvalue + " value = " + value)
        return new RSAaccumulatorProof(value, proofvalue);
      }
+    
+
      //检查成员证明
      static checkInclusionProof(accumulator, proof){
        //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
@@ -497,8 +495,6 @@
            this.proof=proofvalue;
          }
     }
-
-
 
     /*
     find y^-1 mod (fn), fn =(p-1)(q-1)
@@ -593,7 +589,7 @@
       accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
       console.log("accumulator add after" + coins[i] + " is " + accumulator)
     }
-    //成员证明及验证
+    //test proof
     const proof1 = RSAaccumulator.getProof(
         coins,
         coins[2],
@@ -615,6 +611,7 @@
     }else{
         console.log("Right proof2 addrNotIn = " + addrNotIn + " is in accumulator")
     }
+   
     //test modInverse
     console.log("start test modInverse *****************************")
     var y = coins[3]
@@ -623,7 +620,7 @@
     var vn = inverseOfy.times(y).mod(modNum.fn)
     console.log("vn should be 1 ,vn = " + vn)
     console.log("end test modInverse *****************************")
-
+   //test delete Item
     console.log("start test delete Item *****************************")
     console.log("delete before = " + accumulator)
     var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
