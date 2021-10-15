@@ -376,7 +376,6 @@
         web3.eth.defaultAccount = web3.eth.accounts[0];
         if(!web3.eth.defaultAccount){
             console.log('Log into metamask');
-            _Connect(callback);
         }else{ 
             // Success
             console.log(`Web3 ETH Account: ${web3.eth.defaultAccount}`);
@@ -456,13 +455,12 @@
 
     
     class RSAaccumulator {
-      
+      //更新累加器
       static addItemToAccumulator(accumulator, value) {
         return powInMod(accumulator, value, N);
       }
-
+      
       static deleteItemFromAccumulator(accumulator, value ,inclusionProofOfValue) {
-
         if(RSAaccumulator.checkInclusionProof(accumulator, inclusionProofOfValue) == false){
            console.log(value.toNumber() + "is not a member of accumulator !" )
            return accumulator
@@ -473,12 +471,9 @@
         console.log("delete successed !")
         return  newAccumulator
       }
-      
-      static hash(value) {
-        const hash = '0x' + Web3.utils.keccak256(value.toString()).toString('hex')
-        return new BigNumber(hash);
-      }
-     
+
+     //获取成员证明
+     //每次更新累加器后重新使用原始数据生成证明
       static getProof(setValues, value, generator){
        let proofvalue = generator;
        for(let i = 0; i < setValues.length; i++){
@@ -489,7 +484,7 @@
        //console.log("proofvalue = " + proofvalue + " value = " + value)
        return new RSAaccumulatorProof(value, proofvalue);
      }
-
+     //检查成员证明
      static checkInclusionProof(accumulator, proof){
        //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
        return accumulator.eq(powInMod(proof.proof,proof.value,N))
@@ -520,7 +515,7 @@
    
     /*
     
-    Shamir's trick: Given n,p1,p2,x,y  s.t. p1^x = p2^y modn, and x,y are relatively primes, you can efficiently find p2^(1/𝑒)mod𝑁. 
+    Shamir's trick:
     The trick is to compute integers 𝑎,𝑏  s.t. 𝑎.x + 𝑏.y = 1.
     @return returnValue^(xy) = p1^x = p2^y = c modn
     Detail:
@@ -648,7 +643,7 @@
     }
 
     console.log("end test delete Item  *****************************")
-  
+    
    }
 
 
@@ -737,6 +732,8 @@
       var now = Date.now();
       return now 
     }
+
+
   
     </script>
   </body>
