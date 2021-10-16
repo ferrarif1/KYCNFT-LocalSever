@@ -431,9 +431,9 @@
     const p = (modNum.p);
     const q = (modNum.q);
     const fn = (modNum.fn);
-   // console.log("modNum = "+ N + " p = " + p.toNumber()  
-   // + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
-   // + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
+    console.log("modNum = "+ N + " p = " + p.toNumber()  
+    + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
+    + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
 
 
     function powInMod(a, y, z) {
@@ -502,10 +502,16 @@
     */
     function modInverse(y, fn){
        const [a, b, g] = extendedGcd(BigNumber(fn), y);
-      // console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
-      // console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
-      // console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
-       return result = b.mod(fn);
+       console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
+       console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
+       console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
+       let result = b.mod(fn)
+       console.log("mod inverse result 1= " + result.toNumber())
+       while(result.lt(0)){
+        result = result.plus(fn)
+       }
+       console.log("mod inverse result 2= " + result.toNumber())
+       return result;
     }
    
    
@@ -614,13 +620,15 @@
    
     //test modInverse
     console.log("start test modInverse *****************************")
-    var y = coins[3]
+    var y = coins[2]
     console.log("fn = " + modNum.fn.toNumber() + " y = " + y.toNumber())
     var inverseOfy = modInverse(y,modNum.fn)
     var vn = inverseOfy.times(y).mod(modNum.fn)
     console.log("vn should be 1 ,vn = " + vn)
     console.log("end test modInverse *****************************")
-   //test delete Item
+
+
+    //test delete Item
     console.log("start test delete Item *****************************")
     console.log("delete before = " + accumulator)
     var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
@@ -648,15 +656,16 @@
  
  
  // hashToPrime 
- //test result see:hashToPrimeTestResult.txt
+ //test result:hashToPrimeTestResult.txt
     function hashToPrime(address){
+      //lengthChoose 包含了前两位0x，实际对应15位16进制数
+      const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
-      var addrBN = BigNumber(addrToHash.substring(0,10))
+      var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
       var probablyPrimeTimes = 0
       var start = getTime()
       while(1){
         probablyPrimeTimes++;
-        var lengthChoose = 17
         var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
           var end = getTime()

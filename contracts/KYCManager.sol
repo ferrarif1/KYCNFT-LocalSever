@@ -77,7 +77,7 @@ contract KYCManager is Ownable {
     OwnerToUserData[manager].NFTid = NFTid;
     OwnerToUserData[manager].accumulator = "1";
   }  
-   //modify是Manager addr权限
+   //modify是Manager addr权限， 防止provider密钥被盗用户受影响
   function modifyNFTidToManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
     address oldmanager = NFTidToOwner[NFTid];
     UserData storage userdata = OwnerToUserData[oldmanager];
