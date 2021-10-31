@@ -284,7 +284,9 @@
     });
     
     updateAccumulatorButton.addEventListener('click', () => {
-          updateAccumulator(accumulator.toString()).then(function(result, error) {
+         //test
+         //accumulator = BigNumber("25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784406918290641249515082189298559149176184502808489120072844992687392807287776735971418347270261896375014971824691165077613379859095700097330459748808428401797429100642458691817195118746121515172654632282216869987549182422433637259085141865462043576798423387184774447920739934236584823824281198163815010674810451660377306056201619676256133844143603833904414952634432190114657544454178424020924616515723350778707749817125772467962926386356373289912154831438167899885040445364023527381951378636564391212010397122822120720357")
+         updateAccumulator(accumulator.toString()).then(function(result, error) {
          if(error){
            console.log(error)
          }
@@ -389,32 +391,15 @@
     另外，这里为了加强安全性，还特别要求在随机生成p和q的时候，需要保证(p-1)/2和(q-1)/2也是质数。
     这样，n的欧拉函数 f(n) = (p-1)(q-1)只有三个因子2，（p-1）/2，（q-1）/2, 减少了累加器元素与N不互素的概率。
     由于保证(p-1)/2和(q-1)/2也是质数需要的时间较长，且事实上非必要，因此只寻找满足p，q为素数
+
+    N的生成
+    该系统的一个缺点是它需要模数N是两个素数的乘积，但Alice必须不知道这些因子。那里有两种方法。
+    Bob可以自己生成 N 并要求Alice用它来证明，这样Bob就能信任证明结果。但Bob可以利用他的因子来伪造累加器和证据，因此其他人不会信任这样的结果，并且Alice有否定权。
+    但我们真正想要的是公开使用该系统，为此我们需要一个值得信赖的启动。这意味着某些计算机必须从随机因素中生成 N，并忘记这些因子。如果有人认为这些因素没有被任何人保存，那么他就可以信任该系统。
+
     */
     //param 1: N -> public 
-    //         p,q -> private
-    
-    function generateN(){
-      var p
-      var q
-      var N1
-      var times = 0
-      while(1){
-         var ran = 10000000000 + Math.floor(Math.random() * 1000000000000)
-         var ranBN = BigNumber(ran)
-         var ranIsprime = probablyPrime(ranBN,10)
-         if(ranIsprime == true){
-              if(times == 0){
-                p = ranBN
-                times++
-             }else{
-                q = ranBN
-                N1 = p.times(q)
-                break;
-             }
-         }
-      }
-      return new ModNumber(p,q)
-    }
+    //         p,q -> delete
     
     class ModNumber{
          constructor(p,q){
@@ -424,16 +409,18 @@
            this.fn=(q.minus(1)).times(p.minus(1));
          }
     }
-
-    const modNum = generateN();
-    //const modNum =  new ModNumber(BigNumber(11),BigNumber(17))
-    const N = (modNum.N).toNumber();
-    const p = (modNum.p);
-    const q = (modNum.q);
-    const fn = (modNum.fn);
-    console.log("modNum = "+ N + " p = " + p.toNumber()  
-    + "q = " + q.toNumber()  + " p-1 = " + (p.minus(1)).toNumber() 
-    + " q-1 = " + (q.minus(1)).toNumber() + " fn = " + fn.toNumber())
+    /* 找两个大素数p，q，找出N对应的欧拉函数 
+    6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151
+    5210644015679228794060694325390955853335898483908056458352183851018372555735221
+    */
+    const modNum = new ModNumber(BigNumber(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151),BigNumber(5210644015679228794060694325390955853335898483908056458352183851018372555735221));
+    const N = modNum.N;
+    const p = BigNumber(modNum.p);
+    const q = BigNumber(modNum.q);
+    const fn = modNum.fn;
+    console.log("modNum = "+ N + " p = " + p  
+    + "q = " + q + " p-1 = " + (p.minus(1)) 
+    + " q-1 = " + (q.minus(1)) + " fn = " + fn)
 
 
     function powInMod(a, y, z) {
@@ -501,8 +488,8 @@
     a*fn + by = 1   ----->    a*fn + by mod(fn) = by mod(fn) = 1 mod(fn)
     */
     function modInverse(y, fn){
-       const [a, b, g] = extendedGcd(BigNumber(fn), y);
-       console.log("a = " + a.toNumber() + " fn = " + fn.toNumber() + " b = " + b.toNumber() + " y = " + y.toNumber())
+       const [a, b, g] = extendedGcd(fn, y);
+       console.log("a = " + a + " fn = " + fn + " b = " + b + " y = " + y  + " g = " + g)
        console.log("a*fn + by = " + (a.times(fn).plus(b.times(y))).toNumber())
        console.log("b = " + b.toNumber() + " y = " + y.toNumber() + " by mod fn = " + (b.times(y).mod(fn)).toNumber())
        let result = b.mod(fn)
@@ -539,20 +526,27 @@
       @return a,b,gcd(x,y)
      */
     function extendedGcd(x, y) {
+     //console.log("1 x = " + x + " y = " + y)
      if (x.isZero()) {
-      const a = BigNumber(0);
-      const b = BigNumber(1);
+      const a = BigNumber(0)
+      const b = BigNumber(1)
       const gcd = y
-      //console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
-      //console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
+      //console.log("x = " + x + " a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+      //console.log("x = " + x + " ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
       return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
      }
      const [a1, b1, g1] =extendedGcd(y.mod(x), x)
-     const ydx = Math.floor(BigNumber(y.div(x)))
+     //Math.floor在大数时会损失精度，所以改为如下
+     const m1 = y.mod(x)
+     const m2 = y.minus(m1)
+     const ydx = BigNumber(m2.div(x))
+     //const ydx = Math.floor(BigNumber(y.div(x)))
+     //console.log("y.div(x) = " + y.div(x) + " ydx = " + ydx)
      const a = b1.minus(BigNumber(ydx).times(a1))
      const b = a1
      const gcd = g1
      //console.log("a = " + a.toNumber() + " b = " + b.toNumber()  + " gcd = " + gcd.toNumber())
+     //console.log("2 x = " + x + " y = " + y)
      //console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }
@@ -575,10 +569,18 @@
       BigNumber(7),
     ]
     */
-     var coins = new Array();
-     for(i=0; i < 7; i++) {
+    var coins = new Array();
+    for(i=0; i < 7; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
+    }
+
+    var coinswithout2 = new Array();
+    for(i=0; i < 7; i++) {
+      if(i != 2){
+        var addrToPrime = hashToPrime(testAddr[i])
+        coins[i] = addrToPrime
+      }
     }
     
 
@@ -634,9 +636,8 @@
     var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
     var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
     console.log("delete after = " + newAccmulatorRight)
-    //same as proof 
     const proof11 = RSAaccumulator.getProof(
-        coins,
+        coinswithout2,
         coins[2],
         generator
     )
@@ -739,8 +740,6 @@
       return now 
     }
 
-
-  
     </script>
   </body>
 </html>

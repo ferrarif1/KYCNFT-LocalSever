@@ -76,4 +76,4 @@ https://goerli.etherscan.io/tx/0xb8ef7255f5dc4583dba7d292f09ec279d7934d4fdec5660
 https://goerli.etherscan.io/tx/0x64eb03879c6f4431bbe09260ed883310d5b455d9c4015464f2e966f549f5e8ac
 
 累加器相关的绑定，查询都测试通过
-Todo：存在一个问题，是否应该限制一个用户只有一个NFTid所有权？
+
