@@ -396,7 +396,8 @@
     该系统的一个缺点是它需要模数N是两个素数的乘积，但Alice必须不知道这些因子。那里有两种方法。
     Bob可以自己生成 N 并要求Alice用它来证明，这样Bob就能信任证明结果。但Bob可以利用他的因子来伪造累加器和证据，因此其他人不会信任这样的结果，并且Alice有否定权。
     但我们真正想要的是公开使用该系统，为此我们需要一个值得信赖的启动。这意味着某些计算机必须从随机因素中生成 N，并忘记这些因子。如果有人认为这些因素没有被任何人保存，那么他就可以信任该系统。
-
+     
+    我们让第三方的provider来设置N，这样用户和验证者都不知道p,q
     */
     //param 1: N -> public 
     //         p,q -> delete
@@ -666,7 +667,10 @@
  // hashToPrime 
  //test result:hashToPrimeTestResult.txt
     function hashToPrime(address){
-      //lengthChoose 包含了前两位0x，实际对应15位16进制数
+      //lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
+      //ln(18446744073709552000) = 44, 由素数定理得素数大概有  n/ln（n） = 4.19244183e17 个
+      //平均需要 4e17 次测试才能碰撞出相同素数，一次测试平均又需要循环1000次，js语言下耗时1000ms，故需4e17秒才能碰撞出一个相同素数
+      //假设用户加入10个地址到累加器，那么攻击者需要碰撞4e17 / 10 = 4e16秒 = 18446744073709552000/（44*10*3600*24*365）=1.32e9年
       const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
