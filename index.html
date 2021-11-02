@@ -594,13 +594,9 @@
 
     //构造累加器
     var addrNotIn = hashToPrime(testAddr[15])
-    /*
-    
-    */
     //param 2: generator -> public 【provider set】
     const generator = new BigNumber(65537);//由于只在累加器构建时有指数运算运算，相比寻找素数的时间短得多，因此选择较小g提高效率的幅度可忽略
-    const salt = new BigNumber(5210644015679228794060694325390955853335898483908056458352183851018372555735221);
-    accumulator = powInMod(generator,salt,N);
+    accumulator = generator;
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//加入累加器
       accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
@@ -640,7 +636,7 @@
 
 
     //test delete Item
-    console.log("start test delete Item *****************************")
+    console.log("start test delete Item ################")
     console.log("delete before = " + accumulator)
     var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
     var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
@@ -657,7 +653,7 @@
         console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
     }
 
-    console.log("end test delete Item  *****************************")
+    console.log("end test delete Item  ################")
     
    }
 
@@ -670,8 +666,8 @@
     function hashToPrime(address){
       //lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
       //ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
-      //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，ξ表示碰撞成功的次数,期望Eξ=np
-      //故平均需要 4e17 次测试才能碰撞出相同素数，一次测试平均又需要循环1000次，js语言下耗时1000ms，故需4e17秒才能碰撞出一个相同素数（c语言平均是js速度的3-5倍）
+      //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，用ξ表示碰撞成功的次数,期望Eξ=np
+      //故平均需要 4e17 次测试才能碰撞出目标素数，一次测试平均又需要循环1000次，js语言下地址映射素数平均耗时1000ms，故需4e17秒才能碰撞出一个相同素数
       //假设用户加入10个地址到累加器，那么攻击者需要碰撞4e17 / 10 = 4e16秒 = 18446744073709552000/（44*10*3600*24*365）=1.32e9年
       //以上的循环次数是指对地址不断sha3并进行素数测试，因为每次地址试探包括：1私钥生成地址，2.地址hash素数 ，地址hash素数的时间远远大于前者
       //符合计算安全性 
