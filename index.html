@@ -397,10 +397,27 @@
     但我们真正想要的是公开使用该系统，为此我们需要一个值得信赖的启动。这意味着某些计算机必须从随机因素中生成 N，并忘记这些因子。如果有人认为这些因素没有被任何人保存，那么他就可以信任该系统。
     
     我们让第三方的provider来设置N，这样用户和验证者都不知道p,q，
-    fn足够大，且限定只有2，和另外两个素数因子
+    ****************** fn为什么需要private？ ******************
+    see:  https://crypto.stackexchange.com/questions/5791/why-is-it-important-that-phin-is-kept-a-secret-in-rsa
+    From the definition of the totient function, we have the relation:
+        𝜑(𝑛)=(𝑝−1)(𝑞−1)=𝑝𝑞−𝑝−𝑞+1=(𝑛+1)−(𝑝+𝑞)
+       It then easily follows that:
+      (𝑛+1)−𝜑(𝑛)=𝑝+𝑞
+      (𝑛+1)−𝜑(𝑛)−𝑝=𝑞
+      And you know from the definition of RSA that:
+      𝑛=𝑝𝑞
+      Substituting one into the other, you can derive:
+      𝑛=𝑝(𝑛+1−𝜑(𝑛)−𝑝)=−𝑝2+(𝑛+1−𝜑(𝑛))𝑝
+      With some rearranging, we obtain:
+      一元二次方程
+      𝑝2−(𝑛+1−𝜑(𝑛))𝑝+𝑛=0
+      This is a quadratic equation in 𝑝, with:
+      Which can be readily solved using the well-known quadratic formula
+      Because of symmetry, the two solutions for 𝑝 will in fact be the two prime factors of 𝑛.
+     *********************************************************** 所以不做累加器删除
     */
     //param 1: N -> public 【provider set】
-    //         p,q -> delete ，fn-> public
+    //         p,q -> delete ，fn-> private
     
     class ModNumber{
          constructor(p,q){
