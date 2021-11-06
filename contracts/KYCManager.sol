@@ -19,8 +19,12 @@ contract KYCManager is Ownable {
   
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
- 
- 
+
+  //trusted set up
+  string public n;
+  string public fn;
+  string public g;
+
   //NFTid到管理者地址
   mapping(uint => address) private NFTidToOwner;
   //管理者地址到累加器
@@ -34,7 +38,15 @@ contract KYCManager is Ownable {
       require(msg.sender == NFTidToOwner[_NFTid]);
       _;
   }
-  
+
+/*
+set n, fn, g
+*/
+  function setUpParams(string memory sn,string memory sfn,string memory sg) public onlyOwner {
+    n = sn;
+    fn = sfn;
+    g = sg;
+  }
   
   /*
    (1) 创建NFT（ owner权限）
@@ -88,17 +100,11 @@ contract KYCManager is Ownable {
   /*
   （4）Map2:绑定管理地址与累加器
   */
-  function setUpAccumulator(string memory _accumulator) public {
-      UserData storage userdata = OwnerToUserData[msg.sender];
-      userdata.accumulator = _accumulator;
-  }
-  
+
   function updateAccumulator(string memory _accumulator) public {
       UserData storage userdata = OwnerToUserData[msg.sender];
       userdata.accumulator = _accumulator;
   }
-  
-  
   
 
    /*
