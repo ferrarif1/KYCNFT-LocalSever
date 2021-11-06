@@ -22,7 +22,6 @@ contract KYCManager is Ownable {
 
   //trusted set up
   string public n;
-  string public fn;
   string public g;
 
   //NFTid到管理者地址
@@ -40,11 +39,10 @@ contract KYCManager is Ownable {
   }
 
 /*
-set n, fn, g
+set n, g
 */
-  function setUpParams(string memory sn,string memory sfn,string memory sg) public onlyOwner {
+  function setUpParams(string memory sn, string memory sg) public onlyOwner {
     n = sn;
-    fn = sfn;
     g = sg;
   }
   
