@@ -389,7 +389,7 @@
     其中，g和N属于公钥部分，可以公开；N的因式分解，即p和q属于私钥，不能公开。
     外人在仅知道N的值的时候，是无法计算出p和q的值的。
     另外，这里为了加强安全性，还特别要求在随机生成p和q的时候，需要保证(p-1)/2和(q-1)/2也是质数。
-    这样f（n）公开将无法进行因子分解
+   
 
     N的生成
     该系统的一个缺点是它需要模数N是两个素数的乘积，但Alice必须不知道这些因子。那里有两种方法。
@@ -424,7 +424,8 @@
            this.N=p.times(q);
            this.p=p;
            this.q=q;
-           this.fn=(q.minus(1)).times(p.minus(1));
+           //this.fn=(q.minus(1)).times(p.minus(1));
+           this.fn = this.N;
          }
     }
     /* 找两个大素数p，q，找出N对应的欧拉函数 
@@ -646,7 +647,7 @@
     //test modInverse
     console.log("start test modInverse *****************************")
     var y = coins[2]
-    console.log("fn = " + modNum.fn.toNumber() + " y = " + y.toNumber())
+    console.log("fn = " + modNum.fn + " y = " + y.toNumber())
     var inverseOfy = modInverse(y,modNum.fn)
     var vn = inverseOfy.times(y).mod(modNum.fn)
     console.log("vn should be 1 ,vn = " + vn)
@@ -672,14 +673,30 @@
     }
 
     console.log("end test delete Item  ################")
-    
+    var xp = BigNumber(18446744073709552000).div(BigNumber(44))
+    var xx = BigNumber(BigNumber(3600).times(BigNumber(24))).times(BigNumber(365))
+    console.log("xp = " + xp + " xx = " + xx)
+    var xs = xp.div(xx)
+    console.log("xs = " + xs)
+    /*
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    var pp = BigNumber(1).div(BigNumber(400000000000000000))
+    console.log("pp = " + pp)
+    var qp = BigNumber(1).minus(pp)
+    console.log("qp = " + qp)
+    var xx = qp.pow(BigNumber(100000))
+    console.log("xx = " + xx)
+    var re = BigNumber(1).minus(xx)
+    console.log("P（运行100000次会成功的概率） = " + re)
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    */
    }
 
 
     Test()
  
  
- // hashToPrime 
+ // hashToPrime
  //test result:hashToPrimeTestResult.txt
     function hashToPrime(address){
       //lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
@@ -695,6 +712,7 @@
 
       const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
+      console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
       var probablyPrimeTimes = 0
       var start = getTime()
@@ -702,6 +720,7 @@
         probablyPrimeTimes++;
         var isprime = probablyPrime(addrBN,10)
         if(isprime == true){
+          console.log("is : " + addrToHash)
           var end = getTime()
           console.log("probablyPrime times = " + probablyPrimeTimes )
           console.log("time used : " + (end-start) + " ms ")
