@@ -584,7 +584,7 @@
     var averageFindTime = 0 
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
-   
+   const NumberOfElements = 80
    function Test(){//start
 
     /*
@@ -597,13 +597,13 @@
     ]
     */
     var coins = new Array();
-    for(i=0; i < 7; i++) {
+    for(i=0; i < NumberOfElements; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
     }
 
     var coinswithout2 = new Array();
-    for(i=0; i < 7; i++) {
+    for(i=0; i < NumberOfElements; i++) {
       if(i != 2){
         var addrToPrime = hashToPrime(testAddr[i])
         coins[i] = addrToPrime
@@ -621,6 +621,11 @@
       accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
       console.log("accumulator add after" + coins[i] + " is " + accumulator)
     }
+    console.log("averageFindTime = "+averageFindTime/NumberOfElements)
+    console.log("averageLoopTimes = "+averageLoopTimes/NumberOfElements)
+    console.log("loggestFindTime = "+loggestFindTime)
+    console.log("shortestFindTime = "+shortestFindTime)
+
     //test proof
     const proof1 = RSAaccumulator.getProof(
         coins,
@@ -710,7 +715,7 @@
       //（2）破译该密码系统所需要的计算时间超过被加密信息有用的生命周期。例如，战争中发起战斗攻击的作战命令只需要在战斗打响前需要保密；重要新闻消息在公开报道前需要保密的时间往往也只有几个小时。
       //（3）破译该密码系统的费用超过被加密信息本身的价值。 
 
-      const lengthChoose = 17
+      const lengthChoose = 18
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
@@ -729,6 +734,7 @@
           averageLoopTimes += probablyPrimeTimes
           loggestFindTime = (end - start)>loggestFindTime?(end - start):loggestFindTime
           shortestFindTime = (end - start)<shortestFindTime?(end - start):shortestFindTime
+          
           break;
         }else{
           var addrToHash = web3js.utils.sha3(addrToHash)
