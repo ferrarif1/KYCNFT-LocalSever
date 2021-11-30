@@ -501,12 +501,59 @@
        //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
        return accumulator.eq(powInMod(proof.proof,proof.value,N))
      }
+     /*
+     第二种证明构造  ****** 仅支持较小元素，太大的会超限 *******
+     h = g^v, z = h^x, B = hash(h+z)
+     b = h^(floor(x/B)), r = x mod B
+     check: b^B * h^r = h^(B*floor(x/B) + (x modB)) = h^x = z
+     */
+     static getProof2(setValues, value, generator){
+       let h = BigNumber(generator).pow(value)
+       let x = BigNumber(1)
+       let z = BigNumber(1)
+       for(let i = 0; i < setValues.length; i++){
+         if(!setValues[i].eq(value)){
+            x = x.times(setValues[i])
+         }
+       }//z=h^x mod N
+       z = powInMod(h, x, N)
+       let m = BigNumber(h).plus(z)
+       console.log("m = "+m)
+       let B = BigNumber(web3js.utils.sha3(m.toString())).mod(123456789)
+       const m1 = x.mod(B)
+       const m2 = x.minus(m1)
+       const fl = BigNumber(m2.div(B))
+       let b = BigNumber(h).pow(fl)
+       let r = x.mod(B) 
+       console.log("h = " + h + " x = "+ x + " z = "+ z + " B = "+ B + " fl = "+ fl + " b = "+ b + " r = "+ r)
+       return new RSAaccumulatorProof2(value, b, z, r)
+     }
+
+     static checkInclusionProof2(generator, value, proof2){
+       let p2 = proof2
+       let h = BigNumber(generator).pow(value)
+       let m = BigNumber(h).plus(p2.z)
+       let B = BigNumber(web3js.utils.sha3(m.toString())).mod(123456789)
+       let x1 = BigNumber(p2.b).pow(B)
+       let x2 = BigNumber(h).pow(p2.r)
+       let result = (BigNumber(x1).times(x2)).mod(N)
+       console.log("h = "+ h + " x1 = "+ x1 + " x2 = "+ x2 + " result = "+ result + " p2.z = "+ p2.z)
+       return result.eq(p2.z)
+     }
    }
    
     class RSAaccumulatorProof{
          constructor(value,proofvalue){
            this.value=value;
            this.proof=proofvalue;
+         }
+    }
+     class RSAaccumulatorProof2{
+         constructor(value,b,z, r){
+           this.value=value;
+           this.b=b;
+           this.z=z;
+           this.r=r;
          }
     }
 
@@ -577,14 +624,15 @@
      //console.log("ax + by = " + (a.times(x).plus(b.times(y))).toNumber())
      return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
     }
- 
+
    
    /******************************* Test Accumulator  **********************************************/
     var averageLoopTimes = 0
     var averageFindTime = 0 
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
-   const NumberOfElements = 80
+    //添加几个钱包地址
+    const NumberOfElements = 10
    function Test(){//start
 
     /*
@@ -596,6 +644,15 @@
       BigNumber(7),
     ]
     */
+    var littleCoins = [
+      BigNumber(2),
+      BigNumber(3),
+      BigNumber(5),
+      BigNumber(7), 
+      BigNumber(11),
+      BigNumber(13),
+    ]
+
     var coins = new Array();
     for(i=0; i < NumberOfElements; i++) {
       var addrToPrime = hashToPrime(testAddr[i])
@@ -648,6 +705,21 @@
     }else{
         console.log("Right proof2 addrNotIn = " + addrNotIn + " is in accumulator")
     }
+
+   
+
+   //test proof构造2 ****** 仅支持较小元素，太大的会超限 *******
+    const proofin = RSAaccumulator.getProof2(
+        littleCoins,
+        littleCoins[2],
+        generator
+    )
+     if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[2], proofin) == false){
+        console.log("Wrong prooftype2 littleCoins[2] = " + littleCoins[2] + " is not in accumulator")
+    }else{
+        console.log("Right prooftype2 littleCoins[2] = " + littleCoins[2] + " is in accumulator")
+    }
+
    
     //test modInverse
     console.log("start test modInverse *****************************")
@@ -676,14 +748,17 @@
     }else{
         console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
     }
-
     console.log("end test delete Item  ################")
+
+  
+    /*
+    论文碰撞时间计算
     var xp = BigNumber(18446744073709552000).div(BigNumber(44))
     var xx = BigNumber(BigNumber(3600).times(BigNumber(24))).times(BigNumber(365))
     console.log("xp = " + xp + " xx = " + xx)
     var xs = xp.div(xx)
     console.log("xs = " + xs)
-    /*
+    论文概率计算
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     var pp = BigNumber(1).div(BigNumber(400000000000000000))
     console.log("pp = " + pp)
@@ -715,7 +790,7 @@
       //（2）破译该密码系统所需要的计算时间超过被加密信息有用的生命周期。例如，战争中发起战斗攻击的作战命令只需要在战斗打响前需要保密；重要新闻消息在公开报道前需要保密的时间往往也只有几个小时。
       //（3）破译该密码系统的费用超过被加密信息本身的价值。 
 
-      const lengthChoose = 18
+      const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))

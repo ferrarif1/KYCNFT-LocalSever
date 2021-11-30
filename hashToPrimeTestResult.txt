@@ -4,8 +4,6 @@ Chrome版本 94.0.4606.61（正式版本） (x86_64)
 
 
 
-
-seed = "0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a"
 (1)
 lengthChoose = 17
 平均时长averageFindTime = 2810.4125
