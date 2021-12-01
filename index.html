@@ -399,22 +399,7 @@
     我们让第三方的provider来设置N，这样用户和验证者都不知道p,q，
     ****************** fn为什么需要private？ ******************
     see:  https://crypto.stackexchange.com/questions/5791/why-is-it-important-that-phin-is-kept-a-secret-in-rsa
-    From the definition of the totient function, we have the relation:
-        𝜑(𝑛)=(𝑝−1)(𝑞−1)=𝑝𝑞−𝑝−𝑞+1=(𝑛+1)−(𝑝+𝑞)
-       It then easily follows that:
-      (𝑛+1)−𝜑(𝑛)=𝑝+𝑞
-      (𝑛+1)−𝜑(𝑛)−𝑝=𝑞
-      And you know from the definition of RSA that:
-      𝑛=𝑝𝑞
-      Substituting one into the other, you can derive:
-      𝑛=𝑝(𝑛+1−𝜑(𝑛)−𝑝)=−𝑝2+(𝑛+1−𝜑(𝑛))𝑝
-      With some rearranging, we obtain:
-      一元二次方程
-      𝑝2−(𝑛+1−𝜑(𝑛))𝑝+𝑛=0
-      This is a quadratic equation in 𝑝, with:
-      Which can be readily solved using the well-known quadratic formula
-      Because of symmetry, the two solutions for 𝑝 will in fact be the two prime factors of 𝑛.
-     *********************************************************** 所以不做累加器删除
+    *********************************************************
     */
     //param 1: N -> public 【provider set】
     //         p,q -> delete ，fn-> private
@@ -686,13 +671,13 @@
     //test proof
     const proof1 = RSAaccumulator.getProof(
         coins,
-        coins[2],
+        coins[coins.length-1],
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof1) == false){
-        console.log("Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
+        console.log("Wrong proof1 coins[coins.length] = " + coins[coins.length] + " is not in accumulator")
     }else{
-        console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
+        console.log("Right proof1 coins[coins.length] = " + coins[coins.length] + " is in accumulator")
     }
 
     const proof2 = RSAaccumulator.getProof(
