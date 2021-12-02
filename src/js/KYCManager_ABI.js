@@ -45,44 +45,6 @@ var kycManagerABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "accumulatorOfNFTID",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "managerAddr",
-				"type": "address"
-			}
-		],
-		"name": "accumulatorOfOwner",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "NFTid",
-				"type": "uint256"
-			}
-		],
 		"name": "availableOfNFTid",
 		"outputs": [
 			{
@@ -221,29 +183,6 @@ var kycManagerABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_accumulator",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_modN",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_generator",
-				"type": "string"
-			}
-		],
-		"name": "setUpAccumulator",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "newOwner",
 				"type": "address"
@@ -260,11 +199,134 @@ var kycManagerABI = [
 				"internalType": "string",
 				"name": "_accumulator",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_n",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_g",
+				"type": "uint256"
 			}
 		],
 		"name": "updateAccumulator",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_n",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_g",
+				"type": "uint256"
+			}
+		],
+		"name": "updateAccumulatorPublicKey",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_accumulator",
+				"type": "string"
+			}
+		],
+		"name": "updateAccumulatorValue",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "NFTid",
+				"type": "uint256"
+			}
+		],
+		"name": "userDataOfNFTID",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "NFTid",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "accumulator",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "n",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct KYCManager.UserData",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "managerAddr",
+				"type": "address"
+			}
+		],
+		"name": "userDataOfOwner",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "NFTid",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "accumulator",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "n",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "g",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct KYCManager.UserData",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
