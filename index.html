@@ -10,12 +10,11 @@
     <script language="javascript" type="text/javascript" src="./src/js/KYCNFT_ABI.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/testAddress.js"></script>
     <script language="javascript" type="text/javascript" src="./src/js/bignumber.js"></script>
-
-     
+    
   </head>
   <body>
     <div id="txStatus"></div>
-    <input type="text" id="inputOwnerAddr" oninput="getOwnerAddr();" onporpertychange="getOwnerAddr();" placeholder="inout owner address">
+    <input type="text" id="inputOwnerAddr" oninput="getOwnerAddr();" onporpertychange="getOwnerAddr();" placeholder="input owner address">
     <button class="createKYCNFTButton btn">CreateKYCNFT</button><br>
     <button class="enableEthereumButton btn">Enable Ethereum</button>
     <button class="sendEthButton btn">Send Eth</button>
@@ -25,6 +24,8 @@
       /*
         KYCManager Owner：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
       */
+      // import detectEthereumProvider from '@metamask/detect-provider';
+      
       
       var KYCManager;
       var KYCManagerAddress = "0x92ADbC1067070aBbaa45323d8Cb8c681CA8F2c07";
@@ -33,9 +34,14 @@
       
      
       
-      function startApp() {
+      function startApp(provider) {
+
         console.log(" ******  start App   ******")
-        
+        console.log(" ethereum.isMetaMask = " + ethereum.isMetaMask);
+        console.log(" ethereum.isConnected = " + ethereum.isConnected());
+        if (provider !== window.ethereum) {
+           console.error('Do you have multiple wallets installed?');
+        }
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
         
         //test
@@ -74,7 +80,17 @@
         
       }
       
-      
+      ethereum.on('accountsChanged', (accounts) => {
+       // Handle the new accounts, or lack thereof.
+       // "accounts" will always be an array, but it can be empty.
+     });
+
+      ethereum.on('chainChanged', (chainId) => {
+       // Handle the new chain.
+       // Correctly handling chain changes can be complicated.
+       // We recommend reloading the page unless you have good reason not to.
+       window.location.reload();
+      });
     
        /********************************************************    Call Contract by web3js      **************************************************************************************/
       
@@ -323,9 +339,17 @@
     
     window.addEventListener('load', function() {
 
-       _Connect()
+       //_Connect()
       
-       startApp(); 
+      // startApp(); 
+      const provider = detectEthereumProvider();
+       if (provider) {
+        // From now on, this should always be true:
+        // provider === window.ethereum
+        startApp(provider); // initialize your app
+       } else {
+        console.log('Please install MetaMask!');
+      }
     }) 
      
      
@@ -380,7 +404,7 @@
               
     }
     }
-          
+
    
     /********************************************************    Accumulator      **************************************************************************************/
    /*
