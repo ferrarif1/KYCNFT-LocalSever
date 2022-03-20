@@ -19,7 +19,6 @@ contract KYCManager is Ownable {
     string n;
     uint g;
     }
-  //KYC Provider is owner ：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
   
   address KYCNFTInterFaceAddress = 0xfAe53841d623a35851C00F66742768Cf28B01268;
   KYCNFTInterface kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
