@@ -62,7 +62,7 @@ contract KYCManager is Ownable {
   }
   
   //设置NFT有效性
-  function setNFTAvailable(uint NFTid, bool _available)  public onlyOwner{
+  function setNFTAvailableOfNFTId(uint NFTid, bool _available)  public onlyOwner{
     NFTidToAvailable[NFTid] = _available;
   }
   
@@ -73,12 +73,12 @@ contract KYCManager is Ownable {
   
    */
    //create是owner权限
-  function createNFTidToManagerAddr(uint NFTid, address manager) public onlyOwner {
+  function initManagerAddr(uint NFTid, address manager) public onlyOwner {
     NFTidToOwner[NFTid] = manager;
     OwnerToUserData[manager].NFTid = NFTid;
   }  
    //modify是Manager addr权限， 防止provider密钥被盗用户受影响
-  function modifyNFTidToManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
+  function modifyManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
     address oldmanager = NFTidToOwner[NFTid];
     UserData storage userdata = OwnerToUserData[oldmanager];
     OwnerToUserData[newManager] = userdata;
@@ -115,27 +115,27 @@ contract KYCManager is Ownable {
   */
  
   //由NFTid 找managerAddr地址
-  function ownerOfNFTid(uint NFTid) public view returns(address) {
+  function managerOfNFTId(uint NFTid) public view returns(address) {
       address addr = NFTidToOwner[NFTid];
       return addr;
   }
    //由NFTid 找Accumulator
-  function userDataOfNFTID(uint NFTid) public view returns(UserData memory){
+  function userDataOfNFTId(uint NFTid) public view returns(UserData memory){
       address addr = NFTidToOwner[NFTid];
       UserData memory userdata = OwnerToUserData[addr];
       return userdata;
   }
    //由Manager addr找Accumulator
-  function userDataOfOwner(address managerAddr) public view returns(UserData memory){
+  function userDataOfManager(address managerAddr) public view returns(UserData memory){
       UserData memory userdata = OwnerToUserData[managerAddr];
       return userdata;
   }
   //由NFTid查询有效性
-  function availableOfNFTid(uint NFTid) public view returns(bool){
+  function availableOfNFTId(uint NFTid) public view returns(bool){
       return NFTidToAvailable[NFTid];
   }
   //由Manager addr找由NFTid
-  function NFTidOfOwner(address managerAddr) public view returns(uint){
+  function NFTIdOfManager(address managerAddr) public view returns(uint){
       UserData memory userdata = OwnerToUserData[managerAddr];
       return userdata.NFTid;
   }

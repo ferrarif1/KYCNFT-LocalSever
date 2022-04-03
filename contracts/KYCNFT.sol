@@ -8,9 +8,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 
-contract KYCNFT is ERC721URIStorage {
+contract KYCNFT is ERC721URIStorage,Ownable {
   address public owner = msg.sender;
   uint public last_completed_migration;
+  mapping(uint => uint) public NFTID_To_ExpirationTime;
 /*
   （1）创建NFT（ owner权限）
 
@@ -23,6 +24,7 @@ contract KYCNFT is ERC721URIStorage {
   
     function awardItem(address player, string memory tokenURI)
         external
+        onlyOwner
         returns (uint256) 
     {  
         
@@ -36,6 +38,14 @@ contract KYCNFT is ERC721URIStorage {
         _setTokenURI(newItemId, tokenURI);
 
         return newItemId;
+    }
+
+    function updateExpirationTime(uint tokenId,uint timestamp) onlyOwner{
+        NFTID_To_ExpirationTime[tokenId] = timestamp;
+    }
+
+    function expirationTimeOfNFTId(uint tokenId) public view returns(uint){
+        return NFTID_To_ExpirationTime[tokenId];
     }
   
 }
