@@ -502,7 +502,7 @@
        }
        //console.log("proofvalue = " + proofvalue + " value = " + value)
        return new RSAaccumulatorProof(value, proofvalue);
-     }
+      }
     
 
      //检查成员证明
@@ -520,6 +520,7 @@
        let h = BigNumber(generator).pow(value)
        let x = BigNumber(1)
        let z = BigNumber(1)
+       console.log("****** h = "+ h + "z = " + z)
        for(let i = 0; i < setValues.length; i++){
          if(!setValues[i].eq(value)){
             x = x.times(setValues[i])
@@ -527,6 +528,7 @@
        }//z=h^x mod N
        z = powInMod(h, x, N)
        let m = BigNumber(h).plus(z)
+       console.log("h = "+ h + "z = " + z)
        console.log("m = "+m)
        let B = BigNumber(web3js.utils.sha3(m.toString())).mod(123456789)
        const m1 = x.mod(B)
@@ -538,6 +540,7 @@
        return new RSAaccumulatorProof2(value, b, z, r)
      }
 
+     //check: b^B * h^r = h^(B*floor(x/B) + (x modB)) = h^x = z
      static checkInclusionProof2(generator, value, proof2){
        let p2 = proof2
        let h = BigNumber(generator).pow(value)
@@ -718,17 +721,18 @@
    
 
    //test proof构造2 ****** 仅支持较小元素，太大的会超限 *******
+    console.log("start test proof2 *****************************")
     const proofin = RSAaccumulator.getProof2(
-        littleCoins,
-        littleCoins[2],
+      littleCoins,
+      littleCoins[1],
         generator
     )
-     if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[2], proofin) == false){
-        console.log("Wrong prooftype2 littleCoins[2] = " + littleCoins[2] + " is not in accumulator")
+     if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
+        console.log("proof2 Wrong prooftype2 coins[1] = " + littleCoins[1] + " is not in accumulator")
     }else{
-        console.log("Right prooftype2 littleCoins[2] = " + littleCoins[2] + " is in accumulator")
+        console.log("proof2 Right prooftype2 coins[1] = " + littleCoins[1] + " is in accumulator")
     }
-
+    console.log("end test proof2 *****************************")
    
     //test modInverse
     console.log("start test modInverse *****************************")
@@ -762,24 +766,29 @@
   
     /*
     论文碰撞时间计算
-    var xp = BigNumber(18446744073709552000).div(BigNumber(44))
-    var xx = BigNumber(BigNumber(3600).times(BigNumber(24))).times(BigNumber(365))
-    console.log("xp = " + xp + " xx = " + xx)
-    var xs = xp.div(xx)
-    console.log("xs = " + xs)
-    论文概率计算
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    var pp = BigNumber(1).div(BigNumber(400000000000000000))
-    console.log("pp = " + pp)
-    var qp = BigNumber(1).minus(pp)
-    console.log("qp = " + qp)
-    var xx = qp.pow(BigNumber(100000))
-    console.log("xx = " + xx)
-    var re = BigNumber(1).minus(xx)
-    console.log("P（运行100000次会成功的概率） = " + re)
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+   // lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
+   // ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
+   68719476735 
+   
     */
-   }
+    // var xp = BigNumber(BigNumber(16).pow(BigNumber(9)) - 1).div(BigNumber(24))
+    // var xx = BigNumber(BigNumber(3600).times(BigNumber(24))).times(BigNumber(365))
+    // console.log("xp = " + xp + " xx = " + xx)
+    // var xs = xp.div(xx)
+    // console.log("xs = " + xs + "years")
+    // //论文概率计算
+    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    // var pp = BigNumber(1).div(BigNumber(400000000000000000))
+    // console.log("pp = " + pp)
+    // var qp = BigNumber(1).minus(pp)
+    // console.log("qp = " + qp)
+    // var xx = qp.pow(BigNumber(100000))
+    // console.log("xx = " + xx)
+    // var re = BigNumber(1).minus(xx)
+    // console.log("P（运行100000次会成功的概率） = " + re)
+    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+   } //Test end
 
 
     Test()
@@ -794,11 +803,7 @@
       //故平均需要 4e17 次测试才能碰撞出目标素数，一次测试平均又需要循环1000次，js语言下地址映射素数平均耗时1000ms，故需4e17秒才能碰撞出一个相同素数
       //假设用户加入10个地址到累加器，那么攻击者需要碰撞4e17 / 10 = 4e16秒 = 18446744073709552000/（44*10*3600*24*365）=1.32e9年
       //以上的循环次数是指对地址不断sha3并进行素数测试，每次地址试探包括：1私钥生成地址，2.地址hash素数 ，地址hash素数的时间远远大于前者
-      //符合计算安全性 
-      //（1）破译该密码系统的实际计算量（包括计算时间或费用）十分巨大，以致于在实际上是无法实现的。
-      //（2）破译该密码系统所需要的计算时间超过被加密信息有用的生命周期。例如，战争中发起战斗攻击的作战命令只需要在战斗打响前需要保密；重要新闻消息在公开报道前需要保密的时间往往也只有几个小时。
-      //（3）破译该密码系统的费用超过被加密信息本身的价值。 
-
+    
       const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
@@ -847,13 +852,15 @@
 	      d =	d.div(2);
 		    ++s;
      	}
-
+      var asss = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
    	  WitnessLoop: do {
+
         //console.log("testing... " + n.toNumber())
 	    	//a : A base between 2 and n - 2
         var nx = n.toNumber() - 3
         var nxx = 2 + Math.floor(Math.random() * nx)
-        var a = BigNumber(nxx)
+        // var a = BigNumber(nxx)//为了保证每次生成的素数相同 这里a要固定
+        var a = BigNumber(asss[k])
        
 	    	var x = powInMod(a, d ,n)
        // console.log("a = " + a.toNumber() + " x = " + x.toNumber())

@@ -25,16 +25,16 @@ contract KYCManager is Ownable {
 
  
   //NFTid到管理者地址
-  mapping(uint => address) private NFTidToOwner;
+  mapping(uint => address) private NFTidToManager;
   //管理者地址到累加器
-  mapping(address => UserData) private OwnerToUserData;
+  mapping(address => UserData) private ManagerToUserData;
   //NFT有效性
   mapping(uint => bool) private NFTidToAvailable;
   
   
   //限制函数调用者为KYCNFT的拥有者
-  modifier onlyOwnerOf(uint _NFTid){
-      require(msg.sender == NFTidToOwner[_NFTid]);
+  modifier onlyManagerOf(uint _NFTid){
+      require(msg.sender == NFTidToManager[_NFTid]);
       _;
   }
 
@@ -51,13 +51,13 @@ contract KYCManager is Ownable {
   
   //创建某个用户的KYCNFT
   function createKYCNFT(string memory tokenUrl, address manager) public onlyOwner{
-    kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);
+    kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);//保证最新
     //NFT给合约地址而不是合约的owner
     address kycnftmanager = (address)(this);
     uint256 NFTid = kycNFTContract.awardItem(kycnftmanager, tokenUrl);
     //将NFTid设为可用
     setNFTAvailable(NFTid, true);
-    //创建完就绑定NFTid与管理地址
+    //绑定NFTid与管理地址
     createNFTidToManagerAddr(NFTid, manager);
   }
   
@@ -67,24 +67,22 @@ contract KYCManager is Ownable {
   }
   
   
-  
   /*
   （3）Map1:绑定NFTid与管理地址
   
    */
-   //create是owner权限
+   //init是owner权限
   function initManagerAddr(uint NFTid, address manager) public onlyOwner {
-    NFTidToOwner[NFTid] = manager;
-    OwnerToUserData[manager].NFTid = NFTid;
+    NFTidToManager[NFTid] = manager;
+    ManagerToUserData[manager].NFTid = NFTid;
   }  
-   //modify是Manager addr权限， 防止provider密钥被盗用户受影响
-  function modifyManagerAddr(uint NFTid, address newManager) public onlyOwnerOf(NFTid) {
-    address oldmanager = NFTidToOwner[NFTid];
-    UserData storage userdata = OwnerToUserData[oldmanager];
-    OwnerToUserData[newManager] = userdata;
-    NFTidToOwner[NFTid] = newManager;
+   //modify是Manager addr权限
+  function modifyManagerAddr(uint NFTid, address newManager) public onlyManagerOf(NFTid) {
+    address oldmanager = NFTidToManager[NFTid];
+    UserData storage userdata = ManagerToUserData[oldmanager];
+    ManagerToUserData[newManager] = userdata;//userdata迁移
+    NFTidToManager[NFTid] = newManager;//manager重置
   }
-
 
 
   /*
@@ -92,20 +90,20 @@ contract KYCManager is Ownable {
   */
 
   function updateAccumulator(string memory _accumulator, string memory _n, uint _g) public {
-      UserData storage userdata = OwnerToUserData[msg.sender];
+      UserData storage userdata = ManagerToUserData[msg.sender];
       userdata.accumulator = _accumulator;
       userdata.n = _n;
       userdata.g = _g;
   }
 
   function updateAccumulatorPublicKey(string memory _n, uint _g) public {
-      UserData storage userdata = OwnerToUserData[msg.sender];
+      UserData storage userdata = ManagerToUserData[msg.sender];
       userdata.n = _n;
       userdata.g = _g;
   }
 
   function updateAccumulatorValue(string memory _accumulator) public {
-      UserData storage userdata = OwnerToUserData[msg.sender];
+      UserData storage userdata = ManagerToUserData[msg.sender];
       userdata.accumulator = _accumulator;
   }
   
@@ -116,18 +114,18 @@ contract KYCManager is Ownable {
  
   //由NFTid 找managerAddr地址
   function managerOfNFTId(uint NFTid) public view returns(address) {
-      address addr = NFTidToOwner[NFTid];
+      address addr = NFTidToManager[NFTid];
       return addr;
   }
    //由NFTid 找Accumulator
   function userDataOfNFTId(uint NFTid) public view returns(UserData memory){
-      address addr = NFTidToOwner[NFTid];
-      UserData memory userdata = OwnerToUserData[addr];
+      address addr = NFTidToManager[NFTid];
+      UserData memory userdata = ManagerToUserData[addr];
       return userdata;
   }
    //由Manager addr找Accumulator
   function userDataOfManager(address managerAddr) public view returns(UserData memory){
-      UserData memory userdata = OwnerToUserData[managerAddr];
+      UserData memory userdata = ManagerToUserData[managerAddr];
       return userdata;
   }
   //由NFTid查询有效性
@@ -136,7 +134,7 @@ contract KYCManager is Ownable {
   }
   //由Manager addr找由NFTid
   function NFTIdOfManager(address managerAddr) public view returns(uint){
-      UserData memory userdata = OwnerToUserData[managerAddr];
+      UserData memory userdata = ManagerToUserData[managerAddr];
       return userdata.NFTid;
   }
 }
