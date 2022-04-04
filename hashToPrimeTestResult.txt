@@ -45,17 +45,17 @@ index.html:695 loggestFindTime = 239
 index.html:696 shortestFindTime = 16
 
 lengthChoose = 17
-averageFindTime = 3455.2
+averageFindTime = 3421.6
 index.html:694 averageLoopTimes = 3513.5
-index.html:695 loggestFindTime = 4295
-index.html:696 shortestFindTime = 82
+index.html:695 loggestFindTime = 4340
+index.html:696 shortestFindTime = 77
 
 
 lengthChoose = 18
-averageFindTime = 48083.75
-averageLoopTimes = 31781.1625
-loggestFindTime = 100592
-shortestFindTime = 111
+averageFindTime = 23940.7
+index.html:694 averageLoopTimes = 19260
+index.html:695 loggestFindTime = 69120
+index.html:696 shortestFindTime = 94
 
 
 
