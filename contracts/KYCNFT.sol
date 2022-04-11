@@ -41,6 +41,7 @@ contract KYCNFT is ERC721URIStorage,Ownable {
     }
 
     function updateExpirationTime(uint tokenId,uint timestamp) onlyOwner{
+        require(tokenId <= _tokenIds.current());
         NFTID_To_ExpirationTime[tokenId] = timestamp;
     }
 

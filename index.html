@@ -639,23 +639,14 @@
 
    
    /******************************* Test Accumulator  **********************************************/
-    var averageLoopTimes = 0
-    var averageFindTime = 0 
+    var totalLoopTimes = 0
+    var totalFindTime = 0 
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
-    //添加几个钱包地址
-    const NumberOfElements = 10
+    //添加几个钱包地址 max=80
+    const NumberOfElements = 80
    function Test(){//start
 
-    /*
-   
-    var coins = [
-      BigNumber(2),
-      BigNumber(3),
-      BigNumber(5),
-      BigNumber(7),
-    ]
-    */
     var littleCoins = [
       BigNumber(2),
       BigNumber(3),
@@ -671,29 +662,31 @@
       coins[i] = addrToPrime
     }
 
-    var coinswithout2 = new Array();
-    for(i=0; i < NumberOfElements; i++) {
-      if(i != 2){
-        var addrToPrime = hashToPrime(testAddr[i])
-        coins[i] = addrToPrime
-      }
-    }
+    console.log("*****  averageFindTime = "+totalFindTime/NumberOfElements)
+    console.log("*****  averageLoopTimes = "+totalLoopTimes/NumberOfElements)
+    console.log("*****  loggestFindTime = "+loggestFindTime)
+    console.log("*****  shortestFindTime = "+shortestFindTime)
+
+    // var coinswithout2 = new Array();
+    // for(i=0; i < NumberOfElements; i++) {
+    //   if(i != 2){
+    //     var addrToPrime = hashToPrime(testAddr[i])
+    //     coins[i] = addrToPrime
+    //   }
+    // }
     
 
     //构造累加器
-    var addrNotIn = hashToPrime(testAddr[15])
-    //param 2: generator -> public 【provider set】
-    const generator = new BigNumber(65537);//由于只在累加器构建时有指数运算运算，相比寻找素数的时间短得多，因此选择较小g提高效率的幅度可忽略
-    accumulator = generator;
-    console.log("accumulator before" + accumulator)
-    for(i=0; i < coins.length; i++) {//加入累加器
-      accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
-      console.log("accumulator add after" + coins[i] + " is " + accumulator)
-    }
-    console.log("averageFindTime = "+averageFindTime/NumberOfElements)
-    console.log("averageLoopTimes = "+averageLoopTimes/NumberOfElements)
-    console.log("loggestFindTime = "+loggestFindTime)
-    console.log("shortestFindTime = "+shortestFindTime)
+    // var addrNotIn = hashToPrime(testAddr[15])
+    // //param 2: generator -> public 【provider set】
+    // const generator = new BigNumber(65537);//由于只在累加器构建时有指数运算运算，相比寻找素数的时间短得多，因此选择较小g提高效率的幅度可忽略
+    // accumulator = generator;
+    // console.log("accumulator before" + accumulator)
+    // for(i=0; i < coins.length; i++) {//加入累加器
+    //   accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
+    //   console.log("accumulator add after" + coins[i] + " is " + accumulator)
+    // }
+   
 
     //test proof
     const proof1 = RSAaccumulator.getProof(
@@ -721,18 +714,19 @@
    
 
    //test proof构造2 ****** 仅支持较小元素，太大的会超限 *******
-    console.log("start test proof2 *****************************")
-    const proofin = RSAaccumulator.getProof2(
-      littleCoins,
-      littleCoins[1],
-        generator
-    )
-     if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
-        console.log("proof2 Wrong prooftype2 coins[1] = " + littleCoins[1] + " is not in accumulator")
-    }else{
-        console.log("proof2 Right prooftype2 coins[1] = " + littleCoins[1] + " is in accumulator")
-    }
-    console.log("end test proof2 *****************************")
+    // console.log("start test proof2 little *****************************")
+    // const proofin = RSAaccumulator.getProof2(
+    //   littleCoins,
+    //   littleCoins[1],
+    //     generator
+    // )
+    //  if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
+    //     console.log("should in/ proof2 Wrong prooftype2 littlecoins[1] = " + littleCoins[1] + " is not in accumulator")
+    // }else{
+    //     console.log("should in/ proof2 Right prooftype2 littlecoins[1] = " + littleCoins[1] + " is in accumulator")
+    // }
+    // console.log("end test proof2 little *****************************")
+
    
     //test modInverse
     console.log("start test modInverse *****************************")
@@ -745,30 +739,30 @@
 
 
     //test delete Item
-    console.log("start test delete Item ################")
-    console.log("delete before = " + accumulator)
-    var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
-    var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
-    console.log("delete after = " + newAccmulatorRight)
-    const proof11 = RSAaccumulator.getProof(
-        coinswithout2,
-        coins[2],
-        generator
-    )
-    //should be Wrong
-    if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
-        console.log("Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
-    }else{
-        console.log("Right proof1 coins[2] = " + coins[2] + " is in accumulator")
-    }
-    console.log("end test delete Item  ################")
+    // console.log("start test delete Item ################")
+    // console.log("delete before = " + accumulator)
+    // var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
+    // var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
+    // console.log("delete after = " + newAccmulatorRight)
+    // const proof11 = RSAaccumulator.getProof(
+    //     coinswithout2,
+    //     coins[2],
+    //     generator
+    // )
+    // if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
+    //     console.log("should be Wrong Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
+    // }else{
+    //     console.log("should be Wrong Right proof1 coins[2] = " + coins[2] + " is in accumulator")
+    // }
+    // console.log("end test delete Item  ################")
 
   
     /*
     论文碰撞时间计算
    // lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
    // ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
-   68719476735 
+   lengthChoose = 10, max = 16^9 - 1 = 68719476735， ln(max) = 24.9
+    n/ln（n） = 2759818342个
    
     */
     // var xp = BigNumber(BigNumber(16).pow(BigNumber(9)) - 1).div(BigNumber(24))
@@ -778,14 +772,15 @@
     // console.log("xs = " + xs + "years")
     // //论文概率计算
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    // var pp = BigNumber(1).div(BigNumber(400000000000000000))
+    // // var pp = BigNumber(1).div(BigNumber(400000000000000000))
+    // var pp = BigNumber(1).div(BigNumber(2759818342))
     // console.log("pp = " + pp)
     // var qp = BigNumber(1).minus(pp)
-    // console.log("qp = " + qp)
-    // var xx = qp.pow(BigNumber(100000))
-    // console.log("xx = " + xx)
+    // console.log("1-pp = " + qp)
+    // var xx = qp.pow(BigNumber(10000))
+    // console.log("(1-pp)^10000 = " + xx)
     // var re = BigNumber(1).minus(xx)
-    // console.log("P（运行100000次会成功的概率） = " + re)
+    // console.log("P（运行10000次会成功至少一次的概率）= 1- (1-pp)^10000 = " + re)
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
    } //Test end
@@ -799,12 +794,10 @@
     function hashToPrime(address){
       //lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
       //ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
-      //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，用ξ表示碰撞成功的次数,期望Eξ=np
-      //故平均需要 4e17 次测试才能碰撞出目标素数，一次测试平均又需要循环1000次，js语言下地址映射素数平均耗时1000ms，故需4e17秒才能碰撞出一个相同素数
-      //假设用户加入10个地址到累加器，那么攻击者需要碰撞4e17 / 10 = 4e16秒 = 18446744073709552000/（44*10*3600*24*365）=1.32e9年
+      //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，用ξ表示碰撞成功的次数,期望Eξ=1*p+2*(1-p)p+…+m*(1-p)^(m-1)*p
       //以上的循环次数是指对地址不断sha3并进行素数测试，每次地址试探包括：1私钥生成地址，2.地址hash素数 ，地址hash素数的时间远远大于前者
     
-      const lengthChoose = 18
+      const lengthChoose = 4
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
@@ -814,13 +807,14 @@
         probablyPrimeTimes++;
         var isprime = probablyPrime(addrBN,7)
         if(isprime == true){
-          console.log("is : " + addrToHash)
+          console.log("addrToHash is : " + addrToHash)
           var end = getTime()
           console.log("probablyPrime times = " + probablyPrimeTimes )
           console.log("time used : " + (end-start) + " ms ")
           console.log("!!! find prime = " + addrBN.toNumber() + " for " + address)
-          averageFindTime += end - start
-          averageLoopTimes += probablyPrimeTimes
+          totalFindTime += end - start
+          
+          totalLoopTimes += probablyPrimeTimes //totalLoopTimes统计的是probablyPrime素数测试的次数
           loggestFindTime = (end - start)>loggestFindTime?(end - start):loggestFindTime
           shortestFindTime = (end - start)<shortestFindTime?(end - start):shortestFindTime
           
@@ -867,7 +861,7 @@
         //var nx = n.toNumber() - 3
         //var nxx = 2 + Math.floor(Math.random() * nx)
         // var a = BigNumber(nxx)//为了保证每次生成的素数相同 这里a要固定
-        var a = BigNumber(asss[k])
+        var a = BigNumber(asss[k-1])
        
 	    	var x = powInMod(a, d ,n)
        // console.log("a = " + a.toNumber() + " x = " + x.toNumber())

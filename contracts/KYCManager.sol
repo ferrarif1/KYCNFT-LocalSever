@@ -50,15 +50,16 @@ contract KYCManager is Ownable {
   
   
   //创建某个用户的KYCNFT
-  function createKYCNFT(string memory tokenUrl, address manager) public onlyOwner{
+  function createKYCNFT(string memory tokenUrl, address manager, uint expirationTime) public onlyOwner{
     kycNFTContract = KYCNFTInterface(KYCNFTInterFaceAddress);//保证最新
     //NFT给合约地址而不是合约的owner
     address kycnftmanager = (address)(this);
     uint256 NFTid = kycNFTContract.awardItem(kycnftmanager, tokenUrl);
+    kycNFTContract.updateExpirationTime(NFTid, expirationTime);
     //将NFTid设为可用
     setNFTAvailable(NFTid, true);
     //绑定NFTid与管理地址
-    createNFTidToManagerAddr(NFTid, manager);
+    initManagerAddr(NFTid, manager);
   }
   
   //设置NFT有效性
@@ -89,7 +90,7 @@ contract KYCManager is Ownable {
   （4）Map2:绑定管理地址与累加器
   */
 
-  function updateAccumulator(string memory _accumulator, string memory _n, uint _g) public {
+  function updateAccumulator(string memory _accumulator, string memory _n, string _g) public {
       UserData storage userdata = ManagerToUserData[msg.sender];
       userdata.accumulator = _accumulator;
       userdata.n = _n;
