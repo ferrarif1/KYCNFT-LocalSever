@@ -41,55 +41,55 @@ index.html:668 *****  shortestFindTime = 2
 
 lengthChoose = 10
 *****  averageFindTime = 10.0625
-index.html:675 *****  averageLoopTimes = 19.675 ln(n)=24.9
+index.html:675 *****  averageLoopTimes = 19.675
 index.html:676 *****  loggestFindTime = 37
 index.html:677 *****  shortestFindTime = 2
 
 lengthChoose = 11
 *****  averageFindTime = 14.7625
-index.html:675 *****  averageLoopTimes = 24.0875 ln(n)=27.7
+index.html:675 *****  averageLoopTimes = 24.0875  ln(n)=24.9
 index.html:676 *****  loggestFindTime = 71
 index.html:677 *****  shortestFindTime = 3
 
 lengthChoose = 12
 *****  averageFindTime = 15.825
-index.html:675 *****  averageLoopTimes = 27.9875 ln(n)=30.5
+index.html:675 *****  averageLoopTimes = 27.9875  ln(n)=27.7
 index.html:676 *****  loggestFindTime = 66
 index.html:677 *****  shortestFindTime = 2
 
 lengthChoose = 13
 *****  averageFindTime = 21.775
-index.html:675 *****  averageLoopTimes = 33.6625 ln(n)=33.3
+index.html:675 *****  averageLoopTimes = 33.6625 ln(n)=30.5
 index.html:676 *****  loggestFindTime = 87
 index.html:677 *****  shortestFindTime = 5
 
 lengthChoose = 14
 *****  averageFindTime = 29.3875
-index.html:675 *****  averageLoopTimes = 36.7625 ln(n)=36.0
+index.html:675 *****  averageLoopTimes = 36.7625 ln(n)=33.3
 index.html:676 *****  loggestFindTime = 126
 index.html:677 *****  shortestFindTime = 4
 
 lengthChoose = 15
 *****  averageFindTime = 34.1375
-index.html:675 *****  averageLoopTimes = 38.3625 ln(n)=38.8
+index.html:675 *****  averageLoopTimes = 38.3625 ln(n)=36.0
 index.html:676 *****  loggestFindTime = 125
 index.html:677 *****  shortestFindTime = 4
 
 lengthChoose = 16
 *****  averageFindTime = 86.7
-index.html:675 *****  averageLoopTimes = 95.5375 ln(n)=41.6
+index.html:675 *****  averageLoopTimes = 95.5375 ln(n)=38.8
 index.html:676 *****  loggestFindTime = 351
 index.html:677 *****  shortestFindTime = 6
 
 lengthChoose = 17
 *****  averageFindTime = 1085.9375
-index.html:675 *****  averageLoopTimes = 1200.175 ln(n)=44.4
+index.html:675 *****  averageLoopTimes = 1200.175 ln(n)=41.6
 index.html:676 *****  loggestFindTime = 4568
 index.html:677 *****  shortestFindTime = 27
 
 
 lengthChoose = 18
 *****  averageFindTime = 17013.35
-index.html:675 *****  averageLoopTimes = 13537.6125 ln(n)=47.1
+index.html:675 *****  averageLoopTimes = 13537.6125  ln(n)=44.4
 index.html:676 *****  loggestFindTime = 69619
 index.html:677 *****  shortestFindTime = 43
