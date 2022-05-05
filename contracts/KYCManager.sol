@@ -6,11 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 // import "./KYCNFT.sol";
 
-/*
-For an organization, a manager address may be mapped to many KYCNFTs.
-Little changes should be taken to satisify this condition:
 
-*/
 interface KYCNFTInterface {
   function awardItem(address player, string memory tokenURI) external returns (uint256);
   function updateExpirationTime(uint tokenId,uint timestamp) external;
@@ -68,9 +64,8 @@ contract KYCManager is Ownable {
     ManagerToUserData[manager].NFTid = NFTid;
   }  
   
-  function modifyManagerAddr(uint NFTid, address newManager) public onlyManagerOf(NFTid) {
-    address oldmanager = NFTIdToManager[NFTid];
-    UserData storage userdata = ManagerToUserData[oldmanager];
+  function modifyManagerAddr(uint NFTid, address newManager) public{
+    UserData memory userdata = ManagerToUserData[msg.sender];
     ManagerToUserData[newManager] = userdata;
     NFTIdToManager[NFTid] = newManager;
   }
