@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-// import "./KYCNFT.sol";
+
+
 
 
 interface KYCNFTInterface {
@@ -30,10 +28,7 @@ contract KYCManager is Ownable {
   mapping(address => UserData) private ManagerToUserData;
   mapping(uint => bool) private NFTIdToAvailable;
 
-  modifier onlyManagerOf(uint _NFTid){
-      require(msg.sender == NFTIdToManager[_NFTid]);
-      _;
-  }
+  
   //set this first!
   function setKYCNFTContractAddress(address _kycnftContractAddr) public onlyOwner {
     kycNFTContract = KYCNFTInterface(_kycnftContractAddr);
