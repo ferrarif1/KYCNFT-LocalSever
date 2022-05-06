@@ -398,7 +398,7 @@
       }
     
 
-     //检查成员证明
+     //check membership witness
      static checkInclusionProof(accumulator, proof){
        //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
        return accumulator.eq(powInMod(proof.proof,proof.value,N))
@@ -580,7 +580,7 @@
     console.log("accumulator before" + accumulator)
     for(i=0; i < coins.length; i++) {//add Item To Accumulator
       accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
-      console.log("accumulator add after" + coins[i] + " is " + accumulator.toFixed())
+      console.log("accumulator add after" + coins[i].toNumber() + " is " + accumulator.toFixed())
     }
     
 
@@ -591,9 +591,9 @@
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof1) == false){
-        console.log("Should be Right,  proof1 coins[lastObject] = " + coins[coins.length] + " is not in accumulator")
+        console.log("Should be in,  proof1 coins[lastObject] = " + coins[coins.length-1].toNumber() + " is not in accumulator")
     }else{
-        console.log("Should be Right,  proof1 coins[lastObject] = " + coins[coins.length] + " is in accumulator")
+        console.log("Should be in,  proof1 coins[lastObject] = " + coins[coins.length-1].toNumber() + " is in accumulator")
     }
 
     const proof2 = RSAaccumulator.getProof(
@@ -602,9 +602,9 @@
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof2) == false){
-        console.log("Should be Wrong,  proof2 addrNotIn = " + addrNotIn + " is not in accumulator")
+        console.log("Should be not in,  proof2 addrNotIn = " + addrNotIn.toNumber() + " is not in accumulator")
     }else{
-        console.log("Should be Wrong,  proof2 addrNotIn = " + addrNotIn + " is in accumulator")
+        console.log("Should be not in,  proof2 addrNotIn = " + addrNotIn.toNumber() + " is in accumulator")
     }
 
    
@@ -617,9 +617,9 @@
         generator
     )
      if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
-        console.log("should in/ proof2 Wrong prooftype2 littlecoins[1] = " + littleCoins[1] + " is not in accumulator")
+        console.log("should be in, proof2 littlecoins[1] = " + littleCoins[1].toNumber() + " is not in accumulator")
     }else{
-        console.log("should in/ proof2 Right prooftype2 littlecoins[1] = " + littleCoins[1] + " is in accumulator")
+        console.log("should be in, proof2 littlecoins[1] = " + littleCoins[1].toNumber() + " is in accumulator")
     }
     console.log("end test proof2 little *****************************")
 
@@ -651,9 +651,9 @@
         generator
     )
     if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
-        console.log("should be Wrong, Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
+        console.log("should be not in, proof11 coins[2] = " + coins[2].toNumber() + " is not in accumulator")
     }else{
-        console.log("should be Wrong, Right proof1 coins[2] = " + coins[2] + " is in accumulator")
+        console.log("should be not in, proof11 coins[2] = " + coins[2].toNumber() + " is in accumulator")
     }
     console.log("end test delete Item  ################")
 
@@ -665,14 +665,13 @@
  
  
  // hashToPrime
- //test result:hashToPrimeTestResult.txt
+ //test input wallet addresses data : src/js/testAddress.js
+ //test result:hashToPrimeTestResult.txt, TestData(l=*).log
     function hashToPrime(address){
-      //lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
-      //ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
-      //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，用ξ表示碰撞成功的次数,期望Eξ=1*p+2*(1-p)p+…+m*(1-p)^(m-1)*p
-      //以上的循环次数是指对地址不断sha3并进行素数测试，每次地址试探包括：1私钥生成地址，2.地址hash素数 ，地址hash素数的时间远远大于前者
+      //lengthChoose is the param 'l' in the article
+      //lengthChoose = 17 (including 0x)
     
-      const lengthChoose = 17
+      const lengthChoose = 18
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
@@ -689,7 +688,7 @@
           console.log("!!! find prime = " + addrBN.toNumber() + " for " + address)
           totalFindTime += end - start
           
-          totalLoopTimes += probablyPrimeTimes //totalLoopTimes统计的是probablyPrime素数测试的次数
+          totalLoopTimes += probablyPrimeTimes //totalLoopTimes counts the number of ProbablyPrime prime tests
           loggestFindTime = (end - start)>loggestFindTime?(end - start):loggestFindTime
           shortestFindTime = (end - start)<shortestFindTime?(end - start):shortestFindTime
           
@@ -703,9 +702,9 @@
     }
     
     /*
-    Miller–Rabin primality test 变体 -确定性测试
-    n -> 被测试数 (BigNumber) k -> 测试次数
-    取k = 10，一个非素数通过10次测试的概率小于10^-6
+    Deterministic variant of Miller-Rabin test 
+    n -> the number to be tested (BigNumber) 
+    k -> the number of test cycles
     */
     function probablyPrime(n, k) {
       
@@ -727,7 +726,6 @@
        https://zh.wikipedia.org/wiki/%E7%B1%B3%E5%8B%92-%E6%8B%89%E5%AE%BE%E6%A3%80%E9%AA%8C#cite_note-1
        https://miller-rabin.appspot.com/
        20-04-2011	at least 2^64	[2, 325, 9375, 28178, 450775, 9780504, 1795265022]	Jim Sinclair The best known SPRP bases sets
-       选取特定的整数可以在一定范围内确定（而非单纯基于概率猜测）某个整数是素数还是合数。对于2^64以内的情形，以上七个凭据就足够了
        */
       var asss = [2,325,9375,28178,450775,9780504,1795265022]
    	  WitnessLoop: do {
@@ -735,7 +733,7 @@
 	    	//a : A base between 2 and n - 2
         //var nx = n.toNumber() - 3
         //var nxx = 2 + Math.floor(Math.random() * nx)
-        // var a = BigNumber(nxx)//为了保证每次生成的素数相同 这里a要固定
+        // var a = BigNumber(nxx)//
         var a = BigNumber(asss[k-1])
        
 	    	var x = powInMod(a, d ,n)
