@@ -21,16 +21,12 @@
     <button class="updateAccumulatorButton btn">update Accumulator For Owner</button>
     <button class="getAccumulatorButton btn">get Accumulator For Owner</button>
     <script>
-      /*
-        KYCManager Owner：0x892953Cb6cDC87c8aD7c4aAfb06A716CBa231D8a
-      */
-      // import detectEthereumProvider from '@metamask/detect-provider';
-      
+     
       
       var KYCManager;
-      var KYCManagerAddress = "0x92ADbC1067070aBbaa45323d8Cb8c681CA8F2c07";
+      var KYCManagerAddress = "0x7b02018eEa71Ec260a70444977D605C301A400e0";
       
-      var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
+      var web3js =  window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
       
      
       
@@ -44,61 +40,21 @@
         }
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
         
-        //test
-        getOwnerOfNFTid(4).then(function(result, error) {
-         if(error){
-           console.log(error);
-         }
-         else{
-           var strA = "0x0000000000000000000000000000000000000000";
-           var strB = new String(result);
-           if(strA == strB){
-              console.log("NFT not exist!")
-           }else{
-              console.log("OwnerOfNFTid 4: " + JSON.stringify(result))
-           }
-           
-         }
-        });
-
-
-        
-        //test 
-        getAccumulatorOfOwner('0xE338401152596583EeC184061F504D7600B59Ea6').then(function(result, error) {
-         if(error){
-           console.log(error);
-         }
-         else{
-           console.log("AccumulatorAddrOfOwner: " + JSON.stringify(result));
-         }
-        });
-        //获取metamask账户
+        //Get metamask account
         getAccount();
-        
-
-        
-        
       }
       
       ethereum.on('accountsChanged', (accounts) => {
-       // Handle the new accounts, or lack thereof.
-       // "accounts" will always be an array, but it can be empty.
+        getAccount();
      });
 
       ethereum.on('chainChanged', (chainId) => {
-       // Handle the new chain.
-       // Correctly handling chain changes can be complicated.
-       // We recommend reloading the page unless you have good reason not to.
-       window.location.reload();
+        window.location.reload();
       });
     
        /********************************************************    Call Contract by web3js      **************************************************************************************/
       
 
-
-      /*
-      getBalance
-      */
       function getBalance(address){
          web3js.eth.getBalance(address,function(error,result){
          if(error){
@@ -110,11 +66,6 @@
          }
         }) 
       }
-      
-       
-      /*
-       (1) 创建NFT（ owner权限）
-      */
       
        function createKYCNFT(tokenUrl, manager) {
         $("#txStatus").text("Creating KYCNFT on the blockchain. This may take a while...");
@@ -130,14 +81,11 @@
     
       }
       
-      
-    /*
-       (2) 设置NFT有效性
-    */
+
        function setKYCNFTAvailable(NFTid, available) {
         $("#txStatus").text("Set KYCNFT Available This may take a while...");
         
-        return KYCManager.methods.setNFTAvailable(NFTid, available)
+        return KYCManager.methods.setNFTAvailableOfNFTId(NFTid, available)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
           $("#txStatus").text("Successfully set " + NFTid + "to Available" + available + "!");
@@ -147,17 +95,10 @@
         });
       }
       
-      
-      
-     /*
-      （3）Map1:绑定NFTid与管理地址
-     */
- 
-     //create是owner权限
        function createNFTidToManagerAddr(NFTid, manager) {
         $("#txStatus").text("Set create NFTid to ManagerAddr This may take a while...");
 
-        return KYCManager.methods.createNFTidToManagerAddr(NFTid, manager)
+        return KYCManager.methods.initManagerAddr(NFTid, manager)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
           $("#txStatus").text("Successfully create NFTid " + NFTid + "to ManagerAddr" + manager + "!");
@@ -165,14 +106,12 @@
         .on("error", function(error) {
           $("#txStatus").text(error);
         });
-   
- 
       }  
-    //modify是Manager addr权限
+
       function modifyNFTidToManagerAddr(NFTid, newManager) {
         $("#txStatus").text("Set modify NFTid to ManagerAddr. This may take a while...");
         
-        return KYCManager.methods.modifyNFTidToManagerAddr(NFTid, newManager)
+        return KYCManager.methods.modifyManagerAddr(newManager)
         .send({ from: web3.eth.accounts[0]})
         .on("receipt", function(receipt) {
           $("#txStatus").text("Successfully modify NFTid " + NFTid + "to ManagerAddr" + newManager + "!");
@@ -181,12 +120,6 @@
           $("#txStatus").text(error);
         });
       }
-
-
-
-    /*
-      （4）Map2:绑定管理地址与累加器（查询管理地址已经有了对应的KYCNFT）
-    */
 
       function setUpAccumulator(Accumulator, modN, generator) {
         $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
@@ -201,47 +134,25 @@
         });
       }
 
-      function updateAccumulator(Accumulator) {
-        $("#txStatus").text("Bind Manger to Accumulator. This may take a while...");
-        
-        return KYCManager.methods.updateAccumulator(Accumulator)
-        .send({ from: web3.eth.accounts[0]})
-        .on("receipt", function(receipt) {
-          $("#txStatus").text("Successfully update Manger " + web3.eth.accounts[0] + "to addrOfAccumulator" + addrOfAccumulator + "!");
-        })
-        .on("error", function(error) {
-          $("#txStatus").text(error);
-        });
-      }
   
-  
-      
-      
-    /*
-       （5）查询某NFT id对应的管理地址与累加器地址
-    */
-      //由NFTid 找Owner地址
-      function getOwnerOfNFTid(id) {
-        return KYCManager.methods.ownerOfNFTid(id).call()
+      function getManagerOfNFTId(id) {
+        return KYCManager.methods.managerOfNFTId(id).call()
       }
       
-       //由NFTid 找Accumulator
-      function getAccumulatorOfNFTID(id) {
-        return KYCManager.methods.accumulatorOfNFTID(id).call()
+      function getUserDataOfNFTId(id) {
+        return KYCManager.methods.userDataOfNFTId(id).call()
       }
       
-      //由Owner 找Accumulator
-      function getAccumulatorOfOwner(owner) {
-        return KYCManager.methods.accumulatorOfOwner(owner).call()
+      function getUserDataOfManager(owner) {
+        return KYCManager.methods.userDataOfManager(owner).call()
       }
       
-       //由NFTid查询有效性
       function getAvailableOfNFTid(id) {
-        return KYCManager.methods.availableOfNFTid(id).call()
+        return KYCManager.methods.availableOfNFTId(id).call()
       }
-       //由Manager addr找由NFTid
-      function getNFTidOfOwner(owner) {
-        return KYCManager.methods.NFTidOfOwner(owner).call()
+
+      function getNFTIdOfManager(owner) {
+        return KYCManager.methods.NFTIdOfManager(owner).call()
       }
      
      /********************************************************    UI      **************************************************************************************/
@@ -312,7 +223,7 @@
     });
 
     getAccumulatorButton.addEventListener('click', () => {
-        getAccumulatorOfOwner(ownerAddr).then(function(result, error) {
+        getUserDataOfManager(ownerAddr).then(function(result, error) {
          if(error){
            console.log(error);
          }
@@ -409,42 +320,25 @@
     /********************************************************    Accumulator      **************************************************************************************/
    /*
     https://alinush.github.io/2020/11/24/RSA-accumulators.html
-    累加器中的系统参数包括生成元g，两个大质数p和q，模数N = pq 。
-    其中，g和N属于公钥部分，可以公开；N的因式分解，即p和q属于私钥，不能公开。
-    外人在仅知道N的值的时候，是无法计算出p和q的值的。
-    另外，这里为了加强安全性，还特别要求在随机生成p和q的时候，需要保证(p-1)/2和(q-1)/2也是质数。
-   
-
-    N的生成
-    该系统的一个缺点是它需要模数N是两个素数的乘积，但Alice必须不知道这些因子。那里有两种方法。
-    Bob可以自己生成 N 并要求Alice用它来证明，这样Bob就能信任证明结果。但Bob可以利用他的因子来伪造累加器和证据，因此其他人不会信任这样的结果，并且Alice有否定权。
-    但我们真正想要的是公开使用该系统，为此我们需要一个值得信赖的启动。这意味着某些计算机必须从随机因素中生成 N，并忘记这些因子。如果有人认为这些因素没有被任何人保存，那么他就可以信任该系统。
-    
-    我们让第三方的provider来设置N，这样用户和验证者都不知道p,q，
-    ****************** fn为什么需要private？ ******************
+    p,q->prime
+    N=pq
+    fn=(p-1)(q-1)
+    ****************** why fn is private？ ******************
     see:  https://crypto.stackexchange.com/questions/5791/why-is-it-important-that-phin-is-kept-a-secret-in-rsa
     *********************************************************
     */
-    //param 1: N -> public 【provider set】
-    //         p,q -> delete ，fn-> private
+    //param 1: N -> public
+    //         fn-> private
     
     class ModNumber{
          constructor(p,q){
            this.N=p.times(q);
            this.p=p;
            this.q=q;
-           //this.fn=(q.minus(1)).times(p.minus(1));
-           this.fn = this.N;
+           this.fn=(q.minus(1)).times(p.minus(1));
          }
     }
-    /* 找两个大素数p，q，找出N对应的欧拉函数 
-    https://zh.wikipedia.org/wiki/已知最大質數
-    M607 = 531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127
-    M521 = 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151
-    180×(M127)2+1 = 5210644015679228794060694325390955853335898483908056458352183851018372555735221
-                    
-    modNum = 3.577001684660833676469200409969e+235
-    */
+   
     
     const modNum = new ModNumber(BigNumber(531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127),BigNumber(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151));
     console.log("RSA1024 = " + BigNumber(135066410865995223349603216278805969938881475605667027524485143851526510604859533833940287150571909441798207282164471551373680419703964191743046496589274256239341020864383202110372958725762358509643110564073501508187510676594629205563685529475213500852879416377328533906109750544334999811150056977236890927563))
@@ -472,7 +366,7 @@
 
     
     class RSAaccumulator {
-      //更新累加器
+      
       static addItemToAccumulator(accumulator, value) {
         return powInMod(accumulator, value, N);
       }
@@ -489,9 +383,8 @@
         return  newAccumulator
       }
 
-     //获取成员证明
-     //每次更新累加器后重新使用原始数据生成证明
-     //下面这篇文章采用树状递归方法计算成员证明，减少许多重复计算
+     //get membership witness
+     //The following article uses a tree-like recursive method to calculate the membership proof, reducing many repeated calculations
      //Blind, Auditable Membership Proofs, by Sander, Tomas and Ta-Shma, Amnon and Yung, Moti, in Financial Cryptography, 2001 
       static getProof(setValues, value, generator){
        let proofvalue = generator;
@@ -510,8 +403,11 @@
        //console.log("proofvalue = " + proof.proof + " value = " + proof.value)
        return accumulator.eq(powInMod(proof.proof,proof.value,N))
      }
+
+
      /*
-     第二种证明构造  ****** 仅支持较小元素，太大的会超限 *******
+     another way to get proof  
+     ****** It won't work if the element is too big*******
      h = g^v, z = h^x, B = hash(h+z)
      b = h^(floor(x/B)), r = x mod B
      check: b^B * h^r = h^(B*floor(x/B) + (x modB)) = h^x = z
@@ -622,7 +518,7 @@
       return [BigNumber(a), BigNumber(b), BigNumber(gcd)]
      }
      const [a1, b1, g1] =extendedGcd(y.mod(x), x)
-     //Math.floor在大数时会损失精度，所以改为如下
+     //Math.floor will lose precision, so it should be as follows
      const m1 = y.mod(x)
      const m2 = y.minus(m1)
      const ydx = BigNumber(m2.div(x))
@@ -643,7 +539,7 @@
     var totalFindTime = 0 
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
-    //添加几个钱包地址 max=80
+    //test data, max=80
     const NumberOfElements = 80
    function Test(){//start
 
@@ -667,38 +563,37 @@
     console.log("*****  loggestFindTime = "+loggestFindTime)
     console.log("*****  shortestFindTime = "+shortestFindTime)
 
-    // var coinswithout2 = new Array();
-    // for(i=0; i < NumberOfElements; i++) {
-    //   if(i != 2){
-    //     var addrToPrime = hashToPrime(testAddr[i])
-    //     coins[i] = addrToPrime
-    //   }
-    // }
-    
-
-   // 构造累加器
-    var addrNotIn = hashToPrime(testAddr[15])
-    //param 2: generator -> public 【provider set】
-    const generator = new BigNumber(65537);//由于只在累加器构建时有指数运算运算，相比寻找素数的时间短得多，因此选择较小g提高效率的幅度可忽略
-    accumulator = generator;
-    console.log("accumulator before" + accumulator)
-    for(i=0; i < coins.length; i++) {//加入累加器
-      accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
-      console.log("accumulator add after" + coins[i] + " is " + accumulator.toFixed())
-
+    var coinswithout2 = new Array();
+    for(i=0; i < NumberOfElements; i++) {
+      if(i != 2){
+        var addrToPrime = hashToPrime(testAddr[i])
+        coins[i] = addrToPrime
+      }
     }
     
 
-    //test proof
+    //accumulator test
+    var addrNotIn = hashToPrime("0x668Ce7e737eAb599697Cfb634509A7E0e6052b39@ETH")
+
+    const generator = new BigNumber(65537);
+    accumulator = generator;
+    console.log("accumulator before" + accumulator)
+    for(i=0; i < coins.length; i++) {//add Item To Accumulator
+      accumulator = RSAaccumulator.addItemToAccumulator(accumulator, coins[i]);
+      console.log("accumulator add after" + coins[i] + " is " + accumulator.toFixed())
+    }
+    
+
+    //test proof1
     const proof1 = RSAaccumulator.getProof(
         coins,
         coins[coins.length-1],
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof1) == false){
-        console.log("Wrong proof1 coins[coins.length] = " + coins[coins.length] + " is not in accumulator")
+        console.log("Should be Right,  proof1 coins[lastObject] = " + coins[coins.length] + " is not in accumulator")
     }else{
-        console.log("Right proof1 coins[coins.length] = " + coins[coins.length] + " is in accumulator")
+        console.log("Should be Right,  proof1 coins[lastObject] = " + coins[coins.length] + " is in accumulator")
     }
 
     const proof2 = RSAaccumulator.getProof(
@@ -707,26 +602,26 @@
         generator
     )
     if(RSAaccumulator.checkInclusionProof(accumulator, proof2) == false){
-        console.log("Wrong proof2 addrNotIn = " + addrNotIn + " is not in accumulator")
+        console.log("Should be Wrong,  proof2 addrNotIn = " + addrNotIn + " is not in accumulator")
     }else{
-        console.log("Right proof2 addrNotIn = " + addrNotIn + " is in accumulator")
+        console.log("Should be Wrong,  proof2 addrNotIn = " + addrNotIn + " is in accumulator")
     }
 
    
 
-   //test proof构造2 ****** 仅支持较小元素，太大的会超限 *******
-    // console.log("start test proof2 little *****************************")
-    // const proofin = RSAaccumulator.getProof2(
-    //   littleCoins,
-    //   littleCoins[1],
-    //     generator
-    // )
-    //  if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
-    //     console.log("should in/ proof2 Wrong prooftype2 littlecoins[1] = " + littleCoins[1] + " is not in accumulator")
-    // }else{
-    //     console.log("should in/ proof2 Right prooftype2 littlecoins[1] = " + littleCoins[1] + " is in accumulator")
-    // }
-    // console.log("end test proof2 little *****************************")
+   //test proof2 
+    console.log("start test proof2 little *****************************")
+    const proofin = RSAaccumulator.getProof2(
+      littleCoins,
+      littleCoins[1],
+        generator
+    )
+     if(RSAaccumulator.checkInclusionProof2(generator, littleCoins[1], proofin) == false){
+        console.log("should in/ proof2 Wrong prooftype2 littlecoins[1] = " + littleCoins[1] + " is not in accumulator")
+    }else{
+        console.log("should in/ proof2 Right prooftype2 littlecoins[1] = " + littleCoins[1] + " is in accumulator")
+    }
+    console.log("end test proof2 little *****************************")
 
    
     //test modInverse
@@ -740,50 +635,29 @@
 
 
     //test delete Item
-    // console.log("start test delete Item ################")
-    // console.log("delete before = " + accumulator)
-    // var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
-    // var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
-    // console.log("delete after = " + newAccmulatorRight)
-    // const proof11 = RSAaccumulator.getProof(
-    //     coinswithout2,
-    //     coins[2],
-    //     generator
-    // )
-    // if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
-    //     console.log("should be Wrong Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
-    // }else{
-    //     console.log("should be Wrong Right proof1 coins[2] = " + coins[2] + " is in accumulator")
-    // }
-    // console.log("end test delete Item  ################")
+    //delete the coins[2]
+    console.log("start test delete Item ################")
+    console.log("delete before = " + accumulator)
+    //addrNotIn was originally not in the accumulator
+    var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
+    //coins[2] was originally in the accumulator
+    var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
+    console.log("delete after = " + newAccmulatorRight)
+    //After delete，newAccmulatorRight did not have coins[2]
+    //The set coinswithout2 did not have coins[2]
+    const proof11 = RSAaccumulator.getProof(
+        coinswithout2,
+        coins[2],
+        generator
+    )
+    if(RSAaccumulator.checkInclusionProof(newAccmulatorRight, proof11) == false){
+        console.log("should be Wrong, Wrong proof1 coins[2] = " + coins[2] + " is not in accumulator")
+    }else{
+        console.log("should be Wrong, Right proof1 coins[2] = " + coins[2] + " is in accumulator")
+    }
+    console.log("end test delete Item  ################")
 
   
-    /*
-    论文碰撞时间计算
-   // lengthChoose = 17 包含了前两位0x，实际对应15位16进制数 max = 16^16 - 1 = 18446744073709552000
-   // ln(18446744073709552000) = 44, 由素数分布密度公式，素数分布定理得素数大概有  n/ln（n） = 4.19244183e17 个
-   lengthChoose = 10, max = 16^9 - 1 = 68719476735， ln(max) = 24.9
-    n/ln（n） = 2759818342个
-   
-    */
-    // var xp = BigNumber(BigNumber(16).pow(BigNumber(9)) - 1).div(BigNumber(24))
-    // var xx = BigNumber(BigNumber(3600).times(BigNumber(24))).times(BigNumber(365))
-    // console.log("xp = " + xp + " xx = " + xx)
-    // var xs = xp.div(xx)
-    // console.log("xs = " + xs + "years")
-    // //论文概率计算
-    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    // // var pp = BigNumber(1).div(BigNumber(400000000000000000))
-    // var pp = BigNumber(1).div(BigNumber(2759818342))
-    // console.log("pp = " + pp)
-    // var qp = BigNumber(1).minus(pp)
-    // console.log("1-pp = " + qp)
-    // var xx = qp.pow(BigNumber(10000))
-    // console.log("(1-pp)^10000 = " + xx)
-    // var re = BigNumber(1).minus(xx)
-    // console.log("P（运行10000次会成功至少一次的概率）= 1- (1-pp)^10000 = " + re)
-    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-
    } //Test end
 
 
@@ -798,7 +672,7 @@
       //每次生成地址再映射素数是独立重复事件，碰撞到目标px的概率为1/4e17,失败概率1 - 1/4e17，用ξ表示碰撞成功的次数,期望Eξ=1*p+2*(1-p)p+…+m*(1-p)^(m-1)*p
       //以上的循环次数是指对地址不断sha3并进行素数测试，每次地址试探包括：1私钥生成地址，2.地址hash素数 ，地址hash素数的时间远远大于前者
     
-      const lengthChoose = 15
+      const lengthChoose = 17
       var addrToHash = web3js.utils.sha3(address)
       console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
