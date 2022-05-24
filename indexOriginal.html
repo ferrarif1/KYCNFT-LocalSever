@@ -31,12 +31,13 @@
      
       
       function startApp(provider) {
+
         console.log(" ******  start App   ******")
         console.log(" ethereum.isMetaMask = " + ethereum.isMetaMask);
         console.log(" ethereum.isConnected = " + ethereum.isConnected());
-        // if (provider !== window.ethereum) {
-        //    console.error('Do you have multiple wallets installed?');
-        // }
+        if (provider !== window.ethereum) {
+           console.error('Do you have multiple wallets installed?');
+        }
         KYCManager = new web3js.eth.Contract(kycManagerABI, KYCManagerAddress);
         
         //Get metamask account
@@ -415,7 +416,7 @@
        let h = BigNumber(generator).pow(value)
        let x = BigNumber(1)
        let z = BigNumber(1)
-       //console.log("****** h = "+ h + "z = " + z)
+       console.log("****** h = "+ h + "z = " + z)
        for(let i = 0; i < setValues.length; i++){
          if(!setValues[i].eq(value)){
             x = x.times(setValues[i])
@@ -423,15 +424,15 @@
        }//z=h^x mod N
        z = powInMod(h, x, N)
        let m = BigNumber(h).plus(z)
-      //  console.log("h = "+ h + "z = " + z)
-      //  console.log("m = "+m)
+       console.log("h = "+ h + "z = " + z)
+       console.log("m = "+m)
        let B = BigNumber(web3js.utils.sha3(m.toString())).mod(123456789)
        const m1 = x.mod(B)
        const m2 = x.minus(m1)
        const fl = BigNumber(m2.div(B))
        let b = BigNumber(h).pow(fl)
        let r = x.mod(B) 
-       //console.log("h = " + h + " x = "+ x + " z = "+ z + " B = "+ B + " fl = "+ fl + " b = "+ b + " r = "+ r)
+       console.log("h = " + h + " x = "+ x + " z = "+ z + " B = "+ B + " fl = "+ fl + " b = "+ b + " r = "+ r)
        return new RSAaccumulatorProof2(value, b, z, r)
      }
 
@@ -444,7 +445,7 @@
        let x1 = BigNumber(p2.b).pow(B)
        let x2 = BigNumber(h).pow(p2.r)
        let result = (BigNumber(x1).times(x2)).mod(N)
-       //console.log("h = "+ h + " x1 = "+ x1 + " x2 = "+ x2 + " result = "+ result + " p2.z = "+ p2.z)
+       console.log("h = "+ h + " x1 = "+ x1 + " x2 = "+ x2 + " result = "+ result + " p2.z = "+ p2.z)
        return result.eq(p2.z)
      }
    }
@@ -539,7 +540,7 @@
     var loggestFindTime = 0
     var shortestFindTime = 99999999999999
     //test data, max=80
-    const NumberOfElements = 10
+    const NumberOfElements = 80
    function Test(){//start
 
     var littleCoins = [
@@ -556,14 +557,11 @@
       var addrToPrime = hashToPrime(testAddr[i])
       coins[i] = addrToPrime
     }
-    
-    
-   
 
-    console.log("*****  averageFindTime = "+totalFindTime/NumberOfElements + " ms")
+    console.log("*****  averageFindTime = "+totalFindTime/NumberOfElements)
     console.log("*****  averageLoopTimes = "+totalLoopTimes/NumberOfElements)
-    console.log("*****  loggestFindTime = "+loggestFindTime + " ms")
-    console.log("*****  shortestFindTime = "+shortestFindTime + " ms")
+    console.log("*****  loggestFindTime = "+loggestFindTime)
+    console.log("*****  shortestFindTime = "+shortestFindTime)
 
     var coinswithout2 = new Array();
     for(i=0; i < NumberOfElements; i++) {
@@ -640,9 +638,9 @@
     //delete the coins[2]
     console.log("start test delete Item ################")
     console.log("delete before = " + accumulator)
-    //addrNotIn was not in the accumulator
+    //addrNotIn was originally not in the accumulator
     var newAccmulatorWrong = RSAaccumulator.deleteItemFromAccumulator(accumulator,addrNotIn, proof2)
-    //coins[2] was in the accumulator
+    //coins[2] was originally in the accumulator
     var newAccmulatorRight = RSAaccumulator.deleteItemFromAccumulator(accumulator,coins[2],proof1)
     console.log("delete after = " + newAccmulatorRight)
     //After delete，newAccmulatorRight did not have coins[2]
@@ -673,9 +671,9 @@
       //lengthChoose is the param 'l' in the article
       //lengthChoose = 17 (including 0x)
     
-      const lengthChoose = 15
+      const lengthChoose = 18
       var addrToHash = web3js.utils.sha3(address)
-      //console.log("1st : " + addrToHash)
+      console.log("1st : " + addrToHash)
       var addrBN = BigNumber(addrToHash.substring(0,lengthChoose))
       var probablyPrimeTimes = 0
       var start = getTime()
