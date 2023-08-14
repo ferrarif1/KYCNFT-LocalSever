@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>KYCManager front-end</title>
+  <script language="javascript" type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script src="chrome-extension://iagkjnocbkjeohadeimlkaofjpilhpfh/coinstart.js"></script>
+    <!-- 此处应该引入coinstart.js，可以放到官网下 -->
+    <script src="./coinstart.js"></script>
+    
+</head>
+
+<body>
+  <div id="txStatus"></div>
+  <button class="connectWallet btn">Connect to coinstart</button>
+  <button class="connectMetamask btn">Connect to metamask</button>
+ 
+  <script>
+
+   
+    var coinstart = window.coinstartWallet;
+    var web3js = window.web3 ? new Web3(window.web3.currentProvider) : new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/de1e8657274a494aa59476341cafc010"));;
+
+    
+    function startApp(coinstart) {
+      console.log(" ******  start App   ******")
+     //coinstart
+      console.log(" ******  coinstartWallet.getAccounts   ******")
+      console.log(coinstartWallet.getAccounts);
+      console.log(" ******  coinstartWallet.getAccounts()   ******")
+      console.log(coinstartWallet.getAccounts());
+
+      //metamask
+      console.log(" ******  window.ethereum.selectedAddress   ******")
+      console.log(ethereum.selectedAddress)
+
+      console.log(" ethereum.isMetaMask = " + ethereum.isMetaMask);
+      console.log(" ethereum.isConnected = " + ethereum.isConnected());
+      console.log(" ******  test App   ******")
+    }
+
+    startApp(coinstart)
+
+    /********************************************************    UI      **************************************************************************************/
+
+    
+    const connectButton = document.querySelector('.connectWallet');
+    const connectMetamaskButton = document.querySelector('.connectMetamask');
+   
+    let suiAddress;
+    let accounts = [];
+
+    connectButton.addEventListener('click', () => {
+      $("#txStatus").text("Connect to wallet...");
+      getAccount();
+      $("#txStatus").text("Connect to :"+suiAddress);
+    });
+
+    connectMetamaskButton.addEventListener('click', () => {
+      $("#txStatus").text("Connect to Metamask...");
+      getETHAccount();
+      $("#txStatus").text("Connect to :"+accounts[0]);
+    });
+
+    
+    async function getAccount() {
+      suiAddress = await coinstartWallet.getAccounts();
+    }
+   
+    async function getETHAccount() {
+      accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    }
+
+
+  </script>
+</body>
+
+</html>

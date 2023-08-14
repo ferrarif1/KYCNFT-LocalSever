@@ -5,7 +5,7 @@
  （1）假设攻击者得到私钥，在用户不使用的某个链上使用用户的身份，将会无法察觉，加入备注后，可以控制不被在其他链上冒用身份
  （2）对于相同地址应用于多个平行链，可以采用多个备注，如 0x1111111@ETH@BSC，就解决了证明过多的问题
 */
-var testAddr = [
+let testAddr = [
 '0xdB3f6fD6025F83D6Cd82487A9d72119BCA018F74@ETH@BSC@POLY'
 ,'14GWeqYMoZGmC7WHWFX6nhmRxDcyaFaiaJ@BTC'
 ,'0x277EE5F761ce53af5A6ca8e19D0F824fE7670808@ETH'
